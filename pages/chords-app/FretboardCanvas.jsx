@@ -1,5 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
 
+const FRET_HEIGHT = 30;
+const STR_WIDTH = 30;
+const FRET_SPACING = 5;
+
+const FRET_WIDTH = 30;
+const STR_SPACING = 20;
+const MARGIN = 30;
+
 const noteNames = [
   "C",
   "C#/Db",
@@ -16,11 +24,11 @@ const noteNames = [
 ];
 
 const scaleNumbers = [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7, 1];
- const initChordNote = {fret:0, str:0};
+ const initChordNote = {fret:0, str:0, midi:0};
 
 
 const FretboardCanvas = ({ tuning, scale }) => {
-  let [chordNote, setChordNote] = useState(initChordNote);
+  let [noteMarker, setNoteMarker] = useState(initChordNote);
   let [chordSet, setChordSet] = useState([initChordNote])
   
   const canvasRef = useRef(null);
@@ -43,8 +51,8 @@ const FretboardCanvas = ({ tuning, scale }) => {
         let fromOpen = (note + i) % 12;
         if (scale[scaleNumbers[fromOpen] - 1]) {
           let noteName = noteNames[fromOpen];
-          let x = i * 30 + 30;
-          let y = j * 20 + 30;
+          let x = i * FRET_WIDTH + MARGIN;
+          let y = j * STR_SPACING + MARGIN;
 
           ctx.fillStyle = "#FFFFFF";
           ctx.beginPath();
@@ -58,14 +66,12 @@ const FretboardCanvas = ({ tuning, scale }) => {
     }
   };
 
-  const drawChordNotes = (ctx, rect) => {
+  const drawChordNotes = (ctx) => {
     ctx.fillStyle = "#BADA55";
 
     chordSet.forEach(cn => {
-      let x = cn.fret - rect.left;
-      x = Math.floor(x/30)* 30;
-      let y = cn.str - rect.top;
-      y = Math.floor(y/30)* 30;
+      let x = (cn.fret * FRET_HEIGHT) + MARGIN;
+      let y = (cn.str * STR_SPACING) + MARGIN;
 
       ctx.beginPath();
       ctx.arc(x, y, 10, 0, 2 * Math.PI);
@@ -74,27 +80,60 @@ const FretboardCanvas = ({ tuning, scale }) => {
 
   }
 
-  const updateChord = (e) => {
-    let x = e.clientX ;
-    let y = e.clientY ;
-    // let str = y / 30;
-    // let open = tuning[str]
-    // let fret = x/30;
-    let newNote ={str:y, fret:x}
-    setChordNote(newNote)
+  const drawNoteMarker = (ctx) => {
+    ctx.fillStyle = "#880808	";
+    let x = (noteMarker.fret * FRET_HEIGHT) + MARGIN;
+    let y = (noteMarker.str * STR_SPACING) + MARGIN;
+
+    ctx.beginPath();
+    ctx.arc(x, y, 10, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  const getNoteTarget = (e, rect) => {
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+    let str = Math.floor((y - MARGIN) / STR_SPACING);
+    let fret = Math.floor((x - MARGIN)/FRET_WIDTH);
+    
+    let open = tuning[str]
+    let newNote ={str:str, fret:fret, midi: (open + fret)}
+    console.log(newNote)
+    return newNote;
+  }
+
+  // const updateChord = (e, rect) => {
+  //   let x = e.clientX - rect.left;
+  //   let y = e.clientY - rect.top;
+  //   let str = Math.floor((y - MARGIN) / STR_SPACING);
+  //   let fret = Math.floor((x - MARGIN)/FRET_WIDTH);
+    
+  //   let open = tuning[str]
+  //   let newNote ={str:str, fret:fret, midi: (open + fret)}
+  //   setChordNote(newNote)
+  //   setChordSet([...chordSet, newNote])
+  //   console.log(newNote)
+  // }
+
+  const updateChord = (e, rect) => {
+    let newNote = getNoteTarget(e, rect)
     setChordSet([...chordSet, newNote])
-    console.table(x,y)
+    console.log(newNote)
+  }
+
+  const updateNoteMarker = (e, rect) => {
+    let newNote = getNoteTarget(e, rect)
+    setNoteMarker(newNote)
+    console.log(newNote)
   }
 
   useEffect(() => {
     console.log("redraw");
     const canvas = canvasRef.current;
-    let rect = canvas.getBoundingClientRect()
-
     const context = canvas.getContext("2d");
     drawStringNotes(context);
-   
-    drawChordNotes(context, rect);
+    drawChordNotes(context);
+    drawNoteMarker(context)
   }
   // , [tuning, scale]
   );
@@ -103,12 +142,16 @@ const FretboardCanvas = ({ tuning, scale }) => {
       ref={canvasRef} 
       width="500" 
       height="300" 
-      onClick={(e) => {updateChord(e)}}
-      
+      onClick={(e) => {
+        updateChord(e, canvasRef.current.getBoundingClientRect())
+      }}
+      onMouseMove={(e) => {
+        updateNoteMarker(e, canvasRef.current.getBoundingClientRect())
+      }}
     />;
 };
 
-function drawGuitarString(context, tuning, scale) {}
+
 function onMouseOverFretboard(event) {
   let x = event.clientX;
   let y = event.clientY;
