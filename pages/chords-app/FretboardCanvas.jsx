@@ -28,7 +28,7 @@ const scaleNumbers = [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7, 1];
 
 
 const FretboardCanvas = ({ tuning, scale }) => {
-  let [noteMarker, setNoteMarker] = useState(initChordNote);
+  let [noteCursor, setNoteCursor] = useState(initChordNote);
   let [chordSet, setChordSet] = useState([initChordNote])
   
   const canvasRef = useRef(null);
@@ -80,10 +80,10 @@ const FretboardCanvas = ({ tuning, scale }) => {
 
   }
 
-  const drawNoteMarker = (ctx) => {
-    ctx.fillStyle = "#880808	";
-    let x = (noteMarker.fret * FRET_HEIGHT) + MARGIN;
-    let y = (noteMarker.str * STR_SPACING) + MARGIN;
+  const drawNoteCursor = (ctx) => {
+    ctx.fillStyle = "#F000FF	";
+    let x = (noteCursor.fret * FRET_HEIGHT) + MARGIN;
+    let y = (noteCursor.str * STR_SPACING) + MARGIN;
 
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, 2 * Math.PI);
@@ -121,9 +121,9 @@ const FretboardCanvas = ({ tuning, scale }) => {
     console.log(newNote)
   }
 
-  const updateNoteMarker = (e, rect) => {
+  const updateNoteCursor = (e, rect) => {
     let newNote = getNoteTarget(e, rect)
-    setNoteMarker(newNote)
+    setNoteCursor(newNote)
     console.log(newNote)
   }
 
@@ -133,7 +133,7 @@ const FretboardCanvas = ({ tuning, scale }) => {
     const context = canvas.getContext("2d");
     drawStringNotes(context);
     drawChordNotes(context);
-    drawNoteMarker(context)
+    drawNoteCursor(context)
   }
   // , [tuning, scale]
   );
@@ -146,7 +146,7 @@ const FretboardCanvas = ({ tuning, scale }) => {
         updateChord(e, canvasRef.current.getBoundingClientRect())
       }}
       onMouseMove={(e) => {
-        updateNoteMarker(e, canvasRef.current.getBoundingClientRect())
+        updateNoteCursor(e, canvasRef.current.getBoundingClientRect())
       }}
     />;
 };

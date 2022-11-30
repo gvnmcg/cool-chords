@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use, useState } from "react";
 import FretboardCanvas from "./FretboardCanvas";
 // import "./TabApp.css";
 // const noteAccidentals = [
@@ -96,6 +96,7 @@ const FretboardApp = () => {
 };
 
 const KeyControls = ({ scale, setScale }) => {
+
   const toggleScaleNumber = (scaleNumber, b) => {
     let newScale = scale;
     newScale[scaleNumber] = !newScale[scaleNumber];
@@ -205,6 +206,28 @@ const TuningControls = ({ tuning, setTuning }) => {
   );
 };
 
+const DisplayGuitarStrings = ({ tuning, scale }) => {
+  return <FretboardCanvas tuning={tuning} scale={scale} />;
+};
+
+const initChordSequence = [
+  {
+    shape: "320033",
+    midi: [],
+    notes: [{}],
+  },
+  {
+
+  }
+]
+
+const ChordControls = () => {
+  const [chordSequence, SetChordSequence] = useState([{}])
+  return (
+    <div></div>
+  )
+}
+
 /**
  * DisplayGuitarStrings
  *
@@ -226,9 +249,6 @@ const TuningControls = ({ tuning, setTuning }) => {
 //     </div>
 //   );
 // };
-const DisplayGuitarStrings = ({ tuning, scale }) => {
-  return <FretboardCanvas tuning={tuning} scale={scale} />;
-};
 
 const notes = ["C", "-", "D", "-", "E", "F", "-", "G", "-", "A", "-", "B"];
 // const notes = ["1", "-", "2", "-", "3", "4", "-", "5", "-", "6", "-", "7"];
