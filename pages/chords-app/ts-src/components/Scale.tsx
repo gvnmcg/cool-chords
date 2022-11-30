@@ -1,5 +1,5 @@
 import React from "react";
-import { allFalse } from "../FretboardConstants";
+import { allFalse, allTrue, scaleNotes } from "../FretboardConstants";
 import { ScaleType } from "../FretboardTypes";
 
 interface ScaleControlsProps {
@@ -24,7 +24,7 @@ const ScaleControls = ({ scale, setScale }: ScaleControlsProps) => {
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-      {scale?.map((ch, i) => (
+      {scaleNotes.map((ch, i) => (
         <div key={i}>
           {ch}
           <br />
@@ -49,14 +49,14 @@ const ScaleControls = ({ scale, setScale }: ScaleControlsProps) => {
 
       <button
         onClick={() => {
-          setScale(Array.prototype.fill(true, 0, 7));
+          setScale(allTrue);
         }}
       >
         all
       </button>
       <button
         onClick={() => {
-          setScale(Array.prototype.fill(false, 0, 7));
+          setScale(allFalse);
         }}
       >
         nil

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import TuningControls from "./components/Tuning";
 import ScaleControls from "./components/Scale";
+import FretboardCanvas from "./FretboardCanvas";
 import {
   ChordSequenceType,
   ChordType,
@@ -88,6 +89,7 @@ const FretboardApp = () => {
       </div>
       <div className="fretboard-panel">
         <TuningControls tuning={tuning} setTuning={setTuning} />
+        <FretboardCanvas tuning={tuning} scale={scale}/>
       </div>
     </div>
   );

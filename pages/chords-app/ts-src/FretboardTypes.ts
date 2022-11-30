@@ -14,7 +14,7 @@ export type FBStateType = {
 export type NoteType = {
   str: number;
   fret: number;
-  midiValue: number;
+  midi: number;
 };
 
 // Fretboard System
