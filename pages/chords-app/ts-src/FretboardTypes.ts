@@ -38,6 +38,6 @@ export type NoteMarkerType = {
   fret: number;
 };
 
-export type ChordNoteType = {
-  midiValue: number;
-};
+// export type ChordNoteType = {
+//   midiValue: number;
+// };

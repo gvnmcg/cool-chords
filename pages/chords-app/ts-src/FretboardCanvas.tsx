@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { noteNames, scaleNumbers } from "./FretboardConstants";
-import { NoteType, ScaleType, TuningType } from "./FretboardTypes";
+import { ChordType, NoteType, ScaleType, TuningType } from "./FretboardTypes";
 
 const FRET_HEIGHT = 30;
 const STR_WIDTH = 30;
@@ -15,10 +15,17 @@ const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 interface FretboardCanvasType {
   tuning: TuningType;
   scale: ScaleType;
+  chordSet: NoteType[];
+  setChordSet: (ch: NoteType[]) => void;
 }
-const FretboardCanvas = ({ tuning, scale }: FretboardCanvasType) => {
+const FretboardCanvas = ({
+  tuning,
+  scale,
+  chordSet,
+  setChordSet,
+}: FretboardCanvasType) => {
   let [noteCursor, setNoteCursor] = useState<NoteType>(initChordNote);
-  let [chordSet, setChordSet] = useState<NoteType[]>([initChordNote]);
+  // let [chordSet, setChordSet] = useState<NoteType[]>([initChordNote]);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -87,8 +94,16 @@ const FretboardCanvas = ({ tuning, scale }: FretboardCanvasType) => {
 
     let open = tuning[str];
     let newNote = { str: str, fret: fret, midi: open + fret };
-    console.log(newNote);
     return newNote;
+  };
+
+  const removeNote = (newNote:NoteType, chordSet:NoteType[]) => {
+    return chordSet.filter( (chordNote:NoteType) => {
+      return (
+        chordNote.str != newNote.str
+        || chordNote.midi != newNote.midi
+      )
+    });
   };
 
   const updateChord = (
@@ -96,7 +111,13 @@ const FretboardCanvas = ({ tuning, scale }: FretboardCanvasType) => {
     rect: DOMRect
   ) => {
     let newNote = getNoteTarget(e, rect);
-    setChordSet([...chordSet, newNote]);
+    // constrain to one per string
+    let newSet = chordSet.filter( chordNote => {
+      return (
+        chordNote.str != newNote.str
+      )
+    })
+    setChordSet([...newSet, newNote]);
   };
 
   const updateNoteCursor = (
@@ -107,19 +128,17 @@ const FretboardCanvas = ({ tuning, scale }: FretboardCanvasType) => {
     setNoteCursor(newNote);
   };
 
-  useEffect(
-    () => {
-      const canvas = canvasRef.current;
-      if (canvas == null) throw new Error('Could not get canvas');
-      if (canvasRef.current) {
-        const context = canvas.getContext("2d");
-        if (context == null) throw new Error('Could not get context');
-        drawScale(context);
-        drawChordNotes(context);
-        drawNoteCursor(context);
-      }
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (canvas == null) throw new Error("Could not get canvas");
+    if (canvasRef.current) {
+      const context = canvas.getContext("2d");
+      if (context == null) throw new Error("Could not get context");
+      drawScale(context);
+      drawChordNotes(context);
+      drawNoteCursor(context);
     }
-  );
+  });
 
   return (
     <canvas
@@ -127,21 +146,15 @@ const FretboardCanvas = ({ tuning, scale }: FretboardCanvasType) => {
       width="500"
       height="300"
       onClick={(e) => {
-        if (!canvasRef.current) return
+        if (!canvasRef.current) return;
         updateChord(e, canvasRef.current.getBoundingClientRect());
       }}
       onMouseMove={(e) => {
-        if (!canvasRef.current) return
+        if (!canvasRef.current) return;
         updateNoteCursor(e, canvasRef.current.getBoundingClientRect());
       }}
     />
   );
 };
-
-function onMouseOverFretboard(event) {
-  let x = event.clientX;
-  let y = event.clientY;
-  console.table(x, y);
-}
 
 export default FretboardCanvas;

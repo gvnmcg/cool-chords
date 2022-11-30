@@ -12,57 +12,8 @@ import {
   SlursType,
   TuningType,
 } from "./FretboardTypes";
-import { allTrue, standardTuning } from "./FretboardConstants";
-
-// const initFBState: FBStateType = {
-//   tuning: [16, 23, 31, 38, 45, 52],
-//   scaleKey: 16,
-//   scale: [0, 2, 4, 5, 7, 9, 11],
-//   scaleChord: allTrue,
-// };
-
-// // [[[[[[[Types]]]]]]]
-
-// type FBStateType = {
-//   // Tuning is a array of midi/note values representing the guitar string tuning
-//   tuning: TuningType;
-//   // Midi value of initial scale key
-//   scaleKey: ScaleKeyType;
-//   // subset of scale visible
-//   scaleChord: boolean[];
-//   // notes in the scale, from open.
-//   scale: number[];
-// };
-
-// type NoteType = {
-//     str: number;
-//     fret: number;
-//     midiValue: number;
-//   };
-
-// // Fretboard System
-// type TuningType = number[];
-// type ScaleKeyType = number;
-// type ScaleChordType = boolean[];
-// type ScaleType = number[];
-
-// // Chord Sequence System
-// type ChordType = {
-//   notes: NoteType[];
-//   slurs: NoteType[];
-// };
-// type SlursType = NoteType[];
-// type ChordSequenceType = ChordType[];
-
-// // Chord UI type
-// type NoteMarkerType = {
-//   str: number;
-//   fret: number;
-// };
-
-// type ChordNoteType = {
-//   midiValue: number;
-// };
+import { allTrue, initChordNote, initChordSequence, openChord, standardTuning } from "./FretboardConstants";
+import ChordControls from "./components/Chords";
 
 /**
  *
@@ -77,19 +28,35 @@ const FretboardApp = () => {
   const [scaleChord, setScaleChord] = useState<ScaleChordType>([]);
 
   // Chord System
-  const [chordSequence, setChordSequence] = useState<ChordSequenceType>([]);
+  const [chordSequence, setChordSequence] = useState<ChordType[]>(initChordSequence);
   const [chordNotes, setChordNotes] = useState<ChordType>([]);
+  const [chordSet, setChordSet] = useState<NoteType[]>(openChord);
   const [slurs, setSlurs] = useState<SlursType>([]);
 
   return (
     <div>
-      <div className="chord-sequence-panel"></div>
+      <div className="chord-sequence-panel">
+        <ChordControls 
+          tuning={tuning}
+          chordSequence={chordSequence}
+          setChordSequence={setChordSequence}
+          setScaleChord={setScaleChord}
+          chordSet={chordSet}
+          setChordSet={setChordSet}
+          slurs={slurs}
+        />
+      </div>
       <div className="scale-panel">
         <ScaleControls scale={scale} setScale={setScale}/>
       </div>
       <div className="fretboard-panel">
         <TuningControls tuning={tuning} setTuning={setTuning} />
-        <FretboardCanvas tuning={tuning} scale={scale}/>
+        <FretboardCanvas 
+          tuning={tuning} 
+          scale={scale}
+          chordSet={chordSet} 
+          setChordSet={setChordSet}
+        />
       </div>
     </div>
   );

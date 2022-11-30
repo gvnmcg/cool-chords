@@ -41,19 +41,19 @@ How I look at the Key and Scale is a gropu of related chords.
 
 - [ ] `.tsx` final.
 * model
-    - [ ] under scale (toggle chords, change key, tuning)
+    - [x] under scale (toggle chords, change key, tuning)
     - [ ] over chords (mark and unmark, move with tuning(midi), save)
     - [ ] riffs and lick notes (mark optional notes in a different color)
 * view
-    - [ ] Canvas
-    - [ ] Control Panels (under scale)
-    - [ ] Peg Tuner ()
+    - [x] Canvas
+    - [x] Control Panels (under scale)
+    - [x] Peg Tuner ()
     - [ ] Import and export panel
     - [ ] Chord Nav
 * Control
-    - [ ] change scale
+    - [x] change scale
     - [ ] change Key
-    - [ ] change tuning
+    - [x] change tuning
     - [ ] change chords
     - [ ] change time (saved chord)
 

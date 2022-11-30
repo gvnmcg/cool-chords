@@ -1,5 +1,7 @@
 // [[[ Weird Constants ]]]
 
+import { FBStateType, NoteType } from "./FretboardTypes";
+
 export const allFalse = [false, false, false, false, false, false, false];
 export const allTrue = [true, true, true, true, true, true, true];
 
@@ -26,4 +28,46 @@ export const noteNames = [
   "B",
 ];
 
+
+const initFBState: FBStateType = {
+  tuning: [16, 23, 31, 38, 45, 52],
+  scaleKey: 16,
+  scale: [0, 2, 4, 5, 7, 9, 11],
+  scaleChord: allTrue,
+};
+
+export const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
+
+
+ const initChord1: NoteType[] = [
+  { fret: 0, str: 0, midi: 0 },
+  { fret: 0, str: 1, midi: 0 },
+  { fret: 0, str: 2, midi: 0 },
+];
+ const initChord2: NoteType[] = [
+  { fret: 1, str: 0, midi: 0 },
+  { fret: 1, str: 1, midi: 0 },
+  { fret: 1, str: 2, midi: 0 },
+];
+
+export const openChord: NoteType[] = [
+  { fret: 0, str: 0, midi: 0 },
+  { fret: 0, str: 1, midi: 0 },
+  { fret: 0, str: 2, midi: 0 },
+  { fret: 0, str: 3, midi: 0 },
+  { fret: 0, str: 4, midi: 0 },
+  { fret: 0, str: 5, midi: 0 },
+];
+
+
+export const initChordSequence = [{
+  notes: initChord1,
+  slurs: []
+},
+{
+  notes: initChord2,
+  slurs: []
+}]
+
 export const  midi2Name = (midi:number):string => noteNames[midi % 12];
+
