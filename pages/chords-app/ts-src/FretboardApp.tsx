@@ -6,13 +6,20 @@ import {
   ChordSequenceType,
   ChordType,
   FBStateType,
+  NoteType,
   ScaleChordType,
   ScaleKeyType,
   ScaleType,
   SlursType,
   TuningType,
 } from "./FretboardTypes";
-import { allTrue, initChordNote, initChordSequence, openChord, standardTuning } from "./FretboardConstants";
+import {
+  allTrue,
+  initChordNote,
+  initChordSequence,
+  openChord,
+  standardTuning,
+} from "./FretboardConstants";
 import ChordControls from "./components/Chords";
 
 /**
@@ -24,19 +31,19 @@ const FretboardApp = () => {
   // Fretboard System
   const [tuning, setTuning] = useState<TuningType>(standardTuning);
   const [scale, setScale] = useState<ScaleType>(allTrue);
-  const [scaleKey, setScaleKey] = useState<ScaleKeyType>([]);
-  const [scaleChord, setScaleChord] = useState<ScaleChordType>([]);
+  const [scaleKey, setScaleKey] = useState<ScaleKeyType>(0);
+  const [scaleChord, setScaleChord] = useState<ScaleChordType>(allTrue);
 
   // Chord System
-  const [chordSequence, setChordSequence] = useState<ChordType[]>(initChordSequence);
-  const [chordNotes, setChordNotes] = useState<ChordType>([]);
+  const [chordSequence, setChordSequence] =
+    useState<ChordType[]>(initChordSequence);
   const [chordSet, setChordSet] = useState<NoteType[]>(openChord);
   const [slurs, setSlurs] = useState<SlursType>([]);
 
   return (
     <div>
       <div className="chord-sequence-panel">
-        <ChordControls 
+        <ChordControls
           tuning={tuning}
           chordSequence={chordSequence}
           setChordSequence={setChordSequence}
@@ -47,14 +54,14 @@ const FretboardApp = () => {
         />
       </div>
       <div className="scale-panel">
-        <ScaleControls scale={scale} setScale={setScale}/>
+        <ScaleControls scale={scale} setScale={setScale} />
       </div>
       <div className="fretboard-panel">
         <TuningControls tuning={tuning} setTuning={setTuning} />
-        <FretboardCanvas 
-          tuning={tuning} 
+        <FretboardCanvas
+          tuning={tuning}
           scale={scale}
-          chordSet={chordSet} 
+          chordSet={chordSet}
           setChordSet={setChordSet}
         />
       </div>

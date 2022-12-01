@@ -1,5 +1,5 @@
 import React from "react";
-import { allFalse, allTrue, scaleNotes } from "../FretboardConstants";
+import { allFalse, allTrue, debug, scaleNotes } from "../FretboardConstants";
 import { ScaleType } from "../FretboardTypes";
 
 interface ScaleControlsProps {
@@ -9,17 +9,15 @@ interface ScaleControlsProps {
 
 const ScaleControls = ({ scale, setScale }: ScaleControlsProps) => {
   const toggleScaleNumber = (scaleNumber: number) => {
-    let newScale = scale;
-    newScale[scaleNumber] = !newScale[scaleNumber];
-    setScale(newScale);
+    setScale( scale.map( (s,i) => i == scaleNumber ? !s : s))
+    if (debug) console.log("toggle scale", scale);
   };
 
   const toggleChord = (chordNum:number) => {
-    let newScale = allFalse;
-    newScale[chordNum] = true;
-    newScale[(chordNum + 2) % 7] = true;
-    newScale[(chordNum + 4) % 7] = true;
-    setScale(newScale);
+    setScale( scale.map((s, i) => i == chordNum 
+      || i == (chordNum + 2) % 7
+      || i == (chordNum + 4) % 7|| false))
+    if (debug) console.log("toggle chord", scale);
   };
 
   return (
@@ -49,14 +47,14 @@ const ScaleControls = ({ scale, setScale }: ScaleControlsProps) => {
 
       <button
         onClick={() => {
-          setScale(allTrue);
+          setScale(scale.map(() => true));
         }}
       >
         all
       </button>
       <button
         onClick={() => {
-          setScale(allFalse);
+          setScale(scale.map(() => false));
         }}
       >
         nil

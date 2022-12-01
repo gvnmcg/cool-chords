@@ -11,8 +11,7 @@ interface TuningViewProps {
   onAnyChange: (t: number, n: number) => void;
   shiftAll: (t: number) => void;
 };
-const TuningView = (viewProps: TuningViewProps) => {
-  let { tuning, setTuning, onAnyChange, shiftAll } = viewProps;
+const TuningView = ({ tuning, setTuning, onAnyChange, shiftAll }: TuningViewProps) => {
   return (
     <div>
       {tuning?.map((t: number, n: number) => (

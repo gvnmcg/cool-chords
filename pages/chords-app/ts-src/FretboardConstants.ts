@@ -1,5 +1,7 @@
 // [[[ Weird Constants ]]]
 
+export const debug: boolean = false;
+
 import { FBStateType, NoteType } from "./FretboardTypes";
 
 export const allFalse = [false, false, false, false, false, false, false];

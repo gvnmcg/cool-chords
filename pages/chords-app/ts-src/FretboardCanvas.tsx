@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { noteNames, scaleNumbers } from "./FretboardConstants";
+import { debug, noteNames, scaleNumbers } from "./FretboardConstants";
 import { ChordType, NoteType, ScaleType, TuningType } from "./FretboardTypes";
 
 const FRET_HEIGHT = 30;
@@ -18,14 +18,16 @@ interface FretboardCanvasType {
   chordSet: NoteType[];
   setChordSet: (ch: NoteType[]) => void;
 }
+
 const FretboardCanvas = ({
   tuning,
   scale,
   chordSet,
   setChordSet,
 }: FretboardCanvasType) => {
-  let [noteCursor, setNoteCursor] = useState<NoteType>(initChordNote);
-  // let [chordSet, setChordSet] = useState<NoteType[]>([initChordNote]);
+  const [noteCursor, setNoteCursor] = useState<NoteType>(initChordNote);
+
+  const [cursorRedraw, setCursorRedraw] = useState<boolean>(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -97,15 +99,6 @@ const FretboardCanvas = ({
     return newNote;
   };
 
-  const removeNote = (newNote:NoteType, chordSet:NoteType[]) => {
-    return chordSet.filter( (chordNote:NoteType) => {
-      return (
-        chordNote.str != newNote.str
-        || chordNote.midi != newNote.midi
-      )
-    });
-  };
-
   const updateChord = (
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
     rect: DOMRect
@@ -138,6 +131,8 @@ const FretboardCanvas = ({
       drawChordNotes(context);
       drawNoteCursor(context);
     }
+    if (debug && !cursorRedraw) console.log("redraw", scale);
+    if (cursorRedraw) setCursorRedraw(false)
   });
 
   return (
@@ -150,6 +145,7 @@ const FretboardCanvas = ({
         updateChord(e, canvasRef.current.getBoundingClientRect());
       }}
       onMouseMove={(e) => {
+        setCursorRedraw(true)
         if (!canvasRef.current) return;
         updateNoteCursor(e, canvasRef.current.getBoundingClientRect());
       }}
