@@ -7,6 +7,8 @@ import FretboardApp from './chords-app/ts-src/FretboardApp'
 export default function Home() {
   return (
     <div className={styles.container}>
+      <title> Cool Chords </title>
+      <a className={styles.title}> Cool Chords </a>
       <FretboardApp />
     </div>
   )

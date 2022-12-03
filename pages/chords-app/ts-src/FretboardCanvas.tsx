@@ -111,6 +111,8 @@ const FretboardCanvas = ({
       )
     })
     setChordSet([...newSet, newNote]);
+    if (debug) console.log("update chord", newSet);
+
   };
 
   const updateNoteCursor = (
@@ -131,8 +133,8 @@ const FretboardCanvas = ({
       drawChordNotes(context);
       drawNoteCursor(context);
     }
-    if (debug && !cursorRedraw) console.log("redraw", scale);
-    if (cursorRedraw) setCursorRedraw(false)
+    // if (debug && !cursorRedraw) console.log("redraw", scale);
+    // if (cursorRedraw) setCursorRedraw(false)
   });
 
   return (

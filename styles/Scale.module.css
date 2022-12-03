@@ -1,0 +1,11 @@
+.chords {
+    display: flex; 
+    flex-direction: row;
+    margin: 10%;
+}
+
+.chord {
+    display: flex; 
+    flex-direction: column;
+    padding: 1em;
+}

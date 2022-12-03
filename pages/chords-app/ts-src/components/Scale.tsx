@@ -1,6 +1,7 @@
 import React from "react";
 import { allFalse, allTrue, debug, scaleNotes } from "../FretboardConstants";
 import { ScaleType } from "../FretboardTypes";
+import styles from "../../../../styles/Scale.module.css"
 
 interface ScaleControlsProps {
   scale: ScaleType;
@@ -21,11 +22,16 @@ const ScaleControls = ({ scale, setScale }: ScaleControlsProps) => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div className={styles.chords}>
       {scaleNotes.map((ch, i) => (
-        <div key={i}>
-          {ch}
-          <br />
+        <div className={styles.chord} key={i}>
+          <button
+            onClick={() => {
+              toggleChord(i);
+            }}
+          >
+            {ch}
+          </button>
           {i + 1}
           <input
             type="checkbox"
@@ -35,13 +41,7 @@ const ScaleControls = ({ scale, setScale }: ScaleControlsProps) => {
             }}
           />
 
-          <button
-            onClick={() => {
-              toggleChord(i);
-            }}
-          >
-            {ch}
-          </button>
+          
         </div>
       ))}
 

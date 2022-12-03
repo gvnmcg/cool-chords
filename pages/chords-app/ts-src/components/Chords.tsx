@@ -7,6 +7,7 @@ import {
   ScaleType,
   TuningType,
 } from "../FretboardTypes";
+import styles from "../../../../styles/Scale.module.css";
 
 interface ChordControlsProps {
   tuning: TuningType;
@@ -64,23 +65,22 @@ const ChordControls = ({
   };
 
   return (
-    <div>
-      {chordSequence.map((chord: ChordType, index: number) => (
-        <div key={index}>
-          <div>{chord.notes.map((n) => n.fret)}</div>
-        </div>
-      ))}
+    <div >
       <div>
         <button onClick={() => navSequence(-1)}> {"<"} </button>
-        <button
-          onClick={() => {
-            amendSequence();
-          }}
-        >
+        <span>{chordIndex}</span>
+        <button onClick={() => navSequence(1)}> {">"} </button>
+        <button onClick={() => amendSequence()} >
           Set Chord
         </button>
-        <button onClick={() => navSequence(1)}> {">"} </button>
-        <span>{chordIndex}</span>
+      </div>
+
+      <div className={styles.chords}>
+        {chordSequence.map((chord: ChordType, index: number) => (
+          <div className={styles.chord} key={index}>
+            <div>{chord.notes.map((n) => n.fret)}</div>
+          </div>
+        ))}
       </div>
     </div>
   );

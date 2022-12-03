@@ -21,6 +21,8 @@ import {
   standardTuning,
 } from "./FretboardConstants";
 import ChordControls from "./components/Chords";
+import styles from '../../../styles/Home.module.css'
+
 
 /**
  *
@@ -41,8 +43,8 @@ const FretboardApp = () => {
   const [slurs, setSlurs] = useState<SlursType>([]);
 
   return (
-    <div>
-      <div className="chord-sequence-panel">
+    <div className={styles.main}>
+      <div className={styles.chordSequence}>
         <ChordControls
           tuning={tuning}
           chordSequence={chordSequence}
@@ -53,10 +55,12 @@ const FretboardApp = () => {
           slurs={slurs}
         />
       </div>
-      <div className="scale-panel">
+
+      <div className={styles.scales}>
         <ScaleControls scale={scale} setScale={setScale} />
       </div>
-      <div className="fretboard-panel">
+
+      <div className={styles.fretboard}>
         <TuningControls tuning={tuning} setTuning={setTuning} />
         <FretboardCanvas
           tuning={tuning}
