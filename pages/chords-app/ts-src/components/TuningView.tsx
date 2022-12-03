@@ -1,5 +1,6 @@
 import React from "react";
-import { standardTuning, DADFADTuning } from "../FretboardConstants";
+import { standardTuning, DADFADTuning, noteNames } from "../FretboardConstants";
+import styles from "../../../../styles/Tuning.module.css";
 
 /**
  * Tuning Contols
@@ -10,41 +11,51 @@ interface TuningViewProps {
   setTuning: (t: number[]) => void;
   onAnyChange: (t: number, n: number) => void;
   shiftAll: (t: number) => void;
-};
-const TuningView = ({ tuning, setTuning, onAnyChange, shiftAll }: TuningViewProps) => {
+}
+const TuningView = ({
+  tuning,
+  setTuning,
+  onAnyChange,
+  shiftAll,
+}: TuningViewProps) => {
   return (
-    <div>
-      {tuning?.map((t: number, n: number) => (
-        <div key={n}>
-          <button onClick={() => onAnyChange(n, 1)}>+</button>
-          <span> {t} </span>
-          <button onClick={() => onAnyChange(n, -1)}>-</button>
-        </div>
-      ))}
-
-      <div>
-        <button onClick={() => shiftAll(1)}> +</button>
-        <span> all </span>
-        <button onClick={() => shiftAll(-1)}> -</button>
+    <div >
+      <div className={styles.tuning}>
+        {tuning?.map((t: number, n: number) => (
+          <div className={styles.peg}
+          key={n}>
+            <button onClick={() => onAnyChange(n, 1)}>+</button>
+            <span> {noteNames[t % 12]} </span>
+            <button onClick={() => onAnyChange(n, -1)}>-</button>
+          </div>
+        ))}
       </div>
 
-      <button
-        onClick={() => {
-          //standard tuning
-          setTuning(standardTuning);
-        }}
-      >
-        Standard Tuning
-      </button>
+      <div className={styles.tuneAll}>
+        <div>
+          <button onClick={() => shiftAll(1)}> +</button>
+          <span> all </span>
+          <button onClick={() => shiftAll(-1)}> -</button>
+        </div>
 
-      <button
-        onClick={() => {
-          //DADFAD tuning
-          setTuning(DADFADTuning);
-        }}
-      >
-        DADFAD Tuning
-      </button>
+        <button
+          onClick={() => {
+            //standard tuning
+            setTuning(standardTuning);
+          }}
+        >
+          Standard Tuning
+        </button>
+
+        <button
+          onClick={() => {
+            //DADFAD tuning
+            setTuning(DADFADTuning);
+          }}
+        >
+          DADFAD Tuning
+        </button>
+      </div>
     </div>
   );
 };

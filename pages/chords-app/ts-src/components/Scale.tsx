@@ -32,7 +32,6 @@ const ScaleControls = ({ scale, setScale }: ScaleControlsProps) => {
           >
             {ch}
           </button>
-          {i + 1}
           <input
             type="checkbox"
             checked={scale[i]}
