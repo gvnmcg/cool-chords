@@ -7,7 +7,8 @@ import {
   ScaleType,
   TuningType,
 } from "../FretboardTypes";
-import styles from "../../../../styles/Scale.module.css";
+import styles from "../../../../styles/Chords.module.css";
+import ChordsCanvas from "./ChordsCanvas";
 
 interface ChordControlsProps {
   tuning: TuningType;
@@ -59,26 +60,34 @@ const ChordControls = ({
   };
 
   const navSequence = (dir: number) => {
-    if (chordIndex + dir > chordSequence.length || chordIndex + dir < 0) return;
+    if (chordIndex + dir > chordSequence.length-1 || chordIndex + dir < 0) return;
     setChordIndex(chordIndex + dir);
     setChordSet(chordSequence[chordIndex].notes);
   };
 
   return (
-    <div >
-      <div>
+    <div>
+      <div className={styles.chordNav}>
         <button onClick={() => navSequence(-1)}> {"<"} </button>
         <span>{chordIndex}</span>
         <button onClick={() => navSequence(1)}> {">"} </button>
-        <button onClick={() => amendSequence()} >
-          Set Chord
-        </button>
+        <button onClick={() => amendSequence()}>Set Chord</button>
       </div>
 
       <div className={styles.chords}>
         {chordSequence.map((chord: ChordType, index: number) => (
-          <div className={styles.chord} key={index}>
+          <div
+            onClick={()=> {
+              setChordIndex(index);
+              setChordSet(chordSequence[chordIndex].notes)
+            }}
+            className={
+              index == chordIndex ? styles.chordSelected : styles.chord
+            }
+            key={index}
+          >
             <div>{chord.notes.map((n) => n.fret)}</div>
+            <ChordsCanvas chordSet={chord.notes} />
           </div>
         ))}
       </div>

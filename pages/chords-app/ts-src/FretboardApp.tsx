@@ -56,10 +56,6 @@ const FretboardApp = () => {
         />
       </div>
 
-      <div className={styles.scales}>
-        <ScaleControls scale={scale} setScale={setScale} />
-      </div>
-
       <div className={styles.fretboard}>
         <TuningControls tuning={tuning} setTuning={setTuning} />
         <FretboardCanvas
@@ -69,6 +65,10 @@ const FretboardApp = () => {
           setChordSet={setChordSet}
         />
       </div>
+      <div className={styles.scales}>
+        <ScaleControls scale={scale} setScale={setScale} />
+      </div>
+
     </div>
   );
 };

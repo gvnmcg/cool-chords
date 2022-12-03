@@ -1,11 +1,16 @@
 .chords {
     display: flex; 
     flex-direction: row;
-    margin: 10%;
+    margin: 1em;
+    border: 3px solid;
+    justify-content: space-between;
+    
 }
 
 .chord {
     display: flex; 
     flex-direction: column;
     padding: 1em;
+    border: 3px solid;
+
 }

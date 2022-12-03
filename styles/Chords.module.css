@@ -1,11 +1,38 @@
+
 .chords {
     display: flex; 
     flex-direction: row;
-    margin: 10%;
+    margin: 10px;
+    border: 3px solid;
+
+}
+
+.chordNav {
+    display: flex; 
+    flex-direction: row;
+    margin: 10px;
+    border: 3px solid;
+
 }
 
 .chord {
     display: flex; 
     flex-direction: column;
     padding: 1em;
+    border: 3px solid;
+
+}
+
+
+.chordSelected {
+    display: flex; 
+    flex-direction: column;
+    padding: 1em;
+    border: 3px solid;
+    background-color: darkgoldenrod;
+}
+
+.canvas {
+    
+    border: 3px solid;
 }

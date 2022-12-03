@@ -66,7 +66,9 @@ const FretboardCanvas = ({
     ctx.fillStyle = "#BADA55";
 
     chordSet.forEach((cn) => {
-      let x = cn.fret * FRET_HEIGHT + MARGIN;
+
+      let x = (cn.midi - tuning[cn.str]) * FRET_HEIGHT + MARGIN;
+      // let x = cn.fret * FRET_HEIGHT + MARGIN;
       let y = cn.str * STR_SPACING + MARGIN;
 
       ctx.beginPath();
@@ -76,6 +78,7 @@ const FretboardCanvas = ({
   };
 
   const drawNoteCursor = (ctx: CanvasRenderingContext2D) => {
+    
     ctx.fillStyle = "#F000FF";
     let x = noteCursor.fret * FRET_HEIGHT + MARGIN;
     let y = noteCursor.str * STR_SPACING + MARGIN;
@@ -91,8 +94,11 @@ const FretboardCanvas = ({
   ) => {
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
-    let str = Math.floor((y - MARGIN) / STR_SPACING);
-    let fret = Math.floor((x - MARGIN) / FRET_WIDTH);
+    let str = Math.floor((y - MARGIN/2) / STR_SPACING);
+    let fret = Math.floor((x - MARGIN/2) / FRET_WIDTH);
+
+    // if (fret < 0 || fret > 12) return;
+    // if (str < 0 ||  str > 5) return;
 
     let open = tuning[str];
     let newNote = { str: str, fret: fret, midi: open + fret };
@@ -140,8 +146,8 @@ const FretboardCanvas = ({
   return (
     <canvas
       ref={canvasRef}
-      width="500"
-      height="300"
+      width={(FRET_WIDTH + FRET_SPACING) * 12}
+      height={STR_WIDTH * 6}
       onClick={(e) => {
         if (!canvasRef.current) return;
         updateChord(e, canvasRef.current.getBoundingClientRect());
