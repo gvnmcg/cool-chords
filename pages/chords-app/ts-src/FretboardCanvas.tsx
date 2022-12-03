@@ -66,7 +66,6 @@ const FretboardCanvas = ({
     ctx.fillStyle = "#BADA55";
 
     chordSet.forEach((cn) => {
-
       let x = (cn.midi - tuning[cn.str]) * FRET_HEIGHT + MARGIN;
       // let x = cn.fret * FRET_HEIGHT + MARGIN;
       let y = cn.str * STR_SPACING + MARGIN;
@@ -78,7 +77,6 @@ const FretboardCanvas = ({
   };
 
   const drawNoteCursor = (ctx: CanvasRenderingContext2D) => {
-    
     ctx.fillStyle = "#F000FF";
     let x = noteCursor.fret * FRET_HEIGHT + MARGIN;
     let y = noteCursor.str * STR_SPACING + MARGIN;
@@ -94,51 +92,39 @@ const FretboardCanvas = ({
   ) => {
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
-    let str = Math.floor((y - MARGIN/2) / STR_SPACING);
-    let fret = Math.floor((x - MARGIN/2) / FRET_WIDTH);
+    let str = Math.floor((y - MARGIN / 2) / STR_SPACING);
+    let fret = Math.floor((x - MARGIN / 2) / FRET_WIDTH);
 
-    // if (fret < 0 || fret > 12) return;
-    // if (str < 0 ||  str > 5) return;
+    if (fret < 0 || fret > 12) return;
+    if (str < 0 ||  str > 5) return;
 
     let open = tuning[str];
     let newNote = { str: str, fret: fret, midi: open + fret };
     return newNote;
   };
 
-  const updateChord = (
-    e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
-    rect: DOMRect
-  ) => {
-    let newNote = getNoteTarget(e, rect);
+  const updateChord = (newNote: NoteType) => {
     // constrain to one per string
-    let newSet = chordSet.filter( chordNote => {
-      return (
-        chordNote.str != newNote.str
-      )
-    })
+    let newSet = chordSet.filter((chordNote) => {
+      return chordNote.str != newNote.str;
+    });
     setChordSet([...newSet, newNote]);
     if (debug) console.log("update chord", newSet);
-
   };
 
-  const updateNoteCursor = (
-    e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
-    rect: DOMRect
-  ) => {
-    let newNote = getNoteTarget(e, rect);
+  const updateNoteCursor = (newNote: NoteType) => {
     setNoteCursor(newNote);
   };
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas == null) throw new Error("Could not get canvas");
-    if (canvasRef.current) {
-      const context = canvas.getContext("2d");
-      if (context == null) throw new Error("Could not get context");
-      drawScale(context);
-      drawChordNotes(context);
-      drawNoteCursor(context);
-    }
+    if (!canvasRef.current) return
+    const context = canvas.getContext("2d");
+    if (context == null) throw new Error("Could not get context");
+    drawScale(context);
+    drawChordNotes(context);
+    drawNoteCursor(context);
     // if (debug && !cursorRedraw) console.log("redraw", scale);
     // if (cursorRedraw) setCursorRedraw(false)
   });
@@ -150,12 +136,18 @@ const FretboardCanvas = ({
       height={STR_WIDTH * 6}
       onClick={(e) => {
         if (!canvasRef.current) return;
-        updateChord(e, canvasRef.current.getBoundingClientRect());
+        let rect = canvasRef.current.getBoundingClientRect();
+        let noteTarget = getNoteTarget(e, rect);
+        if (!noteTarget) return;
+        updateChord(noteTarget);
       }}
       onMouseMove={(e) => {
-        setCursorRedraw(true)
+        setCursorRedraw(true);
         if (!canvasRef.current) return;
-        updateNoteCursor(e, canvasRef.current.getBoundingClientRect());
+        let rect = canvasRef.current.getBoundingClientRect();
+        let noteTarget = getNoteTarget(e, rect);
+        if (!noteTarget) return;
+        updateNoteCursor(noteTarget);
       }}
     />
   );
