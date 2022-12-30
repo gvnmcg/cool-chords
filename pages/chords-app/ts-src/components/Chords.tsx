@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { debug, openChord } from "../FretboardConstants";
 import {
   ChordSequenceType,
@@ -14,11 +14,11 @@ interface ChordControlsProps {
   tuning: TuningType;
   chordSequence: ChordType[];
   setChordSequence: (sq: ChordType[]) => void;
-  setScaleChord: (s: ScaleType) => void;
   chordSet: NoteType[];
   setChordSet: (s: NoteType[]) => void;
-  slurs: NoteType[];
 }
+
+const chordDebug: boolean = debug || false;
 
 /**
  * Purpose
@@ -31,10 +31,8 @@ const ChordControls = ({
   tuning,
   chordSequence,
   setChordSequence,
-  setScaleChord,
   chordSet,
   setChordSet,
-  slurs,
 }: ChordControlsProps) => {
   const [chordIndex, setChordIndex] = useState<number>(0);
 
@@ -64,6 +62,21 @@ const ChordControls = ({
     setChordIndex(chordIndex + dir);
     setChordSet(chordSequence[chordIndex].notes);
   };
+
+  useEffect(() => {
+    // previous chord state, same midi
+    // new frets on each string to tuning midi
+    setChordSet(chordSet.map((note) => {
+        return {...note, fret: note.midi - tuning[note.str] }
+      }
+    ))
+    if (chordDebug) {
+      console.log("change tuning effect chords", chordSet )
+      console.log("change tuning effect note diff", chordSet.forEach((note, ix) => {
+        console.log(note.midi, " - ", tuning[note.str], " = ", note.midi - tuning[note.str])
+      }) )
+    }
+  }, [tuning])
 
   return (
     <div>

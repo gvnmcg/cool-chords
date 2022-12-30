@@ -28,7 +28,7 @@ const ChordsCanvas = ({
 
     chordSet.forEach((cn:NoteType) => {
       let y = cn.fret * FRET_HEIGHT + MARGIN;
-      let x = cn.str * STR_SPACING + MARGIN;
+      let x = (6 * STR_SPACING + MARGIN) - (cn.str * STR_SPACING + MARGIN);
 
       ctx.beginPath();
       ctx.arc(x, y, 1, 0, 2 * Math.PI);

@@ -12,6 +12,9 @@ const MARGIN = 30;
 
 const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
+const fretbaordCanvasDebug: boolean = debug || false;
+
+
 interface FretboardCanvasType {
   tuning: TuningType;
   scale: ScaleType;
@@ -109,7 +112,7 @@ const FretboardCanvas = ({
       return chordNote.str != newNote.str;
     });
     setChordSet([...newSet, newNote]);
-    if (debug) console.log("update chord", newSet);
+    if (fretbaordCanvasDebug) console.log("update chord", newSet);
   };
 
   const updateNoteCursor = (newNote: NoteType) => {
@@ -125,7 +128,7 @@ const FretboardCanvas = ({
     drawScale(context);
     drawChordNotes(context);
     drawNoteCursor(context);
-    // if (debug && !cursorRedraw) console.log("redraw", scale);
+    // if (fretbaordCanvasDebug && !cursorRedraw) console.log("redraw", scale);
     // if (cursorRedraw) setCursorRedraw(false)
   });
 

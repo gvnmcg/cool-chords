@@ -11,17 +11,20 @@ interface TuningControlsProps {
   tuning: TuningType;
   setTuning: (t: TuningType) => void;
 }
+
+const tuningDebug: boolean = debug || false;
+
 const TuningControls = ({ tuning, setTuning }: TuningControlsProps) => {
   const onAnyChange = (strNum: number, turnDir: number) => {
     setTuning(
       tuning.map((tuned, index) => (index == strNum ? tuned + turnDir : tuned))
     );
-    if (debug) console.log("onAnyChange", strNum, turnDir);
+    if (tuningDebug) console.log("onAnyChange", strNum, turnDir);
   };
 
   const shiftAll = (turnDir: number) => {
     setTuning(tuning.map((t) => t + turnDir));
-    if (debug) console.log("shift all", turnDir);
+    if (tuningDebug) console.log("shift all", turnDir);
   };
 
   // const viewProps = { tuning, setTuning, onAnyChange, shiftAll };

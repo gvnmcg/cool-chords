@@ -30,17 +30,17 @@ import styles from '../../../styles/Home.module.css'
 const FretboardApp = () => {
   // const [state, setState] = useState(initFBState);
 
+  // Chord System
+  const [chordSequence, setChordSequence] =
+    useState<ChordType[]>(initChordSequence);
+  const [chordSet, setChordSet] = useState<NoteType[]>(initChordSequence[0].notes);
+  const [slurs, setSlurs] = useState<SlursType>([]);
+
   // Fretboard System
   const [tuning, setTuning] = useState<TuningType>(standardTuning);
   const [scale, setScale] = useState<ScaleType>(allTrue);
   const [scaleKey, setScaleKey] = useState<ScaleKeyType>(0);
   const [scaleChord, setScaleChord] = useState<ScaleChordType>(allTrue);
-
-  // Chord System
-  const [chordSequence, setChordSequence] =
-    useState<ChordType[]>(initChordSequence);
-  const [chordSet, setChordSet] = useState<NoteType[]>(openChord);
-  const [slurs, setSlurs] = useState<SlursType>([]);
 
   return (
     <div className={styles.main}>
@@ -49,10 +49,8 @@ const FretboardApp = () => {
           tuning={tuning}
           chordSequence={chordSequence}
           setChordSequence={setChordSequence}
-          setScaleChord={setScaleChord}
           chordSet={chordSet}
           setChordSet={setChordSet}
-          slurs={slurs}
         />
       </div>
 
