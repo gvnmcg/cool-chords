@@ -15,17 +15,26 @@ const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
 interface ChordsCanvasType {
   chordSet: NoteType[];
+  tuning:TuningType;
 }
 
 const ChordsCanvas = ({
   chordSet,
+  tuning,
 }: ChordsCanvasType) => {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const drawBackground = (ctx: CanvasRenderingContext2D) => {
+      // draw background
+    ctx.fillStyle = "#000000";
+    ctx.beginPath();
+    ctx.rect(0, 0, 50, 100);
+    ctx.fill();
+  }
+
   const drawChordNotes = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = "#BADA55";
-
     chordSet.forEach((cn:NoteType) => {
       let y = cn.fret * FRET_HEIGHT + MARGIN;
       let x = (6 * STR_SPACING + MARGIN) - (cn.str * STR_SPACING + MARGIN);
@@ -43,18 +52,19 @@ const ChordsCanvas = ({
     if (canvasRef.current) {
       const context = canvas.getContext("2d");
       if (context == null) throw new Error("Could not get context");
+      drawBackground(context)
       drawChordNotes(context);
     }
-    if (debug) console.log("chordSet", chordSet);
+    if (debug) console.log("chord canvas chordSet", chordSet);
 
-  });
+  }, [tuning, chordSet]);
 
   return (
     <canvas
       className={styles.canvas}
       ref={canvasRef}
       width="50"
-      height="100"
+      height="200"
       onClick={(e) => {
         // updateChordIndex();
       }}

@@ -1,6 +1,6 @@
 // [[[ Weird Constants ]]]
 
-export const debug: boolean =  false;
+export const debug: boolean =  !true;
 
 import { FBStateType, NoteType } from "./FretboardTypes";
 
@@ -38,52 +38,19 @@ const initFBState: FBStateType = {
 
 export const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
-const CShapeChord: NoteType[] = [
-  {str: 5, fret: 0, midi: 40},
-  {str: 4, fret: 3, midi: 48},
-  {str: 3, fret: 2, midi: 52},
-  {str: 2, fret: 0, midi: 55},
-  {str: 1, fret: 1, midi: 60},
-  {str: 0, fret: 0, midi: 64},
-];
+const fretArr2NoteSet = (fretArr: number[], tuning:number[]):NoteType[] => {
+  fretArr = fretArr.reverse()
+  return tuning.map((value, ix) => {
+    return {
+      fret: fretArr[ix],
+      str: ix,
+      midi: value + fretArr[ix],
+    }}).reverse()
+}
+const CShapeChord: NoteType[] = fretArr2NoteSet([0,3,2,0,1,0], standardTuning)
+const GShapeChord: NoteType[] = fretArr2NoteSet([3,2,0,0,0,3], standardTuning)
+const FShapeChord: NoteType[] = fretArr2NoteSet([1,3,3,2,1,1], standardTuning)
 
-const GShapeChord: NoteType[] = [
-  { str: 5, fret: 3, midi: 55 },
-  { str: 4, fret: 2, midi: 47 },
-  { str: 3, fret: 0, midi: 38 },
-  { str: 2, fret: 0, midi: 31 },
-  { str: 1, fret: 0, midi: 23 },
-  { str: 0, fret: 3, midi: 19 },
-];
-
-const FShapeChord: NoteType[] = [
-  { str: 5, fret: 1, midi: 53 },
-  { str: 4, fret: 3, midi: 48 },
-  { str: 3, fret: 3, midi: 41 },
-  { str: 2, fret: 2, midi: 33 },
-  { str: 1, fret: 1, midi: 24 },
-  { str: 0, fret: 1, midi: 17 },
-];
-
-const initChord1: NoteType[] = [
-  { fret: 0, str: 0, midi: 0 },
-  { fret: 0, str: 1, midi: 0 },
-  { fret: 0, str: 2, midi: 0 },
-];
-const initChord2: NoteType[] = [
-  { fret: 1, str: 0, midi: 0 },
-  { fret: 1, str: 1, midi: 0 },
-  { fret: 1, str: 2, midi: 0 },
-];
-
-export const openChord: NoteType[] = [
-  { fret: 0, str: 0, midi: 0 },
-  { fret: 0, str: 1, midi: 0 },
-  { fret: 0, str: 2, midi: 0 },
-  { fret: 0, str: 3, midi: 0 },
-  { fret: 0, str: 4, midi: 0 },
-  { fret: 0, str: 5, midi: 0 },
-];
 
 export const initChordSequence = [
   {
@@ -99,5 +66,12 @@ export const initChordSequence = [
     slurs: [],
   },
 ];
+
+
+// const chordSetFretstoString = (chord:NoteType[]) => {
+//   return chord.sort((noteA, noteB)=> noteB.str - noteA.str)
+//               .map((note) => note.fret.toString )
+//               .
+// }
 
 export const midi2Name = (midi: number): string => noteNames[midi % 12];

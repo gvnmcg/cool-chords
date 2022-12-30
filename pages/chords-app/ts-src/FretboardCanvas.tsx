@@ -34,12 +34,17 @@ const FretboardCanvas = ({
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const drawScale = (ctx: CanvasRenderingContext2D) => {
-    // draw background
+  const drawBackground = (ctx: CanvasRenderingContext2D) => {
+     // draw background
     ctx.fillStyle = "#000000";
     ctx.beginPath();
     ctx.rect(0, 0, 500, 1000);
     ctx.fill();
+  }
+
+  const drawScale = (ctx: CanvasRenderingContext2D) => {
+   
+    drawBackground(ctx)
 
     // draw guitar string
     for (let j = 0; j < 6; j++) {
