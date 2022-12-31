@@ -66,13 +66,7 @@ const ChordControls = ({
     // previous chord state, same midi
     // new frets on each string to tuning midi
 
-    // setChordSet(
-    //   chordSet.map((note) => {
-    //     let newFret = note.midi - tuning[note.str];
-    //     // if (newFret < 0) return note;
-    //     return { ...note, fret: newFret };
-    //   })
-    // );
+    setChordSet(chordSequence[chordIndex].notes);
 
     setChordSequence(chordSequence.map((chord, ix) => {
       let newFrets = chord.notes.map((note) => {
@@ -114,7 +108,6 @@ const ChordControls = ({
               console.log("ChordControls => @onclick .chordSet", chordSet);
               console.log("ChordControls => @onclick .tuning", tuning);
               console.log("ChordControls => @onclick fret Arr", chordSet.map((n) => n.fret));
-              
             }}
             className={
               index == chordIndex ? styles.chordSelected : styles.chord

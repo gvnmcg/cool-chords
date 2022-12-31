@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 import { debug, noteNames, scaleNumbers } from "./FretboardConstants";
 import { ChordType, NoteType, ScaleType, TuningType } from "./FretboardTypes";
 
+import colors, {intervalsArr} from "./ColorConstants"
+
 const FRET_HEIGHT = 30;
 const STR_WIDTH = 30;
 const FRET_SPACING = 5;
@@ -13,7 +15,6 @@ const MARGIN = 30;
 const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
 const fretbaordCanvasDebug: boolean = debug || false;
-
 
 interface FretboardCanvasType {
   tuning: TuningType;
@@ -35,39 +36,71 @@ const FretboardCanvas = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const drawBackground = (ctx: CanvasRenderingContext2D) => {
-     // draw background
+    // draw background
     ctx.fillStyle = "#000000";
     ctx.beginPath();
     ctx.rect(0, 0, 500, 1000);
     ctx.fill();
-  }
+  };
+
+  const drawNote = (x: number, y: number, ctx: CanvasRenderingContext2D) => {
+    
+    ctx.beginPath();
+    ctx.arc(x, y, 7, 0, 2 * Math.PI);
+    ctx.fill();
+  };
+
+  const drawNoteName = (
+    noteName: string,
+    x: number,
+    y: number,
+    ctx: CanvasRenderingContext2D
+  ) => {
+    // ctx.fillStyle = "#FF5733";
+    ctx.fillText(noteName, x - 5, y + 5);
+  };
 
   const drawScale = (ctx: CanvasRenderingContext2D) => {
-   
-    drawBackground(ctx)
-
     // draw guitar string
-    for (let j = 0; j < 6; j++) {
-      let note = tuning[j];
+    // for (let j = 0; j < 6; j++) {
+    //   let note = tuning[j];
 
+    //   // draw notes on the string
+    //   for (let i = 0; i < 13; i++) {
+    //     let fromOpen = (note + i) % 12;
+    //     if (scale[scaleNumbers[fromOpen] - 1]) {
+    //       let noteName = noteNames[fromOpen];
+    //       let x = i * FRET_WIDTH + MARGIN;
+    //       let y = j * STR_SPACING + MARGIN;
+
+    //       drawNote(x, y, ctx)
+    //       drawNoteName(noteName,x,y,ctx)
+          
+    //     }
+    //   }
+    // }
+
+    tuning.forEach((openNote:number, j:number) => {
+      // let note = tuning[j];
+      let fretCount = 13;
       // draw notes on the string
-      for (let i = 0; i < 13; i++) {
-        let fromOpen = (note + i) % 12;
+      for (let i = 0; i < fretCount; i++) {
+        let fromOpen = (openNote + i) % 12;
+
         if (scale[scaleNumbers[fromOpen] - 1]) {
           let noteName = noteNames[fromOpen];
           let x = i * FRET_WIDTH + MARGIN;
           let y = j * STR_SPACING + MARGIN;
-
-          ctx.fillStyle = "#FFFFFF";
-          ctx.beginPath();
-          ctx.arc(x, y, 10, 0, 2 * Math.PI);
-          ctx.fill();
-
-          ctx.fillStyle = "#FF5733";
-          ctx.fillText(noteName, x - 5, y + 5);
+          
+          // ctx.fillStyle = intervalsArr[fromOpen];
+          ctx.fillStyle = colors.grey;
+          drawNote(x, y, ctx)
+          ctx.fillStyle = colors.white;
+          drawNoteName(noteName,x,y,ctx)
+          
         }
       }
-    }
+    })
   };
 
   const drawChordNotes = (ctx: CanvasRenderingContext2D) => {
@@ -104,7 +137,7 @@ const FretboardCanvas = ({
     let fret = Math.floor((x - MARGIN / 2) / FRET_WIDTH);
 
     if (fret < 0 || fret > 12) return;
-    if (str < 0 ||  str > 5) return;
+    if (str < 0 || str > 5) return;
 
     let open = tuning[str];
     let newNote = { str: str, fret: fret, midi: open + fret };
@@ -127,9 +160,11 @@ const FretboardCanvas = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas == null) throw new Error("Could not get canvas");
-    if (!canvasRef.current) return
+    if (!canvasRef.current) return;
     const context = canvas.getContext("2d");
     if (context == null) throw new Error("Could not get context");
+
+    drawBackground(context);
     drawScale(context);
     drawChordNotes(context);
     drawNoteCursor(context);

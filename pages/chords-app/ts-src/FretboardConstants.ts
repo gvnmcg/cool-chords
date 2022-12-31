@@ -10,7 +10,7 @@ export const allTrue = [true, true, true, true, true, true, true];
 export const scaleNumbers = [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7, 1];
 
 export const standardTuning: number[] = [40, 45, 50, 55, 59, 64].reverse();
-export const DADFADTuning: number[] = [14, 21, 29, 38, 45, 50];
+export const DADFADTuning: number[] = [38, 45, 50, 54, 57, 62].reverse();
 
 export const scaleNotes = ["C", "D", "E", "F", "G", "A", "B"];
 
@@ -28,13 +28,6 @@ export const noteNames = [
   "A#/Bb",
   "B",
 ];
-
-const initFBState: FBStateType = {
-  tuning: [40, 45, 50, 55, 59, 64],
-  scaleKey: 16,
-  scale: [0, 2, 4, 5, 7, 9, 11],
-  scaleChord: allTrue,
-};
 
 export const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
@@ -66,12 +59,5 @@ export const initChordSequence = [
     slurs: [],
   },
 ];
-
-
-// const chordSetFretstoString = (chord:NoteType[]) => {
-//   return chord.sort((noteA, noteB)=> noteB.str - noteA.str)
-//               .map((note) => note.fret.toString )
-//               .
-// }
 
 export const midi2Name = (midi: number): string => noteNames[midi % 12];
