@@ -68,22 +68,26 @@ const ChordControls = ({
 
     setChordSet(chordSequence[chordIndex].notes);
 
-    setChordSequence(chordSequence.map((chord, ix) => {
-      let newFrets = chord.notes.map((note) => {
-        let newFret = note.midi - tuning[note.str];
-        // if (newFret < 0) return note;
-        return { ...note, fret: newFret };
+    setChordSequence(
+      chordSequence.map((chord, ix) => {
+        let newFrets = chord.notes.map((note) => {
+          let newFret = note.midi - tuning[note.str];
+          // if (newFret < 0) return note;
+          return { ...note, fret: newFret };
+        });
+        return { ...chord, notes: newFrets };
       })
-      return {...chord, notes: newFrets}
-    }))
+    );
 
-    if (!chordDebug) return
+    if (!chordDebug) return;
     console.log("-----------------------------------------------------");
     console.log("ChordControls => @useEffect .chordIndex", chordIndex);
     console.log("ChordControls => @useEffect .chordSet", chordSet);
     console.log("ChordControls => @useEffect .tuning", tuning);
-    console.log("ChordControls => @useEffect fret Arr", chordSet.map((n) => n.fret));
-    
+    console.log(
+      "ChordControls => @useEffect fret Arr",
+      chordSet.map((n) => n.fret)
+    );
   }, [tuning, chordIndex]);
 
   return (
@@ -102,21 +106,34 @@ const ChordControls = ({
             onClick={() => {
               setChordIndex(index);
               setChordSet(chordSequence[chordIndex].notes);
-              if (!chordDebug) return
-              console.log("-----------------------------------------------------");
+              if (!chordDebug) return;
+              console.log(
+                "-----------------------------------------------------"
+              );
               console.log("ChordControls => @onclick .chordIndex", chordIndex);
               console.log("ChordControls => @onclick .chordSet", chordSet);
               console.log("ChordControls => @onclick .tuning", tuning);
-              console.log("ChordControls => @onclick fret Arr", chordSet.map((n) => n.fret));
+              console.log(
+                "ChordControls => @onclick fret Arr",
+                chordSet.map((n) => n.fret)
+              );
             }}
             className={
               index == chordIndex ? styles.chordSelected : styles.chord
             }
             key={index}
           >
-            <div>{chord.notes.map((n) => n.fret)}</div>
+            <div>
+              {chord.notes
+                .map((n) => n.fret)
+                .reduce((acc, curr, currIx, arr) => {
+                  return acc.concat(curr.toString() + " ");
+                }, "")}
+            </div>
             <ChordsCanvas chordSet={chord.notes} tuning={tuning} />
-            {chord.notes.map((note,ix) => noteNames[note.midi % 12])}
+            {chord.notes
+              .map((note, ix) => noteNames[note.midi % 12])
+              .reduce((acc, curr) => acc.concat(curr + " "), "")}
           </div>
         ))}
       </div>

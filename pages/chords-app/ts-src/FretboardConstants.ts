@@ -29,6 +29,37 @@ export const noteNames = [
   "B",
 ];
 
+export const noteNamesSharps = [
+  "C",
+  "C#",
+  "D",
+  "D#",
+  "E",
+  "F",
+  "F#",
+  "G",
+  "G#",
+  "A",
+  "A#",
+  "A#",
+  "B",
+];
+
+export const noteNamesFlats = [
+  "C",
+  "Db",
+  "D",
+  "Eb",
+  "E",
+  "F",
+  "Gb",
+  "G",
+  "Ab",
+  "A",
+  "Bb",
+  "B",
+];
+
 export const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
 const fretArr2NoteSet = (fretArr: number[], tuning:number[]):NoteType[] => {
@@ -52,6 +83,21 @@ export const initChordSequence = [
   },
   {
     notes: FShapeChord,
+    slurs: [],
+  },
+  {
+    notes: GShapeChord,
+    slurs: [],
+  },
+];
+
+export const altChordSequence = [
+  {
+    notes: FShapeChord,
+    slurs: [],
+  },
+  {
+    notes: CShapeChord,
     slurs: [],
   },
   {
