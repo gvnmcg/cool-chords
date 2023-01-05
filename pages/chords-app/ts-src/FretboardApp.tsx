@@ -5,7 +5,6 @@ import FretboardCanvas from "./FretboardCanvas";
 import {
   ChordSequenceType,
   ChordType,
-  FBStateType,
   NoteType,
   ScaleChordType,
   ScaleKeyType,
@@ -16,9 +15,7 @@ import {
 import {
   allTrue,
   altChordSequence,
-  initChordNote,
   initChordSequence,
-  openChord,
   standardTuning,
 } from "./FretboardConstants";
 import ChordControls from "./components/Chords";
@@ -56,7 +53,11 @@ const FretboardApp = () => {
   return (
     <div className={styles.main}>
       <div className={styles.chordSequenceSelectionList}>
-        <button onClick={() => setSequenceList(sequenceList.concat(chordSequence))}>save sequence</button>
+        <button
+          onClick={() => setSequenceList(sequenceList.concat(chordSequence))}
+        >
+          save sequence
+        </button>
         <a
           href={`data:text/json;charset=utf-8,${encodeURIComponent(
             JSON.stringify(sequenceList)
@@ -65,9 +66,10 @@ const FretboardApp = () => {
         >
           {`Download Json`}
         </a>
-        <Upload setSeq={setSequenceList}/>
+        <Upload setSeq={setSequenceList} />
         {sequenceList.map((seq: ChordSequenceType, seqIx: number) => (
           <div
+            key={seqIx}
             style={
               sequenceIndex == seqIx
                 ? { backgroundColor: "#BADA55" }
@@ -80,7 +82,11 @@ const FretboardApp = () => {
             }}
           >
             {seq.map((chord, chordIx) => (
-              <ChordsCanvas chordSet={chord.notes} tuning={tuning} />
+              <ChordsCanvas
+                chordSet={chord.notes}
+                tuning={tuning}
+                key={chordIx}
+              />
             ))}
           </div>
         ))}
@@ -106,7 +112,12 @@ const FretboardApp = () => {
           />
         </div>
         <div className={styles.scales}>
-          <ScaleControls scale={scale} setScale={setScale} />
+          <ScaleControls
+            scale={scale}
+            setScale={setScale}
+            scaleKey={scaleKey}
+            setScaleKey={setScaleKey}
+          />
         </div>
       </div>
     </div>

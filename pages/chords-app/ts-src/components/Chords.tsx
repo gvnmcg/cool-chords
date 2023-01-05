@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { debug, noteNames, openChord } from "../FretboardConstants";
+import { debug, noteNames } from "../FretboardConstants";
 import {
   ChordSequenceType,
   ChordType,
@@ -43,7 +43,7 @@ const ChordControls = ({
       slurs: [],
     };
     setChordSequence([...chordSequence, newChord]);
-    setChordSet(openChord);
+    setChordSet([]);
     if (debug) console.log("amendSequence", chordSequence);
   };
 

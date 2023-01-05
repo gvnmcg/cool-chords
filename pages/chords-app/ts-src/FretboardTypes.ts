@@ -30,6 +30,7 @@ export type ChordType = {
   slurs: NoteType[];
 };
 export type SlursType = NoteType[];
+
 export type ChordSequenceType = ChordType[];
 
 // Chord UI type

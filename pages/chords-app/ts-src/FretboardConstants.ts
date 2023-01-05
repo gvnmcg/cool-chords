@@ -8,6 +8,7 @@ export const allFalse = [false, false, false, false, false, false, false];
 export const allTrue = [true, true, true, true, true, true, true];
 
 export const scaleNumbers = [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7, 1];
+export const scaleIntervals = [0, 2, 4, 5, 7, 9, 11];
 
 export const standardTuning: number[] = [40, 45, 50, 55, 59, 64].reverse();
 export const DADFADTuning: number[] = [38, 45, 50, 54, 57, 62].reverse();
@@ -40,7 +41,6 @@ export const noteNamesSharps = [
   "G",
   "G#",
   "A",
-  "A#",
   "A#",
   "B",
 ];
