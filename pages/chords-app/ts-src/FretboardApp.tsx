@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TuningControls from "./components/Tuning";
 import ScaleControls from "./components/Scale";
 import FretboardCanvas from "./FretboardCanvas";
+import SequenceControls from "./components/Sequence";
 import {
   ChordSequenceType,
   ChordType,
@@ -21,7 +22,7 @@ import {
 import ChordControls from "./components/Chords";
 import styles from "../../../styles/Home.module.css";
 import ChordsCanvas from "./components/ChordsCanvas";
-import {Upload} from "./utils/exporter"
+import { Upload } from "./utils/exporter";
 
 /**
  *
@@ -52,45 +53,16 @@ const FretboardApp = () => {
 
   return (
     <div className={styles.main}>
-      <div className={styles.chordSequenceSelectionList}>
-        <button
-          onClick={() => setSequenceList(sequenceList.concat(chordSequence))}
-        >
-          save sequence
-        </button>
-        <a
-          href={`data:text/json;charset=utf-8,${encodeURIComponent(
-            JSON.stringify(sequenceList)
-          )}`}
-          download="filename.json"
-        >
-          {`Download Json`}
-        </a>
-        <Upload setSeq={setSequenceList} />
-        {sequenceList.map((seq: ChordSequenceType, seqIx: number) => (
-          <div
-            key={seqIx}
-            style={
-              sequenceIndex == seqIx
-                ? { backgroundColor: "#BADA55" }
-                : { backgroundColor: "#000000" }
-            }
-            className={styles.chordSequenceSelection}
-            onClick={() => {
-              setSequenceIndex(seqIx);
-              setChordSequence(sequenceList[seqIx]);
-            }}
-          >
-            {seq.map((chord, chordIx) => (
-              <ChordsCanvas
-                chordSet={chord.notes}
-                tuning={tuning}
-                key={chordIx}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
+      <SequenceControls
+        tuning={tuning}
+        sequenceList={sequenceList}
+        setSequenceList={setSequenceList}
+        chordSequence={chordSequence}
+        setChordSequence={setChordSequence}
+        sequenceIndex={sequenceIndex}
+        setSequenceIndex={setSequenceIndex}
+      />
+
       <div className={styles.chordSequenceEditor}>
         <div className={styles.chordSequence}>
           <ChordControls

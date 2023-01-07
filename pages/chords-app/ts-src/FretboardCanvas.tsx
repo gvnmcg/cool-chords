@@ -34,7 +34,7 @@ const FretboardCanvas = ({
 }: FretboardCanvasType) => {
   const [noteCursor, setNoteCursor] = useState<NoteType>(initChordNote);
   const [orientation, setOrientation] = useState<boolean>(false);
-  const [cursorRedraw, setCursorRedraw] = useState<boolean>(false);
+  const [cursorDraw, setCursorDraw] = useState<boolean>(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -70,23 +70,23 @@ const FretboardCanvas = ({
       for (let i = 0; i < fretCount; i++) {
         let fromOpen = (openNote + i) % 12;
 
-        if (scale[scaleNumbers[fromOpen] - 1]) {
-          let noteName = noteNames[fromOpen];
-          let x = i * FRET_WIDTH + MARGIN;
-          let y = j * STR_SPACING + MARGIN;
+        // if (scale[scaleNumbers[fromOpen] - 1]) {
+        let noteName = noteNames[fromOpen];
+        let x = i * FRET_WIDTH + MARGIN;
+        let y = j * STR_SPACING + MARGIN;
 
-          if (!orientation) {
-            let temp = x;
-            x = y;
-            y = temp;
-          }
-
-          // ctx.fillStyle = intervalsArr[fromOpen];
-          ctx.fillStyle = colors.grey;
-          drawNote(x, y, ctx);
-          ctx.fillStyle = colors.white;
-          drawNoteName(noteName, x, y, ctx);
+        if (!orientation) {
+          let temp = x;
+          x = y;
+          y = temp;
         }
+
+        // ctx.fillStyle = intervalsArr[fromOpen];
+        ctx.fillStyle = colors.grey;
+        drawNote(x, y, ctx);
+        ctx.fillStyle = colors.white;
+        drawNoteName(noteName, x, y, ctx);
+        // }
       }
     });
   };
@@ -172,9 +172,7 @@ const FretboardCanvas = ({
     drawBackground(context);
     drawScale(context);
     drawChordNotes(context);
-    drawNoteCursor(context);
-    // if (fretbaordCanvasDebug && !cursorRedraw) console.log("redraw", scale);
-    // if (cursorRedraw) setCursorRedraw(false)
+    if (cursorDraw) drawNoteCursor(context);
   });
 
   return (
@@ -190,12 +188,17 @@ const FretboardCanvas = ({
         updateChord(noteTarget);
       }}
       onMouseMove={(e) => {
-        setCursorRedraw(true);
         if (!canvasRef.current) return;
         let rect = canvasRef.current.getBoundingClientRect();
         let noteTarget = getNoteTarget(e, rect);
         if (!noteTarget) return;
         updateNoteCursor(noteTarget);
+      }}
+      onMouseEnter={(e)=>{
+        setCursorDraw(true)
+      }}
+      onMouseLeave={(e)=>{
+        setCursorDraw(false)
       }}
     />
   );
