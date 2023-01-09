@@ -20,6 +20,8 @@ const TuningView = ({
 }: TuningViewProps) => {
   return (
     <div >
+      <div>.</div>
+      <div>.</div>
       <div className={styles.tuning}>
         {tuning?.map((t: number, n: number) => (
           <div className={styles.peg}
