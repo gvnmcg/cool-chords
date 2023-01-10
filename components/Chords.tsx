@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { debug, noteNames } from "../../../utils/FretboardConstants";
+import { debug, noteNames } from "../pages/chords-app/FretboardConstants";
 import {
   ChordSequenceType,
   ChordType,
   NoteType,
   ScaleType,
   TuningType,
-} from "../../../utils/FretboardTypes";
-import styles from "../../../styles/Chords.module.css";
+} from "../utils/FretboardTypes";
+import styles from "../styles/Chords.module.css";
 import ChordsCanvas from "./ChordsCanvas";
 
 interface ChordControlsProps {
@@ -80,14 +80,14 @@ const ChordControls = ({
     );
 
     if (!chordDebug) return;
-    console.log("-----------------------------------------------------");
-    console.log("ChordControls => @useEffect .chordIndex", chordIndex);
-    console.log("ChordControls => @useEffect .chordSet", chordSet);
-    console.log("ChordControls => @useEffect .tuning", tuning);
-    console.log(
-      "ChordControls => @useEffect fret Arr",
-      chordSet.map((n) => n.fret)
-    );
+    // console.log("-----------------------------------------------------");
+    // console.log("ChordControls => @useEffect .chordIndex", chordIndex);
+    // console.log("ChordControls => @useEffect .chordSet", chordSet);
+    // console.log("ChordControls => @useEffect .tuning", tuning);
+    // console.log(
+    //   "ChordControls => @useEffect fret Arr",
+    //   chordSet.map((n) => n.fret)
+    // );
   }, [tuning, chordIndex]);
 
   return (

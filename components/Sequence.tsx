@@ -1,8 +1,9 @@
 import React from "react";
-import Upload from "./exporter";
-import { ChordSequenceType, TuningType } from "../../../utils/FretboardTypes";
-import styles from "../../../styles/Home.module.css";
+import Upload from "./Upload";
+import { ChordSequenceType, TuningType } from "../utils/FretboardTypes";
+import styles from "../styles/Home.module.css";
 import ChordsCanvas from "./ChordsCanvas";
+import Download from "./Download";
 
 interface SequenceControlsProps {
   tuning: TuningType;
@@ -25,23 +26,12 @@ const SequenceControls = ({
 }: SequenceControlsProps) => {
   return (
     <div>
-      <div>
-        <button
-          onClick={() => setSequenceList(sequenceList.concat(chordSequence))}
-        >
-          save sequence
-        </button>
-        <a
-          href={`data:text/json;charset=utf-8,${encodeURIComponent(
-            JSON.stringify(sequenceList)
-          )}`}
-          download="filename.json"
-        >
-          {`Download Json`}
-        </a>
-        <Upload setSeq={setSequenceList} />
-      </div>
-
+      <Upload setSequenceList={setSequenceList} />
+      <Download
+        chordSequence={chordSequence}
+        sequenceList={sequenceList}
+        setSequenceList={setSequenceList}
+      />
       <div className={styles.chordSequenceSelectionList}>
         {sequenceList.map((seq: ChordSequenceType, seqIx: number) => (
           <div

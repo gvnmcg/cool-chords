@@ -2,7 +2,7 @@
 
 export const debug: boolean =  !true;
 
-import { FBStateType, NoteType } from "./FretboardTypes";
+import { FBStateType, NoteType } from "../../utils/FretboardTypes";
 
 export const allFalse = [false, false, false, false, false, false, false];
 export const allTrue = [true, true, true, true, true, true, true];

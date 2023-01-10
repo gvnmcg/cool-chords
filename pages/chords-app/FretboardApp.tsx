@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import TuningControls from "./components/Tuning";
-import ScaleControls from "./components/Scale";
-import FretboardCanvas from "./FretboardCanvas";
-import SequenceControls from "./components/Sequence";
+import TuningControls from "../../components/Tuning";
+import ScaleControls from "../../components/Scale";
+import FretboardCanvas from "../../components/FretboardCanvas";
+import SequenceControls from "../../components/Sequence";
 import {
   ChordSequenceType,
   ChordType,
@@ -18,8 +18,8 @@ import {
   altChordSequence,
   initChordSequence,
   standardTuning,
-} from "../../utils/FretboardConstants";
-import ChordControls from "./components/Chords";
+} from "./FretboardConstants";
+import ChordControls from "../../components/Chords";
 import styles from "../../styles/Home.module.css";
 
 /**
@@ -76,6 +76,7 @@ const FretboardApp = () => {
           <TuningControls tuning={tuning} setTuning={setTuning} />
           <FretboardCanvas
             tuning={tuning}
+            setTuning={setTuning}
             scale={scale}
             chordSet={chordSet}
             setChordSet={setChordSet}

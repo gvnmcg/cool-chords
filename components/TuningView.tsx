@@ -1,6 +1,6 @@
 import React from "react";
-import { standardTuning, DADFADTuning, noteNames } from "../../../utils/FretboardConstants";
-import styles from "../../../styles/Tuning.module.css";
+import { standardTuning, DADFADTuning, noteNames } from "../pages/chords-app/FretboardConstants";
+import styles from "../styles/Tuning.module.css";
 
 /**
  * Tuning Contols

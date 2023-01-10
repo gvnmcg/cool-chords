@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { allFalse, allTrue, debug, noteNames, noteNamesFlats, noteNamesSharps, scaleIntervals, scaleNotes } from "../../../utils/FretboardConstants";
-import { ScaleType } from "../../../utils/FretboardTypes";
-import styles from "../../../styles/Scale.module.css"
+import { allFalse, allTrue, debug, noteNames, noteNamesFlats, noteNamesSharps, scaleIntervals, scaleNotes } from "../pages/chords-app/FretboardConstants";
+import { ScaleType } from "../utils/FretboardTypes";
+import styles from "../styles/Scale.module.css"
 
 interface ScaleControlsProps {
   scale: ScaleType;

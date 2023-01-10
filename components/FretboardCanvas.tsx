@@ -1,9 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
-import { debug, noteNames, scaleNumbers } from "../../utils/FretboardConstants";
-import { ChordType, NoteType, ScaleType, TuningType } from "../../utils/FretboardTypes";
+import { debug, noteNames, scaleNumbers } from "../pages/chords-app/FretboardConstants";
+import {
+  ChordType,
+  NoteType,
+  ScaleType,
+  TuningType,
+} from "../utils/FretboardTypes";
 
-import  { colors, intervalsArr } from "../../utils/ColorConstants";
-import styles from "../../styles/Fretboard.module.css";
+import { colors, intervalsArr } from "../utils/ColorConstants";
+import styles from "../styles/Fretboard.module.css";
 
 const FRET_HEIGHT = 30;
 const STR_WIDTH = 30;
@@ -22,6 +27,7 @@ const fretbaordCanvasDebug: boolean = debug || false;
 
 interface FretboardCanvasType {
   tuning: TuningType;
+  setTuning: (tuning: number[]) => void;
   scale: ScaleType;
   chordSet: NoteType[];
   setChordSet: (ch: NoteType[]) => void;
@@ -29,6 +35,7 @@ interface FretboardCanvasType {
 
 const FretboardCanvas = ({
   tuning,
+  setTuning,
   scale,
   chordSet,
   setChordSet,
@@ -68,7 +75,6 @@ const FretboardCanvas = ({
       let temp = x;
       x = y;
       y = temp;
-
     }
 
     ctx.beginPath();
@@ -112,6 +118,7 @@ const FretboardCanvas = ({
         let temp = x;
         x = y;
         y = temp;
+        
       }
       ctx.beginPath();
       ctx.arc(x, y, 10, 0, 2 * Math.PI);
@@ -186,9 +193,15 @@ const FretboardCanvas = ({
 
   return (
     <div className={styles.fretboardContainer}>
-      <button onClick={() => setOrientation(!orientation)}>
+      <button
+        onClick={() => {
+          setOrientation(!orientation);
+          // setChordSet(chordSet.reverse());
+          // setTuning(tuning.reverse());
+        }}
+      >
         change orientation
-      </button>      
+      </button>
       <canvas
         ref={canvasRef}
         width={orientation ? WIDTH : HEIGHT}
@@ -214,7 +227,6 @@ const FretboardCanvas = ({
           setCursorDraw(false);
         }}
       />
-
     </div>
   );
 };

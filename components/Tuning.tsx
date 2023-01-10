@@ -1,6 +1,6 @@
 import React from "react";
-import { debug } from "../../../utils/FretboardConstants";
-import { TuningType } from "../../../utils/FretboardTypes";
+import { debug } from "../pages/chords-app/FretboardConstants";
+import { TuningType } from "../utils/FretboardTypes";
 import TuningView from "./TuningView";
 
 /**
