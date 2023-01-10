@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
-import { debug, noteNames, scaleNumbers } from "./FretboardConstants";
-import { ChordType, NoteType, ScaleType, TuningType } from "./FretboardTypes";
+import { debug, noteNames, scaleNumbers } from "../../utils/FretboardConstants";
+import { ChordType, NoteType, ScaleType, TuningType } from "../../utils/FretboardTypes";
 
-import colors, { intervalsArr } from "./ColorConstants";
-import styles from "../../../styles/Fretboard.module.css";
+import  { colors, intervalsArr } from "../../utils/ColorConstants";
+import styles from "../../styles/Fretboard.module.css";
 
 const FRET_HEIGHT = 30;
 const STR_WIDTH = 30;

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { debug, noteNames } from "../FretboardConstants";
+import { debug, noteNames } from "../../../utils/FretboardConstants";
 import {
   ChordSequenceType,
   ChordType,
   NoteType,
   ScaleType,
   TuningType,
-} from "../FretboardTypes";
-import styles from "../../../../styles/Chords.module.css";
+} from "../../../utils/FretboardTypes";
+import styles from "../../../styles/Chords.module.css";
 import ChordsCanvas from "./ChordsCanvas";
 
 interface ChordControlsProps {

@@ -12,17 +12,15 @@ import {
   ScaleType,
   SlursType,
   TuningType,
-} from "./FretboardTypes";
+} from "../../utils/FretboardTypes";
 import {
   allTrue,
   altChordSequence,
   initChordSequence,
   standardTuning,
-} from "./FretboardConstants";
+} from "../../utils/FretboardConstants";
 import ChordControls from "./components/Chords";
-import styles from "../../../styles/Home.module.css";
-import ChordsCanvas from "./components/ChordsCanvas";
-import { Upload } from "./utils/exporter";
+import styles from "../../styles/Home.module.css";
 
 /**
  *

@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 
-export function Upload({ setSeq }) {
+export default function Upload({ setSeq }) {
   const [files, setFiles] = useState("");
 
   const handleChange = e => {

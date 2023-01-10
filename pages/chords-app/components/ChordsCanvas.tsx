@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
-import { debug, noteNames, scaleNumbers } from "../FretboardConstants";
-import { ChordType, NoteType, ScaleType, TuningType } from "../FretboardTypes";
-import styles from "../../../../styles/Chords.module.css";
+import { debug, noteNames, scaleNumbers } from "../../../utils/FretboardConstants";
+import { ChordType, NoteType, ScaleType, TuningType } from "../../../utils/FretboardTypes";
+import styles from "../../../styles/Chords.module.css";
 
 const FRET_HEIGHT = 10;
 const STR_WIDTH = 15;

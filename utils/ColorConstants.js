@@ -1,6 +1,6 @@
 
 
-export default {
+export const colors =  {
     white: "#FFFFFF",
     bad: "#BADA55",
     grey: "#808080",
