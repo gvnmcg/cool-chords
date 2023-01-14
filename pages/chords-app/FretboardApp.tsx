@@ -8,7 +8,7 @@ import {
   ChordType,
   NoteType,
   ScaleChordType,
-  ScaleKeyType,
+  AccidentalsType,
   ScaleType,
   SlursType,
   TuningType,
@@ -18,6 +18,7 @@ import {
   altChordSequence,
   initChordSequence,
   standardTuning,
+  scaleIntervals,
 } from "../../components/FretboardConstants";
 import ChordControls from "../../components/Chords";
 import styles from "../../styles/Home.module.css";
@@ -45,8 +46,8 @@ const FretboardApp = () => {
 
   // Fretboard System
   const [tuning, setTuning] = useState<TuningType>(standardTuning);
-  const [scale, setScale] = useState<ScaleType>(allTrue);
-  const [scaleKey, setScaleKey] = useState<ScaleKeyType>(0);
+  const [scale, setScale] = useState<ScaleType>(scaleIntervals);
+  const [accidentals, setAccidentals] = useState<AccidentalsType>(0);
   const [scaleChord, setScaleChord] = useState<ScaleChordType>(allTrue);
 
   return (
@@ -75,6 +76,7 @@ const FretboardApp = () => {
               tuning={tuning}
               setTuning={setTuning}
               scale={scale}
+              scaleChord={scaleChord}
               chordSet={chordSet}
               setChordSet={setChordSet}
             />
@@ -86,8 +88,10 @@ const FretboardApp = () => {
           <ScaleControls
             scale={scale}
             setScale={setScale}
-            scaleKey={scaleKey}
-            setScaleKey={setScaleKey}
+            scaleChord={scaleChord}
+            setScaleChord={setScaleChord}
+            accidentals={accidentals}
+            setAccidentals={setAccidentals}
           />
         </div>
       </div>

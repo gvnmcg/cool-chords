@@ -20,9 +20,9 @@ export type NoteType = {
 // Fretboard System
 export type TuningType = number[];
 
-export type ScaleKeyType = number;
+export type AccidentalsType = number;
 export type ScaleChordType = boolean[];
-export type ScaleType = boolean[]; // number [] ... e.g. scale: [0, 2, 4, 5, 7, 9, 11],
+export type ScaleType = number[]; // ... e.g. scale: [0, 2, 4, 5, 7, 9, 11],
 
 // Chord Sequence System
 export type ChordType = {

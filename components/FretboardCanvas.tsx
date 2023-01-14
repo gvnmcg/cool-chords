@@ -3,11 +3,12 @@ import { debug, noteNames, scaleNumbers } from "./FretboardConstants";
 import {
   ChordType,
   NoteType,
+  ScaleChordType,
   ScaleType,
   TuningType,
 } from "../utils/FretboardTypes";
 
-import { colors, intervalsArr } from "../utils/ColorConstants";
+import { colors, intervals, intervalsArr } from "../utils/ColorConstants";
 import styles from "../styles/Fretboard.module.css";
 
 const FRET_SPACING = 30;
@@ -26,6 +27,7 @@ interface FretboardCanvasType {
   tuning: TuningType;
   setTuning: (tuning: number[]) => void;
   scale: ScaleType;
+  scaleChord: ScaleChordType;
   chordSet: NoteType[];
   setChordSet: (ch: NoteType[]) => void;
 }
@@ -34,6 +36,7 @@ const FretboardCanvas = ({
   tuning,
   setTuning,
   scale,
+  scaleChord,
   chordSet,
   setChordSet,
 }: FretboardCanvasType) => {
@@ -70,6 +73,7 @@ const FretboardCanvas = ({
     let x = str * STR_SPACING + MARGIN;
     let y = fret * FRET_SPACING + MARGIN;
 
+    ctx.fillStyle = colors.grey;
     ctx.beginPath();
     ctx.arc(x, y, 7, 0, 2 * Math.PI);
     ctx.fill();
@@ -92,9 +96,12 @@ const FretboardCanvas = ({
       // let note = tuning[strIx];
       let fretCount = FRET_COUNT;
       // draw notes on the string
+
       for (let fretIx = 0; fretIx < FRET_COUNT; fretIx++) {
-        ctx.fillStyle = colors.grey;
-        drawScaleNote(strIx, fretIx, ctx);
+        let scaleNote = (openNote + fretIx) % 12
+        if ( scale.includes(scaleNote) && scaleChord[scale.indexOf(scaleNote)] ){
+          drawScaleNote(strIx, fretIx, ctx);
+        }
       }
     });
   };
@@ -157,8 +164,8 @@ const FretboardCanvas = ({
   const drawFretMarkers = (context: CanvasRenderingContext2D) => {
     context.beginPath()
     context.strokeStyle = "#FFFFFF";
-    context.moveTo(0, FRET_SPACING);
-    context.lineTo(WIDTH-10, FRET_SPACING);
+    context.moveTo(MARGIN-15, FRET_SPACING + 15);
+    context.lineTo(WIDTH-MARGIN-5, FRET_SPACING + 15);
     context.lineWidth = 15;
     context.stroke();
     context.fillStyle = "#FFFFFF";
