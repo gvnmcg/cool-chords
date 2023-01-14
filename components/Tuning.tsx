@@ -1,7 +1,8 @@
 import React from "react";
-import { debug } from "../pages/chords-app/FretboardConstants";
+import { debug, standardTuning, DADFADTuning } from "./FretboardConstants";
 import { TuningType } from "../utils/FretboardTypes";
 import TuningView from "./TuningView";
+import styles from "../styles/Tuning.module.css";
 
 /**
  * Tuning Controls
@@ -30,12 +31,39 @@ const TuningControls = ({ tuning, setTuning }: TuningControlsProps) => {
   // const viewProps = { tuning, setTuning, onAnyChange, shiftAll };
 
   return (
-    <TuningView
-      tuning={tuning}
-      setTuning={setTuning}
-      onAnyChange={onAnyChange}
-      shiftAll={shiftAll}
-    />
+    <div className={styles.tuneAll}>
+      
+     <TuningView
+        tuning={tuning}
+        setTuning={setTuning}
+        onAnyChange={onAnyChange}
+        shiftAll={shiftAll}
+      />
+      <div>
+        <button onClick={() => shiftAll(1)}> +</button>
+        <span> all </span>
+        <button onClick={() => shiftAll(-1)}> -</button>
+      </div>
+
+      <button
+        onClick={() => {
+          //standard tuning
+          setTuning(standardTuning);
+        }}
+      >
+        Standard Tuning
+      </button>
+
+      <button
+        onClick={() => {
+          //DADFAD tuning
+          setTuning(DADFADTuning);
+        }}
+      >
+        DADFAD Tuning
+      </button>
+     
+    </div>
   );
 };
 

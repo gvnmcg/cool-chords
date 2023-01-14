@@ -18,7 +18,7 @@ import {
   altChordSequence,
   initChordSequence,
   standardTuning,
-} from "./FretboardConstants";
+} from "../../components/FretboardConstants";
 import ChordControls from "../../components/Chords";
 import styles from "../../styles/Home.module.css";
 
@@ -51,7 +51,7 @@ const FretboardApp = () => {
 
   return (
     <div className={styles.main}>
-      <SequenceControls
+      {/* <SequenceControls
         tuning={tuning}
         sequenceList={sequenceList}
         setSequenceList={setSequenceList}
@@ -59,8 +59,7 @@ const FretboardApp = () => {
         setChordSequence={setChordSequence}
         sequenceIndex={sequenceIndex}
         setSequenceIndex={setSequenceIndex}
-      />
-
+      /> */}
       <div className={styles.chordSequenceEditor}>
         <div className={styles.chordSequence}>
           <ChordControls
@@ -70,18 +69,19 @@ const FretboardApp = () => {
             chordSet={chordSet}
             setChordSet={setChordSet}
           />
+
+          <div className={styles.fretboard}>
+            <FretboardCanvas
+              tuning={tuning}
+              setTuning={setTuning}
+              scale={scale}
+              chordSet={chordSet}
+              setChordSet={setChordSet}
+            />
+            <TuningControls tuning={tuning} setTuning={setTuning} />
+          </div>
         </div>
 
-        <div className={styles.fretboard}>
-          <TuningControls tuning={tuning} setTuning={setTuning} />
-          <FretboardCanvas
-            tuning={tuning}
-            setTuning={setTuning}
-            scale={scale}
-            chordSet={chordSet}
-            setChordSet={setChordSet}
-          />
-        </div>
         <div className={styles.scales}>
           <ScaleControls
             scale={scale}

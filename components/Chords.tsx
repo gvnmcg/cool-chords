@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { debug, noteNames } from "../pages/chords-app/FretboardConstants";
+import { debug, noteNames } from "./FretboardConstants";
 import {
   ChordSequenceType,
   ChordType,
@@ -55,6 +55,12 @@ const ChordControls = ({
     );
   };
 
+  // const duplicateChord = () => {
+  //   setChordSequence( 
+  //     chordSequence.splice(chordIndex, 0, { ...chordSet, notes: chordSet})
+  //   );
+  // };
+
   const navSequence = (dir: number) => {
     if (chordIndex + dir > chordSequence.length - 1 || chordIndex + dir < 0)
       return;
@@ -79,15 +85,7 @@ const ChordControls = ({
       })
     );
 
-    if (!chordDebug) return;
-    // console.log("-----------------------------------------------------");
-    // console.log("ChordControls => @useEffect .chordIndex", chordIndex);
-    // console.log("ChordControls => @useEffect .chordSet", chordSet);
-    // console.log("ChordControls => @useEffect .tuning", tuning);
-    // console.log(
-    //   "ChordControls => @useEffect fret Arr",
-    //   chordSet.map((n) => n.fret)
-    // );
+    
   }, [tuning, chordIndex]);
 
   return (
@@ -98,6 +96,8 @@ const ChordControls = ({
         <button onClick={() => navSequence(1)}> {">"} </button>
         <button onClick={() => saveChordSet()}>Save Chord</button>
         <button onClick={() => amendSequence()}>Amend Chord</button>
+        {/* <button onClick={() => duplicateChord()}>Duplicate</button> */}
+        
       </div>
 
       <div className={styles.chords}>
@@ -125,6 +125,7 @@ const ChordControls = ({
           >
             <div>
               {chord.notes
+                .sort((a, b) => a.str - b.str)
                 .map((n) => n.fret)
                 .reduce((acc, curr, currIx, arr) => {
                   return acc.concat(curr.toString() + " ");

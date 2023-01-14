@@ -1,16 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
-import { debug, noteNames, scaleNumbers } from "../pages/chords-app/FretboardConstants";
+import { debug, noteNames, scaleNumbers } from "./FretboardConstants";
 import { ChordType, NoteType, ScaleType, TuningType } from "../utils/FretboardTypes";
 import styles from "../styles/Chords.module.css";
 
-const FRET_HEIGHT = 10;
-const STR_WIDTH = 15;
-const FRET_SPACING = 5;
-
-const FRET_WIDTH = 30;
+const FRET_SPACING = 10;
 const STR_SPACING = 7;
-const STR_HEIGHT = 5;
-const MARGIN = 12;
+const MARGIN = 5;
 
 const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
@@ -40,7 +35,7 @@ const ChordsCanvas = ({
     fretMarkers.forEach((marker:number) => {
       ctx.fillStyle = "#FFFFFF";
       let x = STR_SPACING // * 3 + MARGIN
-      let y = (marker * FRET_HEIGHT) + MARGIN
+      let y = (marker * FRET_SPACING) + MARGIN
     })
   }
 
@@ -48,8 +43,8 @@ const ChordsCanvas = ({
     ctx.fillStyle = "#BADA55";
     chordSet.forEach((cn:NoteType) => {
       ctx.fillStyle = "#BADA55";
-      let x = (6 * STR_SPACING + MARGIN) - (cn.str * STR_SPACING + MARGIN);
-      let y = cn.fret * FRET_HEIGHT + MARGIN;
+      let x =(cn.str * STR_SPACING + MARGIN);
+      let y = cn.fret * FRET_SPACING + MARGIN;
       ctx.beginPath();
       ctx.arc(x, y, 2, 0, 2 * Math.PI);
       ctx.fill();

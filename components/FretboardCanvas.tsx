@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { debug, noteNames, scaleNumbers } from "../pages/chords-app/FretboardConstants";
+import { debug, noteNames, scaleNumbers } from "./FretboardConstants";
 import {
   ChordType,
   NoteType,
@@ -10,16 +10,13 @@ import {
 import { colors, intervalsArr } from "../utils/ColorConstants";
 import styles from "../styles/Fretboard.module.css";
 
-const FRET_HEIGHT = 30;
-const STR_WIDTH = 30;
-const FRET_SPACING = 5;
-
-const FRET_WIDTH = 30;
+const FRET_SPACING = 30;
 const STR_SPACING = 20;
 const MARGIN = 30;
+const FRET_COUNT = 15;
 
-const WIDTH = (FRET_WIDTH + FRET_SPACING) * 12;
-const HEIGHT = STR_WIDTH * 6;
+const WIDTH = STR_SPACING * 6 + MARGIN * 2;
+const HEIGHT = FRET_SPACING * FRET_COUNT + MARGIN * 2;
 
 const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
@@ -50,7 +47,9 @@ const FretboardCanvas = ({
     // draw background
     ctx.fillStyle = "#000000";
     ctx.beginPath();
-    orientation ? ctx.rect(0, 0, WIDTH, HEIGHT) : ctx.rect(0, 0, HEIGHT, WIDTH);
+    // orientation ?
+    ctx.rect(0, 0, WIDTH, HEIGHT);
+    // : ctx.rect(0, 0, HEIGHT, WIDTH);
     ctx.fill();
   };
 
@@ -68,14 +67,8 @@ const FretboardCanvas = ({
     let openNote = tuning[str];
     let fromOpen = (openNote + fret) % 12;
 
-    let x = fret * FRET_WIDTH + MARGIN;
-    let y = str * STR_SPACING + MARGIN;
-
-    if (!orientation) {
-      let temp = x;
-      x = y;
-      y = temp;
-    }
+    let x = str * STR_SPACING + MARGIN;
+    let y = fret * FRET_SPACING + MARGIN;
 
     ctx.beginPath();
     ctx.arc(x, y, 7, 0, 2 * Math.PI);
@@ -97,9 +90,9 @@ const FretboardCanvas = ({
     // (orientation?tuning:tuning.reverse())
     tuning.forEach((openNote: number, strIx: number) => {
       // let note = tuning[strIx];
-      let fretCount = 13;
+      let fretCount = FRET_COUNT;
       // draw notes on the string
-      for (let fretIx = 0; fretIx < fretCount; fretIx++) {
+      for (let fretIx = 0; fretIx < FRET_COUNT; fretIx++) {
         ctx.fillStyle = colors.grey;
         drawScaleNote(strIx, fretIx, ctx);
       }
@@ -110,16 +103,9 @@ const FretboardCanvas = ({
     ctx.fillStyle = "#BADA55";
 
     chordSet.forEach((chordNote) => {
-      let x = (chordNote.midi - tuning[chordNote.str]) * FRET_HEIGHT + MARGIN;
-      // let x = chordNote.fret * FRET_HEIGHT + MARGIN;
-      let y = chordNote.str * STR_SPACING + MARGIN;
+      let x = chordNote.str * STR_SPACING + MARGIN;
+      let y = chordNote.fret * FRET_SPACING + MARGIN;
 
-      if (!orientation) {
-        let temp = x;
-        x = y;
-        y = temp;
-        
-      }
       ctx.beginPath();
       ctx.arc(x, y, 10, 0, 2 * Math.PI);
       ctx.fill();
@@ -128,15 +114,11 @@ const FretboardCanvas = ({
 
   const drawNoteCursor = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = "#F000FF";
-    let x = noteCursor.fret * FRET_HEIGHT + MARGIN;
-    let y = noteCursor.str * STR_SPACING + MARGIN;
+    let y = noteCursor.fret * FRET_SPACING + MARGIN;
+    let x = noteCursor.str * STR_SPACING + MARGIN;
 
-    if (!orientation) {
-      let temp = x;
-      x = y;
-      y = temp;
-    }
     ctx.beginPath();
+    // ctx.strokeRect(x-5, y-5, 10, 10)
     ctx.arc(x, y, 10, 0, 2 * Math.PI);
     ctx.fill();
   };
@@ -148,14 +130,8 @@ const FretboardCanvas = ({
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
 
-    if (!orientation) {
-      let temp = x;
-      x = y;
-      y = temp;
-    }
-
-    let str = Math.floor((y - MARGIN / 2) / STR_SPACING);
-    let fret = Math.floor((x - MARGIN / 2) / FRET_WIDTH);
+    let str = Math.floor((x - MARGIN / 2) / STR_SPACING);
+    let fret = Math.floor((y - MARGIN / 2) / FRET_SPACING);
 
     if (fret < 0 || fret > 12) return;
     if (str < 0 || str > 5) return;
@@ -178,6 +154,25 @@ const FretboardCanvas = ({
     setNoteCursor(newNote);
   };
 
+  const drawFretMarkers = (context: CanvasRenderingContext2D) => {
+    context.beginPath()
+    context.strokeStyle = "#FFFFFF";
+    context.moveTo(0, FRET_SPACING);
+    context.lineTo(WIDTH-10, FRET_SPACING);
+    context.lineWidth = 15;
+    context.stroke();
+    context.fillStyle = "#FFFFFF";
+
+    [3, 5, 7, 9, 12, 15].forEach((fret) => {
+      let x = 6 * STR_SPACING + MARGIN;
+      let y = fret * FRET_SPACING + MARGIN;
+
+      context.beginPath();
+      context.arc(x, y, 7, 0, 2 * Math.PI);
+      context.fill();
+    });
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas == null) throw new Error("Could not get canvas");
@@ -185,7 +180,14 @@ const FretboardCanvas = ({
     const context = canvas.getContext("2d");
     if (context == null) throw new Error("Could not get context");
 
+    if (fretbaordCanvasDebug) {
+      console.log("fbc useeff tuning,", tuning);
+      console.log("fbc useeff chord,", chordSet);
+      console.log("fbc useeff tuning,");
+    }
+
     drawBackground(context);
+    drawFretMarkers(context);
     drawScaleNotes(context);
     drawChordNotes(context);
     if (cursorDraw) drawNoteCursor(context);
@@ -193,15 +195,15 @@ const FretboardCanvas = ({
 
   return (
     <div className={styles.fretboardContainer}>
-      <button
+      {/* <button
         onClick={() => {
-          setOrientation(!orientation);
+          // setOrientation(!orientation);
           // setChordSet(chordSet.reverse());
           // setTuning(tuning.reverse());
         }}
       >
         change orientation
-      </button>
+      </button> */}
       <canvas
         ref={canvasRef}
         width={orientation ? WIDTH : HEIGHT}
