@@ -1,16 +1,5 @@
 // [[[[[[[Types]]]]]]]
 
-export type FBStateType = {
-  // Tuning is a array of midi/note values representing the guitar string tuning
-  tuning: TuningType;
-  // Midi value of initial scale key
-  scaleKey: ScaleKeyType;
-  // subset of scale visible
-  scaleChord: boolean[];
-  // notes in the scale, from open.
-  scale: number[];
-};
-
 export type NoteType = {
   str: number;
   fret: number;
