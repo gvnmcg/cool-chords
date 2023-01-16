@@ -8,7 +8,7 @@ import {
   noteNamesSharps,
   scaleIntervals,
   scaleNotes,
-} from "./FretboardConstants";
+} from "../utils/FretboardConstants";
 import { ScaleChordType, ScaleType } from "../utils/FretboardTypes";
 import styles from "../styles/Scale.module.css";
 

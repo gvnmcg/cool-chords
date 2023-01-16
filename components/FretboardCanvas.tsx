@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { debug, noteNames, scaleNumbers } from "./FretboardConstants";
+import { debug, noteNames, scaleNumbers } from "../utils/FretboardConstants";
 import {
   ChordType,
   NoteType,

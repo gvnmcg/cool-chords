@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { debug, getFret, noteNames } from "./FretboardConstants";
+import { debug, getFret, noteNames } from "../utils/FretboardConstants";
 import {
   ChordSequenceType,
   ChordArr,
@@ -65,6 +65,18 @@ const ChordArrayControls = ({
         .flat()
     );
   };
+  
+  const deleteChord = () => {
+    setChordSequence(
+      chordSequence
+        .map((chord, ix) =>
+          chordIndex == ix ? [] : chord
+        )
+        .flat()    
+    );
+    if (chordIndex == chordSet.length )  setChordIndex(chordIndex - 1)
+  };
+
 
   const navSequence = (dir: number) => {
     if (chordIndex + dir > chordSequence.length - 1 || chordIndex + dir < 0)
@@ -93,6 +105,7 @@ const ChordArrayControls = ({
         <button onClick={() => saveChordSet()}>Save Chord</button>
         <button onClick={() => amendSequence()}>Amend Chord</button>
         <button onClick={() => duplicateChord()}>Dup Chord</button>
+        <button onClick={() => deleteChord()}>Delete Chord</button>
       </div>
 
       <div className={styles.chords}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { standardTuning, DADFADTuning, noteNames } from "./FretboardConstants";
+import { standardTuning, DADFADTuning, noteNames } from "../utils/FretboardConstants";
 import styles from "../styles/Tuning.module.css";
 
 /**

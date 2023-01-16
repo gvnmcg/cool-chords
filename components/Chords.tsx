@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { debug, noteNames } from "./FretboardConstants";
+import { debug, noteNames } from "../utils/FretboardConstants";
 import {
   ChordSequenceType,
   ChordType,
@@ -55,12 +55,6 @@ const ChordControls = ({
     );
   };
 
-  // const duplicateChord = () => {
-  //   setChordSequence( 
-  //     chordSequence.splice(chordIndex, 0, { ...chordSet, notes: chordSet})
-  //   );
-  // };
-
   const navSequence = (dir: number) => {
     if (chordIndex + dir > chordSequence.length - 1 || chordIndex + dir < 0)
       return;
@@ -96,8 +90,6 @@ const ChordControls = ({
         <button onClick={() => navSequence(1)}> {">"} </button>
         <button onClick={() => saveChordSet()}>Save Chord</button>
         <button onClick={() => amendSequence()}>Amend Chord</button>
-        {/* <button onClick={() => duplicateChord()}>Duplicate</button> */}
-        
       </div>
 
       <div className={styles.chords}>
@@ -106,17 +98,6 @@ const ChordControls = ({
             onClick={() => {
               setChordIndex(index);
               setChordSet(chordSequence[chordIndex].notes);
-              if (!chordDebug) return;
-              console.log(
-                "-----------------------------------------------------"
-              );
-              console.log("ChordControls => @onclick .chordIndex", chordIndex);
-              console.log("ChordControls => @onclick .chordSet", chordSet);
-              console.log("ChordControls => @onclick .tuning", tuning);
-              console.log(
-                "ChordControls => @onclick fret Arr",
-                chordSet.map((n) => n.fret)
-              );
             }}
             className={
               index == chordIndex ? styles.chordSelected : styles.chord
@@ -134,7 +115,8 @@ const ChordControls = ({
             <ChordsCanvas chordSet={chord.notes} tuning={tuning} />
             {chord.notes
               .map((note, ix) => noteNames[note.midi % 12])
-              .reduce((acc, curr) => acc.concat(curr + " "), "")}
+              .reduce((acc, curr) => acc.concat(curr + " "), "")
+            }
           </div>
         ))}
       </div>

@@ -21,7 +21,7 @@ import {
   standardTuning,
   scaleIntervals,
   initChordArraySequence
-} from "../../components/FretboardConstants";
+} from "../../utils/FretboardConstants";
 import ChordControls from "../../components/Chords";
 import styles from "../../styles/Home.module.css";
 import ChordArrayControls from "../../components/Chords2";
@@ -36,8 +36,8 @@ const FretboardApp = () => {
   // Sequence System
   const [sequenceIndex, setSequenceIndex] = useState<number>(0);
   const [sequenceList, setSequenceList] = useState<ChordSequenceType[]>([
-    initChordSequence,
-    altChordSequence,
+    initChordArraySequence,
+    initChordArraySequence,
   ]);
 
   // Chord System
