@@ -14,11 +14,18 @@ export type ScaleChordType = boolean[];
 export type ScaleType = number[]; // ... e.g. scale: [0, 2, 4, 5, 7, 9, 11],
 
 // Chord Sequence System
+//old
 export type ChordType = {
   notes: NoteType[];
   slurs: NoteType[];
 };
 export type SlursType = NoteType[];
+
+//new
+export type ChordArr = {
+  notes: number[];
+  riff: number[][]
+}
 
 export type ChordSequenceType = ChordType[];
 
