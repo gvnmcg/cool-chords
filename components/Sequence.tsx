@@ -2,7 +2,7 @@ import React from "react";
 import Upload from "./Upload";
 import { ChordSequenceType, TuningType } from "../utils/FretboardTypes";
 import styles from "../styles/Home.module.css";
-import ChordsCanvas from "./ChordsCanvas";
+import ChordsCanvas from "./ChordsCanvas2";
 import Download from "./Download";
 
 interface SequenceControlsProps {
