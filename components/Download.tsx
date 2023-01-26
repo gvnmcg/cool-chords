@@ -1,18 +1,15 @@
 import React, { useState } from "react";
-import { ChordSequenceType } from "../utils/FretboardTypes";
+import { ChordArr } from "./types/FretboardTypes";
 
 interface DownloadProps {
-  sequenceList: ChordSequenceType[];
-  setSequenceList: (list: ChordSequenceType[]) => void;
-  chordSequence: ChordSequenceType;
+  chordSequence: ChordArr[];
 }
 
 const Download = ({
-  sequenceList,
-  setSequenceList,
   chordSequence,
 }: DownloadProps) => {
   const [files, setFiles] = useState("");
+  const [fileName, setFilename] = useState("");
 
   const handleChange = (event: React.FormEvent) => {
     // const fileReader = new FileReader();
@@ -27,19 +24,21 @@ const Download = ({
   };
   return (
     <div>
+      <span>FileName:</span>
+      <input type="text" onChange={(e)=> setFilename(e.target.value)} />
       <a
+        style={{backgroundColor:'lightgreen', color:'black'}}
         href={`data:text/json;charset=utf-8,${encodeURIComponent(
-          JSON.stringify(sequenceList)
+          JSON.stringify(chordSequence)
         )}`}
-        download="filename.json"
+        download={fileName + ".json"}
       >
-        {`Download Json`}
+        {`Download JSON`}
       </a>
-      <button
-        onClick={() => setSequenceList(sequenceList.concat(chordSequence))}
+      {/* <button
       >
         save sequence
-      </button>
+      </button> */}
     </div>
   );
 };

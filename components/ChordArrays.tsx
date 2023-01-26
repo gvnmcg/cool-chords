@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { debug, getFret, noteNames } from "../utils/FretboardConstants";
 import {
-  ChordSequenceType,
   ChordArr,
-  NoteType,
-  ScaleType,
   TuningType,
-} from "../utils/FretboardTypes";
+} from "./types/FretboardTypes";
 import styles from "../styles/Chords.module.css";
-import ChordsCanvas2 from "./ChordsCanvas2";
+import ChordsCanvas from "./ChordsCanvas";
 
 interface ChordArrayControlsProps {
   tuning: TuningType;
@@ -18,7 +15,7 @@ interface ChordArrayControlsProps {
   setChordSet: (s: number[]) => void;
 }
 
-const chordDebug: boolean = debug || true;
+const chordDebug: boolean = debug || false;
 
 /**
  * Purpose
@@ -65,18 +62,13 @@ const ChordArrayControls = ({
         .flat()
     );
   };
-  
+
   const deleteChord = () => {
     setChordSequence(
-      chordSequence
-        .map((chord, ix) =>
-          chordIndex == ix ? [] : chord
-        )
-        .flat()    
+      chordSequence.map((chord, ix) => (chordIndex == ix ? [] : chord)).flat()
     );
-    if (chordIndex == chordSet.length )  setChordIndex(chordIndex - 1)
+    if (chordIndex == chordSet.length) setChordIndex(chordIndex - 1);
   };
-
 
   const navSequence = (dir: number) => {
     if (chordIndex + dir > chordSequence.length - 1 || chordIndex + dir < 0)
@@ -86,15 +78,8 @@ const ChordArrayControls = ({
   };
 
   useEffect(() => {
-    // previous chord state, same midi
-    // new frets on each string to tuning midi
-
-    // if the tuning changed
-    //redraw canvas
-
-    // if the index changed
     setChordSet(chordSequence[chordIndex].notes);
-  }, [chordIndex]);
+  }, [chordIndex, chordSequence]);
 
   return (
     <div>
@@ -121,7 +106,7 @@ const ChordArrayControls = ({
             key={index}
           >
             <div>{chord.notes.map((n, str) => getFret(tuning, str, n))}</div>
-            <ChordsCanvas2 chordSet={chord.notes} tuning={tuning} />
+            <ChordsCanvas chordSet={chord.notes} tuning={tuning} />
             <div>
               {chord.notes.reduce(
                 (acc, note) => acc.concat(noteNames[note % 12] + " "),

@@ -1,11 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
-import { debug, getFret, noteNames, scaleNumbers } from "../utils/FretboardConstants";
+import { debug, noteNames, scaleNumbers } from "../utils/FretboardConstants";
 import {
-  ChordType,
   NoteType,
-  ScaleType,
   TuningType,
-} from "../utils/FretboardTypes";
+} from "./types/FretboardTypes";
 import styles from "../styles/Chords.module.css";
 
 const FRET_SPACING = 10;
@@ -15,11 +13,11 @@ const MARGIN = 5;
 const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
 interface ChordsCanvasType {
-  chordSet: number[];
+  chordSet: NoteType[];
   tuning: TuningType;
 }
 
-const ChordsCanvas2 = ({ chordSet, tuning }: ChordsCanvasType) => {
+const ChordsCanvas = ({ chordSet, tuning }: ChordsCanvasType) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const drawBackground = (ctx: CanvasRenderingContext2D) => {
@@ -42,10 +40,10 @@ const ChordsCanvas2 = ({ chordSet, tuning }: ChordsCanvasType) => {
 
   const drawChordNotes = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = "#BADA55";
-    chordSet.forEach((cn, str) => {
+    chordSet.forEach((cn: NoteType) => {
       ctx.fillStyle = "#BADA55";
-      let x = str * STR_SPACING + MARGIN;
-      let y = getFret(tuning, str, cn) * FRET_SPACING + MARGIN;
+      let x = cn.str * STR_SPACING + MARGIN;
+      let y = cn.fret * FRET_SPACING + MARGIN;
       ctx.beginPath();
       ctx.arc(x, y, 2, 0, 2 * Math.PI);
       ctx.fill();
@@ -78,4 +76,4 @@ const ChordsCanvas2 = ({ chordSet, tuning }: ChordsCanvasType) => {
   );
 };
 
-export default ChordsCanvas2;
+export default ChordsCanvas;

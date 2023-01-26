@@ -1,12 +1,12 @@
 
 import React, { useState } from "react";
-import { ChordSequenceType } from "../utils/FretboardTypes";
+import { ChordArr, ChordSequenceType } from "./types/FretboardTypes";
 
 interface UploadProps {
-  setSequenceList: (list: ChordSequenceType[]) => void;
+  setChordSequence: (list: ChordArr[]) => void;
 }
 
-const Upload =({ setSequenceList }:UploadProps) => {
+const Upload =({ setChordSequence }:UploadProps) => {
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [files, setFiles] = useState("");
@@ -24,7 +24,7 @@ const Upload =({ setSequenceList }:UploadProps) => {
   };
   return (
     <div>
-      <button onClick={()=>setShowModal(!showModal)}>Upload Sequence JSON file</button>
+      {/* <button onClick={()=>setShowModal(!showModal)}>Upload Sequence JSON file</button> */}
       {showModal ? (
         <div>
           <input type="file" onChange={handleChange} />

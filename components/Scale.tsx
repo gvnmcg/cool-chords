@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
-  allFalse,
-  allTrue,
   debug,
   noteNames,
   noteNamesFlats,
   noteNamesSharps,
   scaleIntervals,
-  scaleNotes,
 } from "../utils/FretboardConstants";
-import { ScaleChordType, ScaleType } from "../utils/FretboardTypes";
+import { ScaleChordType, ScaleType } from "./types/FretboardTypes";
 import styles from "../styles/Scale.module.css";
 
 interface ScaleControlsProps {
@@ -40,7 +37,6 @@ const ScaleControls = ({
 
   const toggleScaleNumber = (scaleNumber: number) => {
     setScaleChord(scaleChord.map((s, i) => (i == scaleNumber ? !s : s)));
-    // if (debug) console.log("toggle scale", scaleChord);
   };
 
   const toggleChord = (chordNum: number) => {
@@ -53,7 +49,6 @@ const ScaleControls = ({
           false
       )
     );
-    // if (debug) console.log("toggle chord", scaleChord);
   };
 
   const getKeyNumber = (accidentals: number) => {
@@ -75,15 +70,10 @@ const ScaleControls = ({
     }
 
     setScale(scale.map((interval) => (interval + keyNote) % 12));
-  }, [accidentals]);
+  }, [keyNote, accidentals]);
 
   return (
     <div className={styles.scale}>
-      {/* <div className={styles.key}>
-        <button onClick={() => setAccidentals(accidentals - 1)}> - </button>
-        <button onClick={() => setAccidentals(accidentals + 1)}> + </button>
-        {noteNamesArr[getKeyNumber(accidentals)]}
-      </div> */}
       <div className={styles.key}>
         <button onClick={() => setKeyNote(keyNote - 1)}> - </button>
         <button onClick={() => setKeyNote(keyNote + 1)}> + </button>

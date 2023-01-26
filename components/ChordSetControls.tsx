@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { debug, noteNames } from "../utils/FretboardConstants";
 import {
-  ChordSequenceType,
   ChordType,
   NoteType,
-  ScaleType,
   TuningType,
-} from "../utils/FretboardTypes";
+} from "./types/FretboardTypes";
 import styles from "../styles/Chords.module.css";
-import ChordsCanvas from "./ChordsCanvas";
+import ChordsCanvas from "./ChordSetCanvas";
 
 interface ChordControlsProps {
   tuning: TuningType;
@@ -78,8 +76,6 @@ const ChordControls = ({
         return { ...chord, notes: newFrets };
       })
     );
-
-    
   }, [tuning, chordIndex]);
 
   return (
@@ -115,8 +111,7 @@ const ChordControls = ({
             <ChordsCanvas chordSet={chord.notes} tuning={tuning} />
             {chord.notes
               .map((note, ix) => noteNames[note.midi % 12])
-              .reduce((acc, curr) => acc.concat(curr + " "), "")
-            }
+              .reduce((acc, curr) => acc.concat(curr + " "), "")}
           </div>
         ))}
       </div>

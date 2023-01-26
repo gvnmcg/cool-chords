@@ -2,7 +2,7 @@
 
 export const debug: boolean = !true;
 
-import { NoteType, TuningType } from "./FretboardTypes";
+import { NoteType, TuningType } from "../components/types/FretboardTypes";
 
 export const allFalse = [false, false, false, false, false, false, false];
 export const allTrue = [true, true, true, true, true, true, true];
