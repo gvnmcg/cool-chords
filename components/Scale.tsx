@@ -5,6 +5,7 @@ import {
   noteNamesFlats,
   noteNamesSharps,
   scaleIntervals,
+  chordQualities
 } from "../utils/FretboardConstants";
 import { ScaleChordType, ScaleType } from "./types/FretboardTypes";
 import styles from "../styles/Scale.module.css";
@@ -20,7 +21,6 @@ interface ScaleControlsProps {
   setAccidentals: (scale: number) => void;
 }
 
-const chordQualities = ["", "m", "m", "", "", "m", "dim"];
 
 const ScaleControls = ({
   keyNote,
@@ -33,7 +33,6 @@ const ScaleControls = ({
   setAccidentals,
 }: ScaleControlsProps) => {
   const [noteNamesArr, setNoteNamesArr] = useState<string[]>(noteNames);
-  const [keyIndex, setKeyIndex] = useState<number>(0);
 
   const toggleScaleNumber = (scaleNumber: number) => {
     setScaleChord(scaleChord.map((s, i) => (i == scaleNumber ? !s : s)));
@@ -51,63 +50,56 @@ const ScaleControls = ({
     );
   };
 
-  const getKeyNumber = (accidentals: number) => {
-    if (accidentals > 0) {
-      return Math.abs((accidentals * 7) % 12);
-    } else {
-      return Math.abs((accidentals * 5) % 12);
-    }
-  };
-
   useEffect(() => {
-    setNoteNamesArr(accidentals >= 0 ? noteNamesSharps : noteNamesFlats);
-    if (accidentals >= 0) {
-      setKeyIndex(Math.abs((accidentals * 7) % 12));
-      setKeyNote(Math.abs((accidentals * 7) % 12));
-    } else {
-      setKeyIndex(Math.abs((accidentals * 5) % 12));
-      setKeyNote(Math.abs((accidentals * 5) % 12));
-    }
-
-    setScale(scale.map((interval) => (interval + keyNote) % 12));
+    setScale(scaleIntervals.map((interval) => (interval + keyNote) % 12));
+    if (keyNote == -1) setKeyNote(11)
   }, [keyNote, accidentals]);
 
   return (
     <div className={styles.scale}>
-      <div className={styles.key}>
-        <button onClick={() => setKeyNote(keyNote - 1)}> - </button>
-        <button onClick={() => setKeyNote(keyNote + 1)}> + </button>
+      <span>Key: </span>
+      <span className={styles.key}>
+        <button onClick={() => setKeyNote((keyNote - 1) % 12)}> - </button>
+        <button onClick={() => setKeyNote((keyNote + 1) % 12)}> + </button>
         {noteNamesArr[keyNote]}
-      </div>
-
+      </span>
+       
       <div className={styles.chords}>
-        {/* subset */}
-        {scaleIntervals.map((interval, i) => (
-          <div className={styles.chord} key={i}>
-            <button
-              onClick={() => {
-                toggleChord(i);
-              }}
-            >
-              {noteNamesArr[(interval + keyNote) % 12] + chordQualities[i]}
-            </button>
-          </div>
-        ))}
 
-        <button
-          onClick={() => {
-            setScaleChord(scaleChord.map(() => true));
+      <div>
+         <button
+         className={styles.resetButton}
+         onClick={() => {
+           setScaleChord(scaleChord.map(() => true));
           }}
-        >
+          >
           all
         </button>
         <button
+          className={styles.resetButton}
           onClick={() => {
             setScaleChord(scaleChord.map(() => false));
           }}
         >
           nil
         </button>
+
+      </div>
+        {/* subset */}
+        {scaleIntervals.map((interval, i) => (
+          <div className={styles.chord} key={i}>
+            <span>{i+1}</span>
+            {noteNamesArr[(interval + keyNote) % 12] + chordQualities[i]}
+            <button
+              onClick={() => {
+                toggleChord(i);
+              }}
+            >
+            -  
+            </button>
+          </div>
+        ))}
+
       </div>
     </div>
   );

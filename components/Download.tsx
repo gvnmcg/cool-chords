@@ -9,7 +9,7 @@ const Download = ({
   chordSequence,
 }: DownloadProps) => {
   const [files, setFiles] = useState("");
-  const [fileName, setFilename] = useState("");
+  const [fileName, setFilename] = useState("sequence");
 
   const handleChange = (event: React.FormEvent) => {
     // const fileReader = new FileReader();

@@ -1,5 +1,5 @@
 import React from "react";
-import { debug, standardTuning, DADFADTuning } from "../utils/FretboardConstants";
+import { debug, tuningDebug, standardTuning, DADFADTuning } from "../utils/FretboardConstants";
 import { TuningType } from "./types/FretboardTypes";
 import TuningView from "./TuningView";
 import styles from "../styles/Tuning.module.css";
@@ -12,8 +12,6 @@ interface TuningControlsProps {
   tuning: TuningType;
   setTuning: (t: TuningType) => void;
 }
-
-const tuningDebug: boolean = debug || false;
 
 const TuningControls = ({ tuning, setTuning }: TuningControlsProps) => {
   const onAnyChange = (strNum: number, turnDir: number) => {

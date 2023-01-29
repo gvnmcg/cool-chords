@@ -1,19 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
-import {
-  debug,
-  getFret,
-} from "../utils/FretboardConstants";
-import {
-  NoteType,
-  TuningType,
-} from "./types/FretboardTypes";
+import { debug, getFret } from "../utils/FretboardConstants";
+import { TuningType } from "./types/FretboardTypes";
 import styles from "../styles/Chords.module.css";
 
 const FRET_SPACING = 10;
 const STR_SPACING = 7;
 const MARGIN = 5;
-
-const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
 interface ChordsCanvasType {
   chordSet: number[];

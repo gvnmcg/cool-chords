@@ -3,6 +3,7 @@ import {
   debug,
   getFret,
   noteNamesSharps,
+  fretboardCanvasDebug,
 } from "../utils/FretboardConstants";
 import {
   NoteType,
@@ -22,9 +23,8 @@ const FRET_COUNT = 15;
 const WIDTH = STR_SPACING * 6 + MARGIN * 2;
 const HEIGHT = FRET_SPACING * FRET_COUNT + MARGIN * 2;
 
-const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
-const fretbaordCanvasDebug: boolean = debug || false;
+// const fretbaordCanvasDebug: boolean = debug || false;
 
 interface FretboardCanvasType {
   tuning: TuningType;
@@ -45,7 +45,6 @@ const FretboardCanvas2 = ({
   chordSet,
   setChordSet,
 }: FretboardCanvasType) => {
-  // const [noteCursor, setNoteCursor] = useState<NoteType>(initChordNote);
   const [position, setPosition] = useState({ str: 0, fret: 0 });
 
   const [orientation, setOrientation] = useState<boolean>(true);
@@ -101,7 +100,7 @@ const FretboardCanvas2 = ({
   };
 
   const drawScaleNotes = (ctx: CanvasRenderingContext2D) => {
-    // if (fretbaordCanvasDebug) console.log("drawScaleNotes");
+    // if (fretboardCanvasDebug) console.log("drawScaleNotes");
     tuning.forEach((openNote: number, strIx: number) => {
       scale
         .map(
@@ -111,6 +110,22 @@ const FretboardCanvas2 = ({
         .filter((n, i) => scaleChord[i])
         .forEach((fret: number, chordRoot: number) => {
           drawScaleNote(strIx, fret, ctx);
+          // drawNoteName(strIx, fret, ctx);
+        });
+    });
+  };
+
+  const drawScaleNoteNames = (ctx: CanvasRenderingContext2D) => {
+    // if (fretboardCanvasDebug) console.log("drawScaleNotes");
+    tuning.forEach((openNote: number, strIx: number) => {
+      scale
+        .map(
+          (interval: number, chordRoot: number) =>
+            (interval + keyNote - (openNote % 12) + 12) % 12
+        )
+        .filter((n, i) => scaleChord[i])
+        .forEach((fret: number, chordRoot: number) => {
+          // drawScaleNote(strIx, fret, ctx);
           drawNoteName(strIx, fret, ctx);
         });
     });
@@ -118,7 +133,7 @@ const FretboardCanvas2 = ({
 
   const drawChordNotes = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = "#BADA55";
-    if (fretbaordCanvasDebug)
+    if (fretboardCanvasDebug)
       console.log(
         "draw chord Notes",
         chordSet.map((chordNote, str) =>
@@ -128,15 +143,22 @@ const FretboardCanvas2 = ({
     chordSet.forEach((chordNote, str) => {
       let x = str * STR_SPACING + MARGIN;
       let y = getFret(tuning, str, chordNote) * FRET_SPACING + MARGIN;
+      // muted string
       if (chordNote == 0) {
-        ctx.fillStyle = "#FF0000";
+        ctx.fillStyle = "#000000";
         ctx.beginPath();
-        ctx.rect(x - 3, 0, 5, HEIGHT);
+        ctx.rect(x - 7, 0, 15, HEIGHT);
         ctx.fill();
         return;
       }
+      // open string
+      // if (getFret(tuning, str, chordNote) == 0) {
+      //   ctx.fillStyle = "#BADA55";
+      //   ctx.beginPath();
+      //   ctx.rect(x - 3, 0, 5, HEIGHT);
+      //   ctx.fill();
+      // }
       ctx.fillStyle = "#BADA55";
-
       ctx.beginPath();
       ctx.arc(x, y, 10, 0, 2 * Math.PI);
       ctx.fill();
@@ -145,7 +167,7 @@ const FretboardCanvas2 = ({
 
   const drawRiffNotes = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = "#FF0000";
-    if (fretbaordCanvasDebug)
+    if (fretboardCanvasDebug)
       console.log(
         "draw chord Notes",
         chordSet.map((chordNote, str) => chordNote - tuning[str])
@@ -224,17 +246,19 @@ const FretboardCanvas2 = ({
     const context = canvas.getContext("2d");
     if (context == null) throw new Error("Could not get context");
 
-    if (fretbaordCanvasDebug) {
-      console.log("fbc useeff tuning,", tuning);
-      console.log("fbc useeff chord,", chordSet);
+    if (fretboardCanvasDebug) {
+      // console.log("fbc useeff tuning,", tuning);
+      // console.log("fbc useeff chord,", chordSet);
+      console.log("fbc useeff keyNote",keyNote)
     }
 
     drawBackground(context);
-    drawFretMarkers(context);
     drawScaleNotes(context);
     drawChordNotes(context);
     if (cursorDraw) drawNoteCursor(context);
-  });
+    drawScaleNoteNames(context);
+    drawFretMarkers(context);
+  } );
 
   return (
     <div className={styles.fretboardContainer}>

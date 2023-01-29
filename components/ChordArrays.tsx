@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { debug, getFret, noteNames } from "../utils/FretboardConstants";
-import {
-  ChordArr,
-  TuningType,
-} from "./types/FretboardTypes";
+import { debug, getFret, noteNames, chordDebug } from "../utils/FretboardConstants";
+import { ChordArr, TuningType } from "./types/FretboardTypes";
 import styles from "../styles/Chords.module.css";
 import ChordsCanvas from "./ChordsCanvas";
 
@@ -14,8 +11,6 @@ interface ChordArrayControlsProps {
   chordSet: number[];
   setChordSet: (s: number[]) => void;
 }
-
-const chordDebug: boolean = debug || false;
 
 /**
  * Purpose
@@ -38,6 +33,18 @@ const ChordArrayControls = ({
       ...chordSequence,
       {
         notes: chordSet,
+        riff: [[]],
+      },
+    ]);
+    setChordSet([]);
+    if (debug) console.log("amendSequence", chordSequence);
+  };
+
+  const newChord = () => {
+    setChordSequence([
+      ...chordSequence,
+      {
+        notes: [0,0,0,0,0,0],
         riff: [[]],
       },
     ]);
@@ -91,6 +98,7 @@ const ChordArrayControls = ({
         <button onClick={() => amendSequence()}>Amend Chord</button>
         <button onClick={() => duplicateChord()}>Dup Chord</button>
         <button onClick={() => deleteChord()}>Delete Chord</button>
+        <button onClick={() => newChord()}>New Chord</button>
       </div>
 
       <div className={styles.chords}>
@@ -105,13 +113,17 @@ const ChordArrayControls = ({
             }
             key={index}
           >
-            <div>{chord.notes.map((n, str) => getFret(tuning, str, n))}</div>
+            <div>
+              {chord.notes.map((n, str) =>
+                n == 0 ? "X" : getFret(tuning, str, n)
+              )
+              .reduce((acc, noteStr) => acc.concat(noteStr + " "), "")}
+            </div>
             <ChordsCanvas chordSet={chord.notes} tuning={tuning} />
             <div>
-              {chord.notes.reduce(
-                (acc, note) => acc.concat(noteNames[note % 12] + " "),
-                ""
-              )}
+              {chord.notes
+                .map((note) => note == 0 ? "_" : noteNames[note % 12])
+                .reduce((acc, noteStr) => acc.concat(noteStr + " "), "")}
             </div>
           </div>
         ))}
