@@ -10,6 +10,11 @@
 
 }
 
+.container {
+  display: flex;
+  justify-content: center;
+}
+
 .chordSequenceSelectionList {
    display: flex;
   flex-direction: column;

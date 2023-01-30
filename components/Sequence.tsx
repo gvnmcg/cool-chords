@@ -1,6 +1,7 @@
 import React from "react";
 import Upload from "./Upload";
 import Download from "./Download";
+import alt from "../sequences/BetterBeQuiet.json"
 import {
   ChordArr,
   TuningType,
@@ -20,6 +21,7 @@ const SequenceControls = ({
   return (
     <div>
       {/* <Upload setChordSequence={setChordSequence} /> */}
+      <button onClick={()=>setChordSequence(alt)}>BBQ</button>
       <Download
         chordSequence={chordSequence}
       />

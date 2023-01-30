@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import TuningControls from "../../components/Tuning";
 import ScaleControls from "../../components/Scale";
 import SequenceControls from "../../components/Sequence";
@@ -18,6 +18,8 @@ import {
   scaleIntervals,
   initChordArraySequence,
 } from "../../utils/FretboardConstants";
+import useSound from "react-guitar-sound";
+
 
 /**
  *
@@ -40,8 +42,26 @@ const FretboardApp = () => {
   const [scaleChord, setScaleChord] = useState<ScaleChordType>(allTrue);
   const [keyNote, setKeyNote] = useState<number>(0);
 
+  
+  // const { play, strum } = useSound({ fretting: chordArray, tuning: tuning })
+  const { play, strum } = useSound({ fretting: chordArray, tuning: tuning })
+
+  useEffect(() => {
+    // return <Guitar strings={strings} onPlay={play} />
+    const context = new AudioContext();
+    console.log(context.state);
+
+    context.resume().then(() => {
+      // source.start(0);
+      // play(2);
+    });
+
+    // play(2);
+  });
+      
   return (
     <div className={styles.main}>
+
       <div className={styles.chordSequenceEditor}>
       <SequenceControls
         tuning={tuning}
@@ -66,6 +86,7 @@ const FretboardApp = () => {
               chordSet={chordArray}
               setChordSet={setChordArray}
             />
+            <button onClick={()=>strum()}>play</button>
             <TuningControls tuning={tuning} setTuning={setTuning} />
           </div>
         </div>
