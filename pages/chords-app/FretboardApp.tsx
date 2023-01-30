@@ -17,6 +17,7 @@ import {
   standardTuning,
   scaleIntervals,
   initChordArraySequence,
+  getFret,
 } from "../../utils/FretboardConstants";
 import useSound from "react-guitar-sound";
 
@@ -42,21 +43,12 @@ const FretboardApp = () => {
   const [scaleChord, setScaleChord] = useState<ScaleChordType>(allTrue);
   const [keyNote, setKeyNote] = useState<number>(0);
 
-  
-  // const { play, strum } = useSound({ fretting: chordArray, tuning: tuning })
-  const { play, strum } = useSound({ fretting: chordArray, tuning: tuning })
+  const { play, strum } = useSound({ fretting: chordArray.map((n,i)=>getFret(tuning,i,n)), tuning: tuning })
 
   useEffect(() => {
-    // return <Guitar strings={strings} onPlay={play} />
     const context = new AudioContext();
     console.log(context.state);
-
-    context.resume().then(() => {
-      // source.start(0);
-      // play(2);
-    });
-
-    // play(2);
+    context.resume().then(() => {});
   });
       
   return (
