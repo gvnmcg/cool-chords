@@ -27,6 +27,7 @@ const HEIGHT = FRET_SPACING * FRET_COUNT + MARGIN * 2;
 // const fretbaordCanvasDebug: boolean = debug || false;
 
 interface FretboardCanvasType {
+  play: (str:number, when:number) => void
   tuning: TuningType;
   keyNote: number;
   setTuning: (tuning: number[]) => void;
@@ -37,6 +38,7 @@ interface FretboardCanvasType {
 }
 
 const FretboardCanvas2 = ({
+  play,
   tuning,
   setTuning,
   keyNote,
@@ -262,6 +264,12 @@ const FretboardCanvas2 = ({
 
   return (
     <div className={styles.fretboardContainer}>
+       <button onClick={()=>{
+        chordSet.forEach((n, i) => {
+          play(i, i / 4);
+        });
+      }}
+      >Strum</button>
       <canvas
         ref={canvasRef}
         width={orientation ? WIDTH : HEIGHT}
@@ -271,6 +279,7 @@ const FretboardCanvas2 = ({
           let rect = canvasRef.current.getBoundingClientRect();
           let noteTarget = getNoteTarget(e, rect);
           if (!noteTarget) return;
+          play(noteTarget.str, 0)
           updateChord(noteTarget.str, tuning[noteTarget.str] + noteTarget.fret);
         }}
         onMouseMove={(e) => {
@@ -287,6 +296,8 @@ const FretboardCanvas2 = ({
           setCursorDraw(false);
         }}
       />
+     
+
     </div>
   );
 };

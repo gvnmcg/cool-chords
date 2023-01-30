@@ -70,6 +70,7 @@ const FretboardApp = () => {
           />
           <div className={styles.fretboard}>
             <FretboardCanvas
+              play={play}
               tuning={tuning}
               keyNote={keyNote}
               setTuning={setTuning}
@@ -78,7 +79,6 @@ const FretboardApp = () => {
               chordSet={chordArray}
               setChordSet={setChordArray}
             />
-            <button onClick={()=>strum()}>play</button>
             <TuningControls tuning={tuning} setTuning={setTuning} />
           </div>
         </div>
