@@ -5,7 +5,8 @@ import {
   noteNamesFlats,
   noteNamesSharps,
   scaleIntervals,
-  chordQualities
+  chordQualities,
+  scaleColors
 } from "../utils/FretboardConstants";
 import { ScaleChordType, ScaleType } from "./types/FretboardTypes";
 import styles from "../styles/Scale.module.css";
@@ -20,6 +21,7 @@ interface ScaleControlsProps {
   accidentals: number;
   setAccidentals: (scale: number) => void;
 }
+
 
 
 const ScaleControls = ({
@@ -63,43 +65,40 @@ const ScaleControls = ({
         <button onClick={() => setKeyNote((keyNote + 1) % 12)}> + </button>
         {noteNamesArr[keyNote]}
       </span>
-       
+
       <div className={styles.chords}>
-
-      <div>
-         <button
-         className={styles.resetButton}
-         onClick={() => {
-           setScaleChord(scaleChord.map(() => true));
-          }}
+        <div>
+          <button
+            className={styles.resetButton}
+            onClick={() => {
+              setScaleChord(scaleChord.map(() => true));
+            }}
           >
-          all
-        </button>
-        <button
-          className={styles.resetButton}
-          onClick={() => {
-            setScaleChord(scaleChord.map(() => false));
-          }}
-        >
-          nil
-        </button>
-
-      </div>
+            all
+          </button>
+          <button
+            className={styles.resetButton}
+            onClick={() => {
+              setScaleChord(scaleChord.map(() => false));
+            }}
+          >
+            nil
+          </button>
+        </div>
         {/* subset */}
         {scaleIntervals.map((interval, i) => (
-          <div className={styles.chord} key={i}>
-            <span>{i+1}</span>
+          <div
+            style={{ backgroundColor: scaleColors[i] }}
+            className={styles.chord}
+            key={i}
+            onClick={() => {
+              toggleChord(i);
+            }}
+          >
+            <span>{i + 1}</span>
             {noteNamesArr[(interval + keyNote) % 12] + chordQualities[i]}
-            <button
-              onClick={() => {
-                toggleChord(i);
-              }}
-            >
-            -  
-            </button>
           </div>
         ))}
-
       </div>
     </div>
   );

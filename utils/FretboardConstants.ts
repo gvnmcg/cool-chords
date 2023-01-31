@@ -143,4 +143,25 @@ export const altChordSequence = [
   },
 ];
 
+
+export const scaleColors = [
+  "#fcf4dd",
+  "#ddedea",
+  "#e8dff5",
+  "#fce1e4",
+  "lightyellow",
+  "lightblue",
+  "lightpurple"
+]
+
+// export const scaleColors = [
+//   "lightyellow",
+//   "lightgreen",
+//   "lightcyan",
+//   "seafoamgreen",
+//   "yellow",
+//   "lightblue",
+//   "lightpurple"
+// ]
+
 export const midi2Name = (midi: number): string => noteNames[midi % 12];

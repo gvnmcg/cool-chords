@@ -4,6 +4,7 @@ import {
   getFret,
   noteNamesSharps,
   fretboardCanvasDebug,
+  scaleColors
 } from "../utils/FretboardConstants";
 import {
   NoteType,
@@ -83,7 +84,6 @@ const FretboardCanvas2 = ({
     let x = str * STR_SPACING + MARGIN;
     let y = fret * FRET_SPACING + MARGIN;
 
-    ctx.fillStyle = colors.grey;
     ctx.beginPath();
     ctx.arc(x, y, 7, 0, 2 * Math.PI);
     ctx.fill();
@@ -97,7 +97,7 @@ const FretboardCanvas2 = ({
     let x = str * STR_SPACING + MARGIN;
     let y = fret * FRET_SPACING + MARGIN;
 
-    ctx.fillStyle = "#FFFFFF";
+    ctx.fillStyle = "#000000";
     ctx.fillText(noteNamesSharps[(tuning[str] + fret) % 12], x - 5, y + 5);
   };
 
@@ -109,8 +109,11 @@ const FretboardCanvas2 = ({
           (interval: number, chordRoot: number) =>
             (interval + keyNote - (openNote % 12) + 12) % 12
         )
-        .filter((n, i) => scaleChord[i])
+        // .filter((n, i) => scaleChord[i])
         .forEach((fret: number, chordRoot: number) => {
+          if (!scaleChord[chordRoot]) return
+          ctx.fillStyle = colors.grey;
+          ctx.fillStyle = scaleColors[chordRoot]
           drawScaleNote(strIx, fret, ctx);
           // drawNoteName(strIx, fret, ctx);
         });
@@ -185,7 +188,8 @@ const FretboardCanvas2 = ({
   };
 
   const drawNoteCursor = (ctx: CanvasRenderingContext2D) => {
-    ctx.fillStyle = "#F000FF";
+    // ctx.fillStyle = "#F000FF";
+    ctx.fillStyle = "purple";
     let y = position.fret * FRET_SPACING + MARGIN;
     let x = position.str * STR_SPACING + MARGIN;
 
