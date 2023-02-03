@@ -16,21 +16,21 @@ import {
   allTrue,
   standardTuning,
   scaleIntervals,
-  initChordArraySequence,
   getFret,
 } from "../../utils/FretboardConstants";
+
 import useSound from "react-guitar-sound";
 
+interface FretboardAppProps {
+  chordArrSequence: ChordArr[]; 
+  setChordArrSequence: (seq:ChordArr[]) => void;
+}
 
 /**
  *
  */
-const FretboardApp = () => {
-  // Sequence System
-  const [chordArrSequence, setChordArrSequence] = useState<ChordArr[]>(
-    initChordArraySequence
-  );
-
+const FretboardApp = ({chordArrSequence, setChordArrSequence}:FretboardAppProps) => {
+ 
   // Fretboard System
   const [tuning, setTuning] = useState<TuningType>(standardTuning);
   const [chordArray, setChordArray] = useState<number[]>(
@@ -49,17 +49,17 @@ const FretboardApp = () => {
     const context = new AudioContext();
     console.log(context.state);
     context.resume().then(() => {});
+    console.log(chordArrSequence)
   });
-      
+
   return (
     <div className={styles.main}>
-
       <div className={styles.chordSequenceEditor}>
-      <SequenceControls
-        tuning={tuning}
-        chordSequence={chordArrSequence}
-        setChordSequence={setChordArrSequence}
-      />
+        <SequenceControls
+          tuning={tuning}
+          chordSequence={chordArrSequence}
+          setChordSequence={setChordArrSequence}
+        />
         <div className={styles.chordSequence}>
           <ChordArrayControls
             tuning={tuning}

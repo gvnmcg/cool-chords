@@ -27,7 +27,11 @@ export type ChordArr = {
   riff: number[][]
 }
 
-export type ChordSequenceType = ChordArr[];
+export type ChordSequenceType = {
+  id: string;
+  title: string;
+  midiSequence: ChordArr[];
+}
 
 // Chord UI type
 export type NoteMarkerType = {
