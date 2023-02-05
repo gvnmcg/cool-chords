@@ -48,20 +48,20 @@ const LocalStore = ({chordArrSequence, setChordArrSequence}:LocalStoreProps) => 
 
   },[])
 
-  const sa
+  // const sa
       
   return (
     <div className={styles.container}>
       {sequenceList.map((seq, ix) => (
-        <span>
-          <span>{ix}</span>
-          <button onClick={() => setChordArrSequence(seq.midiSequence)}>
-            {seq.title}
-          </button>
-          <Link href='/chords-app' >
-            Edit
-          </Link>
-        </span>
+        <div>
+          <span>
+            <span>{ix}</span>
+            <button onClick={() => setChordArrSequence(seq.midiSequence)}>
+              {seq.title}
+            </button>
+            <Link href="/chords-app">Edit</Link>
+          </span>
+        </div>
       ))}
     </div>
   );

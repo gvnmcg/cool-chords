@@ -3,6 +3,10 @@
   flex-direction: row;
   margin: 20px;
   border: 3px solid;
+  width: 700px;
+  overflow-x: scroll;
+  scrollbar-height: thin;
+
 }
 
 .chordNav {
@@ -25,7 +29,6 @@
   /* max-width: 10rem;
   min-width: 10rem; */
   width: 10rem;
-
 }
 
 .chordSelected {

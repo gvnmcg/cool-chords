@@ -1,18 +1,45 @@
 
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap$effect=outline');
+
+.title {
+  font-family: 'Muli', sans-serif;
+  color: black;
+  font-weight: 7;
+  line-height: .25;
+  letter-spacing: -.003em;
+  font-size: 70px;
+  /* font-effect: outline */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #BADA55;
+}
+
 
 .main {
+  
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   border: 3px solid;
   margin: 1rem;
   padding: 0%;
   width: fit-content;
-
 }
 
 .container {
   display: flex;
   justify-content: center;
+  
+  flex-direction: column;
+  margin: 3rem;
+}
+
+
+.backButton {
+  border: 3px solid;
+  /* height: inherit; */
+  background-color: darkorange;
+  padding:1rem;
+  margin:1rem;
+  width:5rem
 }
 
 .chordSequenceSelectionList {

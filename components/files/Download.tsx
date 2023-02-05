@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { ChordArr } from "./types/FretboardTypes";
+import { ChordArr, ChordCollectionType } from "../types/FretboardTypes";
 
 interface DownloadProps {
   chordSequence: ChordArr[];
+  chordCollection : ChordCollectionType;
+
 }
 
 const Download = ({
-  chordSequence,
+  chordCollection,
+  chordSequence
 }: DownloadProps) => {
   const [files, setFiles] = useState("");
   const [fileName, setFilename] = useState("sequence");
@@ -29,7 +32,7 @@ const Download = ({
       <a
         style={{backgroundColor:'lightgreen', color:'black'}}
         href={`data:text/json;charset=utf-8,${encodeURIComponent(
-          JSON.stringify(chordSequence)
+          JSON.stringify(chordCollection)
         )}`}
         download={fileName + ".json"}
       >

@@ -33,6 +33,12 @@ export type ChordSequenceType = {
   midiSequence: ChordArr[];
 }
 
+export type ChordCollectionType = {
+  id: string;
+  title: string;
+  midiSequence: ChordArr[];
+}
+
 // Chord UI type
 export type NoteMarkerType = {
   str: number;

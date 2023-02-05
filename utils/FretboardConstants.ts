@@ -1,4 +1,7 @@
 // [[[ Weird Constants ]]]
+import bbq from "../sequences/BetterBeQuiet.json"
+import wave from "../sequences/wave.json"
+import fire from "../sequences/firer.json"
 
 export const debug: boolean = !true;
 export const sequenceDebug: boolean = !true;
@@ -142,5 +145,15 @@ export const altChordSequence = [
     slurs: [],
   },
 ];
+
+
+export const jsonArr = [
+  { id: "p1", title: "bbq", midiSequence: bbq },
+  { id: "p2", title: "wav", midiSequence: wave },
+  { id: "p3", title: "fir", midiSequence: fire },
+];
+
+export const initChordCollection = 
+  { id: "test", title: "None", midiSequence: [] };
 
 export const midi2Name = (midi: number): string => noteNames[midi % 12];

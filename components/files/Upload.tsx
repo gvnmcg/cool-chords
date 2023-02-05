@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { ChordArr, ChordSequenceType } from "./types/FretboardTypes";
+import { ChordArr } from "../types/FretboardTypes";
 
 interface UploadProps {
   setChordSequence: (list: ChordArr[]) => void;

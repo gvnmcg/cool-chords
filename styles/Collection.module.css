@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  justify-content: center;
+
+  flex-direction: column;
+}
+
+.collection {
+  display: flex;
+  flex-direction: column;
+  border: 3px solid;
+  margin: 1rem;
+}
+
+.collectionHead {
+  display: flex;
+  flex-direction: row;
+  font-weight: 7;
+  line-height: .7;
+  letter-spacing: -.003em;
+  font-size: 20px;
+  padding-left: 1rem;
+}
+
+.collectionControls {
+  display: flex;
+  flex-direction: row;
+  border: 3px solid;
+}
+
+.editButton {
+  border: 3px solid;
+  writing-mode: vertical-rl;
+
+  text-orientation: upright;
+  height: inherit;
+  background-color: darkorange;
+}
+
+.newButton {
+  display: flex;
+  flex-direction: row;
+  border: 3px solid;
+  /* height: inherit; */
+  /* background-color: darkorange; */
+  padding:1rem;
+  margin:1rem;
+}
+
+.collectionView {
+  display: flex;
+  flex-direction: row;
+  margin: 1rem;
+}
+
+.selection {
+  border: 3px solid;
+  margin: 1rem;
+}

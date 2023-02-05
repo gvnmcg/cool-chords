@@ -3,7 +3,6 @@ import TuningControls from "../../components/Tuning";
 import ScaleControls from "../../components/Scale";
 import SequenceControls from "../../components/Sequence";
 import styles from "../../styles/Home.module.css";
-import ChordArrayControls from "../../components/ChordArrays";
 import FretboardCanvas from "../../components/FretboardCanvas";
 import {
   ScaleChordType,
@@ -47,21 +46,15 @@ const FretboardApp = ({chordArrSequence, setChordArrSequence}:FretboardAppProps)
 
   useEffect(() => {
     const context = new AudioContext();
-    console.log(context.state);
     context.resume().then(() => {});
-    console.log(chordArrSequence)
   });
 
   return (
     <div className={styles.main}>
       <div className={styles.chordSequenceEditor}>
-        <SequenceControls
-          tuning={tuning}
-          chordSequence={chordArrSequence}
-          setChordSequence={setChordArrSequence}
-        />
+        {/* <button >Save</button> */}
         <div className={styles.chordSequence}>
-          <ChordArrayControls
+          <SequenceControls
             tuning={tuning}
             chordSequence={chordArrSequence}
             setChordSequence={setChordArrSequence}

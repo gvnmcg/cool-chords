@@ -4,7 +4,7 @@ import { ChordArr, TuningType } from "./types/FretboardTypes";
 import styles from "../styles/Chords.module.css";
 import ChordsCanvas from "./ChordsCanvas";
 
-interface ChordArrayControlsProps {
+interface SequenceControlsProps {
   tuning: TuningType;
   chordSequence: ChordArr[];
   setChordSequence: (sq: ChordArr[]) => void;
@@ -19,13 +19,13 @@ interface ChordArrayControlsProps {
  * @param param0
  * @returns
  */
-const ChordArrayControls = ({
+const SequenceControls = ({
   tuning,
   chordSequence,
   setChordSequence,
   chordSet,
   setChordSet,
-}: ChordArrayControlsProps) => {
+}: SequenceControlsProps) => {
   const [chordIndex, setChordIndex] = useState<number>(0);
 
   const amendSequence = () => {
@@ -132,4 +132,4 @@ const ChordArrayControls = ({
   );
 };
 
-export default ChordArrayControls;
+export default SequenceControls;

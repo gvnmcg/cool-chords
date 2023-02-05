@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { ChordArr } from '../components/types/FretboardTypes';
-import { initChordArraySequence } from '../utils/FretboardConstants';
+import { ChordArr, ChordCollectionType } from '../components/types/FretboardTypes';
+import { initChordArraySequence, initChordCollection } from '../utils/FretboardConstants';
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [chordArrSequence, setChordArrSequence] = useState<ChordArr[]>(
+  const [chordCollection, setChordCollection] = useState<ChordCollectionType>(
+    initChordCollection
+  ); 
+const [chordArrSequence, setChordArrSequence] = useState<ChordArr[]>(
     initChordArraySequence
   ); 
 
@@ -17,6 +20,8 @@ export default function App({ Component, pageProps }: AppProps) {
   // console.log(Component)
   return (
     <Component
+    chordCollection = {chordCollection}
+    setChordCollection ={setChordCollection}
       chordArrSequence={chordArrSequence}
       setChordArrSequence={setChordArrSequence}
     />
