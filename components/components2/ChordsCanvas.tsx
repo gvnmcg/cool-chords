@@ -1,19 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
-import { debug, noteNames, scaleNumbers } from "../utils/FretboardConstants";
-import {
-  NoteType,
-  TuningType,
-} from "./types/FretboardTypes";
+import { debug, getFret } from "../utils/FretboardConstants";
+import { TuningType } from "./types/FretboardTypes";
 import styles from "../styles/Chords.module.css";
 
 const FRET_SPACING = 10;
 const STR_SPACING = 7;
 const MARGIN = 5;
 
-const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
-
 interface ChordsCanvasType {
-  chordSet: NoteType[];
+  chordSet: number[];
   tuning: TuningType;
 }
 
@@ -38,19 +33,31 @@ const ChordsCanvas = ({ chordSet, tuning }: ChordsCanvasType) => {
     });
   };
 
-  const drawChordNotes = (ctx: CanvasRenderingContext2D) => {
-    ctx.fillStyle = "#BADA55";
-    chordSet.forEach((cn: NoteType) => {
-      ctx.fillStyle = "#BADA55";
-      let x = cn.str * STR_SPACING + MARGIN;
-      let y = cn.fret * FRET_SPACING + MARGIN;
-      ctx.beginPath();
-      ctx.arc(x, y, 2, 0, 2 * Math.PI);
-      ctx.fill();
-    });
-  };
+  // const drawChordNotes = (ctx: CanvasRenderingContext2D) => {
+  //   ctx.fillStyle = "#BADA55";
+  //   chordSet.forEach((cn, str) => {
+  //     ctx.fillStyle = "#BADA55";
+  //     let x = str * STR_SPACING + MARGIN;
+  //     let y = getFret(tuning, str, cn) * FRET_SPACING + MARGIN;
+  //     ctx.beginPath();
+  //     ctx.arc(x, y, 2, 0, 2 * Math.PI);
+  //     ctx.fill();
+  //   });
+  // };
 
   useEffect(() => {
+    const drawChordNotes = (ctx: CanvasRenderingContext2D) => {
+      ctx.fillStyle = "#BADA55";
+      chordSet.forEach((cn, str) => {
+        ctx.fillStyle = "#BADA55";
+        let x = str * STR_SPACING + MARGIN;
+        let y = getFret(tuning, str, cn) * FRET_SPACING + MARGIN;
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, 2 * Math.PI);
+        ctx.fill();
+      });
+    };
+
     const canvas = canvasRef.current;
     if (canvas == null) throw new Error("Could not get canvas");
     if (canvasRef.current) {

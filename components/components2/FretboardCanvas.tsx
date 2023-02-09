@@ -1,5 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
-import { debug, noteNames, scaleNumbers } from "../utils/FretboardConstants";
+import {
+  debug,
+  getFret,
+  noteNamesSharps,
+  fretboardCanvasDebug,
+} from "../utils/FretboardConstants";
 import {
   NoteType,
   ScaleChordType,
@@ -18,30 +23,36 @@ const FRET_COUNT = 15;
 const WIDTH = STR_SPACING * 6 + MARGIN * 2;
 const HEIGHT = FRET_SPACING * FRET_COUNT + MARGIN * 2;
 
-const initChordNote: NoteType = { fret: 0, str: 0, midi: 0 };
 
-const fretbaordCanvasDebug: boolean = debug || false;
+// const fretbaordCanvasDebug: boolean = debug || false;
 
 interface FretboardCanvasType {
+  play: (str:number, when:number) => void
   tuning: TuningType;
+  keyNote: number;
   setTuning: (tuning: number[]) => void;
   scale: ScaleType;
   scaleChord: ScaleChordType;
-  chordSet: NoteType[];
-  setChordSet: (ch: NoteType[]) => void;
+  chordSet: number[];
+  setChordSet: (ch: number[]) => void;
 }
 
-const FretboardCanvas = ({
+const FretboardCanvas2 = ({
+  play,
   tuning,
   setTuning,
+  keyNote,
   scale,
   scaleChord,
   chordSet,
   setChordSet,
 }: FretboardCanvasType) => {
-  const [noteCursor, setNoteCursor] = useState<NoteType>(initChordNote);
+  const [position, setPosition] = useState({ str: 0, fret: 0 });
+
   const [orientation, setOrientation] = useState<boolean>(true);
   const [cursorDraw, setCursorDraw] = useState<boolean>(false);
+  const [drawMode, setDrawMode] = useState<boolean>(false);
+  const [riffMode, setRiffMode] = useState<boolean>(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -66,8 +77,8 @@ const FretboardCanvas = ({
     fret: number,
     ctx: CanvasRenderingContext2D
   ) => {
-    let openNote = tuning[str];
-    let fromOpen = (openNote + fret) % 12;
+    // let openNote = tuning[str];
+    // let fromOpen = (openNote + fret) % 12;
 
     let x = str * STR_SPACING + MARGIN;
     let y = fret * FRET_SPACING + MARGIN;
@@ -79,37 +90,93 @@ const FretboardCanvas = ({
   };
 
   const drawNoteName = (
-    noteName: string,
-    x: number,
-    y: number,
+    str: number,
+    fret: number,
     ctx: CanvasRenderingContext2D
   ) => {
-    // ctx.fillStyle = "#FF5733";
-    ctx.fillText(noteName, x - 5, y + 5);
+    let x = str * STR_SPACING + MARGIN;
+    let y = fret * FRET_SPACING + MARGIN;
+
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText(noteNamesSharps[(tuning[str] + fret) % 12], x - 5, y + 5);
   };
 
   const drawScaleNotes = (ctx: CanvasRenderingContext2D) => {
-    // (orientation?tuning:tuning.reverse())
+    // if (fretboardCanvasDebug) console.log("drawScaleNotes");
     tuning.forEach((openNote: number, strIx: number) => {
-      // let note = tuning[strIx];
-      let fretCount = FRET_COUNT;
-      // draw notes on the string
+      scale
+        .map(
+          (interval: number, chordRoot: number) =>
+            (interval + keyNote - (openNote % 12) + 12) % 12
+        )
+        .filter((n, i) => scaleChord[i])
+        .forEach((fret: number, chordRoot: number) => {
+          drawScaleNote(strIx, fret, ctx);
+          // drawNoteName(strIx, fret, ctx);
+        });
+    });
+  };
 
-      for (let fretIx = 0; fretIx < FRET_COUNT; fretIx++) {
-        let scaleNote = (openNote + fretIx) % 12;
-        if (scale.includes(scaleNote) && scaleChord[scale.indexOf(scaleNote)]) {
-          drawScaleNote(strIx, fretIx, ctx);
-        }
-      }
+  const drawScaleNoteNames = (ctx: CanvasRenderingContext2D) => {
+    // if (fretboardCanvasDebug) console.log("drawScaleNotes");
+    tuning.forEach((openNote: number, strIx: number) => {
+      scale
+        .map(
+          (interval: number, chordRoot: number) =>
+            (interval + keyNote - (openNote % 12) + 12) % 12
+        )
+        .filter((n, i) => scaleChord[i])
+        .forEach((fret: number, chordRoot: number) => {
+          // drawScaleNote(strIx, fret, ctx);
+          drawNoteName(strIx, fret, ctx);
+        });
     });
   };
 
   const drawChordNotes = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = "#BADA55";
+    if (fretboardCanvasDebug)
+      console.log(
+        "draw chord Notes",
+        chordSet.map((chordNote, str) =>
+          chordNote !== 0 ? chordNote - tuning[str] : "X"
+        )
+      );
+    chordSet.forEach((chordNote, str) => {
+      let x = str * STR_SPACING + MARGIN;
+      let y = getFret(tuning, str, chordNote) * FRET_SPACING + MARGIN;
+      // muted string
+      if (chordNote == 0) {
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.rect(x - 7, 0, 15, HEIGHT);
+        ctx.fill();
+        return;
+      }
+      // open string
+      // if (getFret(tuning, str, chordNote) == 0) {
+      //   ctx.fillStyle = "#BADA55";
+      //   ctx.beginPath();
+      //   ctx.rect(x - 3, 0, 5, HEIGHT);
+      //   ctx.fill();
+      // }
+      ctx.fillStyle = "#BADA55";
+      ctx.beginPath();
+      ctx.arc(x, y, 10, 0, 2 * Math.PI);
+      ctx.fill();
+    });
+  };
 
-    chordSet.forEach((chordNote) => {
-      let x = chordNote.str * STR_SPACING + MARGIN;
-      let y = chordNote.fret * FRET_SPACING + MARGIN;
+  const drawRiffNotes = (ctx: CanvasRenderingContext2D) => {
+    ctx.fillStyle = "#FF0000";
+    if (fretboardCanvasDebug)
+      console.log(
+        "draw chord Notes",
+        chordSet.map((chordNote, str) => chordNote - tuning[str])
+      );
+    chordSet.forEach((chordNote, str) => {
+      let x = str * STR_SPACING + MARGIN;
+      let y = getFret(tuning, str, chordNote) * FRET_SPACING + MARGIN;
 
       ctx.beginPath();
       ctx.arc(x, y, 10, 0, 2 * Math.PI);
@@ -119,8 +186,8 @@ const FretboardCanvas = ({
 
   const drawNoteCursor = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = "#F000FF";
-    let y = noteCursor.fret * FRET_SPACING + MARGIN;
-    let x = noteCursor.str * STR_SPACING + MARGIN;
+    let y = position.fret * FRET_SPACING + MARGIN;
+    let x = position.str * STR_SPACING + MARGIN;
 
     ctx.beginPath();
     // ctx.strokeRect(x-5, y-5, 10, 10)
@@ -146,17 +213,13 @@ const FretboardCanvas = ({
     return newNote;
   };
 
-  const updateChord = (newNote: NoteType) => {
+  const updateChord = (str: number, newNote: number) => {
     // constrain to one per string
-    let newSet = chordSet.filter((chordNote) => {
-      return chordNote.str != newNote.str;
-    });
-    setChordSet([...newSet, newNote]);
-    if (fretbaordCanvasDebug) console.log("update chord", newSet);
-  };
-
-  const updateNoteCursor = (newNote: NoteType) => {
-    setNoteCursor(newNote);
+    setChordSet(
+      chordSet.map((note, i) =>
+        str !== i ? note : newNote !== note ? newNote : 0
+      )
+    );
   };
 
   const drawFretMarkers = (context: CanvasRenderingContext2D) => {
@@ -185,30 +248,28 @@ const FretboardCanvas = ({
     const context = canvas.getContext("2d");
     if (context == null) throw new Error("Could not get context");
 
-    if (fretbaordCanvasDebug) {
-      console.log("fbc useeff tuning,", tuning);
-      console.log("fbc useeff chord,", chordSet);
-      console.log("fbc useeff tuning,");
+    if (fretboardCanvasDebug) {
+      // console.log("fbc useeff tuning,", tuning);
+      // console.log("fbc useeff chord,", chordSet);
+      console.log("fbc useeff keyNote",keyNote)
     }
 
     drawBackground(context);
-    drawFretMarkers(context);
     drawScaleNotes(context);
     drawChordNotes(context);
     if (cursorDraw) drawNoteCursor(context);
-  });
+    drawScaleNoteNames(context);
+    drawFretMarkers(context);
+  } );
 
   return (
     <div className={styles.fretboardContainer}>
-      {/* <button
-        onClick={() => {
-          // setOrientation(!orientation);
-          // setChordSet(chordSet.reverse());
-          // setTuning(tuning.reverse());
-        }}
-      >
-        change orientation
-      </button> */}
+       <button onClick={()=>{
+        chordSet.forEach((n, i) => {
+          play(i, i / 4);
+        });
+      }}
+      >Strum</button>
       <canvas
         ref={canvasRef}
         width={orientation ? WIDTH : HEIGHT}
@@ -218,14 +279,15 @@ const FretboardCanvas = ({
           let rect = canvasRef.current.getBoundingClientRect();
           let noteTarget = getNoteTarget(e, rect);
           if (!noteTarget) return;
-          updateChord(noteTarget);
+          play(noteTarget.str, 0)
+          updateChord(noteTarget.str, tuning[noteTarget.str] + noteTarget.fret);
         }}
         onMouseMove={(e) => {
           if (!canvasRef.current) return;
           let rect = canvasRef.current.getBoundingClientRect();
           let noteTarget = getNoteTarget(e, rect);
           if (!noteTarget) return;
-          updateNoteCursor(noteTarget);
+          setPosition({ str: noteTarget.str, fret: noteTarget.fret });
         }}
         onMouseEnter={(e) => {
           setCursorDraw(true);
@@ -234,8 +296,10 @@ const FretboardCanvas = ({
           setCursorDraw(false);
         }}
       />
+     
+
     </div>
   );
 };
 
-export default FretboardCanvas;
+export default FretboardCanvas2;
