@@ -1,17 +1,16 @@
 import React, { useEffect, useState, useMemo } from "react";
-import TuningControls from "../../components/Tuning";
-import ScaleControls from "../../components/Scale";
-import SequenceControls from "../../components/Sequence";
+import TuningControls from "../fretboard/Tuning";
+import ScaleControls from "../fretboard/Scale";
+import SequenceControls from "../fretboard/Sequence";
 import styles from "../../styles/Home.module.css";
-import FretboardCanvas from "../../components/FretboardCanvas";
+import FretboardCanvas from "../fretboard/FretboardCanvas";
 import {
   ScaleChordType,
   AccidentalsType,
   ScaleType,
   TuningType,
   ChordArr,
-  ChordCollectionType,
-} from "../../components/types/FretboardTypes";
+} from "../fretboard/types/FretboardTypes";
 import {
   allTrue,
   standardTuning,
@@ -21,15 +20,15 @@ import {
 
 import useSound from "react-guitar-sound";
 
-interface FretboardAppProps {
-  chordCollection: ChordCollectionType;
-  setChordCollection: (co:ChordCollectionType) => void;
+interface SongEditorProps {
+  song: Song; 
+  setSong: (seq:Song) => void;
 }
 
 /**
  *
  */
-const FretboardApp = ({chordCollection, setChordCollection}:FretboardAppProps) => {
+const SongEditor = ({song, setSong}:SongEditorProps) => {
  
   // Fretboard System
   const [tuning, setTuning] = useState<TuningType>(standardTuning);
@@ -42,12 +41,6 @@ const FretboardApp = ({chordCollection, setChordCollection}:FretboardAppProps) =
   const [accidentals, setAccidentals] = useState<AccidentalsType>(0);
   const [scaleChord, setScaleChord] = useState<ScaleChordType>(allTrue);
   const [keyNote, setKeyNote] = useState<number>(0);
-
-
-    const setChordArrSequence = (chordArrSequence:ChordArr[]) => {
-      setChordCollection({...chordCollection, midiSequence:chordArrSequence})
-    }
-
 
   const { play, strum } = useSound({ fretting: chordArray.map((n,i)=>getFret(tuning,i,n)), tuning: tuning })
 
@@ -63,7 +56,7 @@ const FretboardApp = ({chordCollection, setChordCollection}:FretboardAppProps) =
         <div className={styles.chordSequence}>
           <SequenceControls
             tuning={tuning}
-            chordSequence={chordCollection.midiSequence}
+            chordSequence={chordArrSequence}
             setChordSequence={setChordArrSequence}
             chordSet={chordArray}
             setChordSet={setChordArray}
@@ -99,4 +92,4 @@ const FretboardApp = ({chordCollection, setChordCollection}:FretboardAppProps) =
   );
 };
 
-export default FretboardApp;
+export default SongEditor;

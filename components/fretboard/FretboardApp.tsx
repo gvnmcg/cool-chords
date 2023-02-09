@@ -1,16 +1,17 @@
 import React, { useEffect, useState, useMemo } from "react";
-import TuningControls from "../../components/Tuning";
-import ScaleControls from "../../components/Scale";
-import SequenceControls from "../../components/Sequence";
+import TuningControls from "./Tuning";
+import ScaleControls from "./Scale";
+import SequenceControls from "./Sequence";
 import styles from "../../styles/Home.module.css";
-import FretboardCanvas from "../../components/FretboardCanvas";
+import FretboardCanvas from "./FretboardCanvas";
 import {
   ScaleChordType,
   AccidentalsType,
   ScaleType,
   TuningType,
   ChordArr,
-} from "../../components/types/FretboardTypes";
+  ChordCollectionType,
+} from "./types/FretboardTypes";
 import {
   allTrue,
   standardTuning,
@@ -21,14 +22,14 @@ import {
 import useSound from "react-guitar-sound";
 
 interface FretboardAppProps {
-  chordArrSequence: ChordArr[]; 
-  setChordArrSequence: (seq:ChordArr[]) => void;
+  chordCollection: ChordCollectionType;
+  setChordCollection: (co:ChordCollectionType) => void;
 }
 
 /**
  *
  */
-const FretboardApp = ({chordArrSequence, setChordArrSequence}:FretboardAppProps) => {
+const FretboardApp = ({chordCollection, setChordCollection}:FretboardAppProps) => {
  
   // Fretboard System
   const [tuning, setTuning] = useState<TuningType>(standardTuning);
@@ -41,6 +42,12 @@ const FretboardApp = ({chordArrSequence, setChordArrSequence}:FretboardAppProps)
   const [accidentals, setAccidentals] = useState<AccidentalsType>(0);
   const [scaleChord, setScaleChord] = useState<ScaleChordType>(allTrue);
   const [keyNote, setKeyNote] = useState<number>(0);
+
+
+    const setChordArrSequence = (chordArrSequence:ChordArr[]) => {
+      setChordCollection({...chordCollection, midiSequence:chordArrSequence})
+    }
+
 
   const { play, strum } = useSound({ fretting: chordArray.map((n,i)=>getFret(tuning,i,n)), tuning: tuning })
 
@@ -56,7 +63,7 @@ const FretboardApp = ({chordArrSequence, setChordArrSequence}:FretboardAppProps)
         <div className={styles.chordSequence}>
           <SequenceControls
             tuning={tuning}
-            chordSequence={chordArrSequence}
+            chordSequence={chordCollection.midiSequence}
             setChordSequence={setChordArrSequence}
             chordSet={chordArray}
             setChordSet={setChordArray}

@@ -10,7 +10,7 @@ export const tuningDebug: boolean = !true;
 export const fretboardDebug: boolean = !true;
 export const fretboardCanvasDebug: boolean = !true;
 
-import { ChordCollectionType, NoteType, TuningType } from "../components/types/FretboardTypes";
+import { ChordCollectionType, NoteType, TuningType } from "../components/fretboard/types/FretboardTypes";
 
 export const allFalse = [false, false, false, false, false, false, false];
 export const allTrue = [true, true, true, true, true, true, true];

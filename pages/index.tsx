@@ -1,6 +1,6 @@
-import { ChordArr, ChordCollectionType } from '../components/types/FretboardTypes';
+import { ChordArr, ChordCollectionType } from '../components/fretboard/types/FretboardTypes';
 import styles from '../styles/Home.module.css'
-import Collections from './Collections';
+import Collections from '../components/collections/Collections';
 
 interface FretboardAppProps {
   chordCollection : ChordCollectionType;

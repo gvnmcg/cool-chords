@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { debug, getFret } from "../utils/FretboardConstants";
+import { debug, getFret } from "../../utils/FretboardConstants";
 import { TuningType } from "./types/FretboardTypes";
 import styles from "../styles/Chords.module.css";
 

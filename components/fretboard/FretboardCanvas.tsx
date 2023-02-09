@@ -4,7 +4,7 @@ import {
   getFret,
   noteNamesSharps,
   fretboardCanvasDebug,
-} from "../utils/FretboardConstants";
+} from "../../utils/FretboardConstants";
 import {
   NoteType,
   ScaleChordType,
@@ -12,7 +12,7 @@ import {
   TuningType,
 } from "./types/FretboardTypes";
 
-import { colors } from "../utils/ColorConstants";
+import { colors } from "../../utils/ColorConstants";
 import styles from "../styles/Fretboard.module.css";
 
 const FRET_SPACING = 30;

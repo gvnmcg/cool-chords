@@ -38,7 +38,7 @@ export default function Home({chordCollection, setChordCollection}:FretboardAppP
       <Download
           chordCollection={chordCollection}
         />
-      <FretboardApp
+      <Editor
         chordCollection={chordCollection}
         setChordCollection={setChordCollection}
       />

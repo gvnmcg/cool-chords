@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { ChordArr, ChordCollectionType, ChordSequenceType } from '../components/types/FretboardTypes';
+import { ChordArr, ChordCollectionType, ChordSequenceType } from '../fretboard/types/FretboardTypes';
 import Link from 'next/link';
 // import bbq from "../sequences/BetterBeQuiet.json"
 // import wave from "../sequences/wave.json"
 // import fire from "../sequences/firer.json"
-import { jsonArr } from '../utils/FretboardConstants';
+import { jsonArr } from '../../utils/FretboardConstants';
 import styles from '../styles/Collection.module.css'
-import ChordsCanvas from '../components/ChordsCanvas';
-import { standardTuning } from '../utils/FretboardConstants';
+import ChordsCanvas from '../fretboard/ChordsCanvas';
+import { standardTuning } from '../../utils/FretboardConstants';
 
 interface CollectionPostProps {
   chordCollection: ChordCollectionType;

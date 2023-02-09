@@ -1,5 +1,5 @@
 import React from "react";
-import { debug, tuningDebug, standardTuning, DADFADTuning } from "../utils/FretboardConstants";
+import { debug, tuningDebug, standardTuning, DADFADTuning } from "../../utils/FretboardConstants";
 import { TuningType } from "./types/FretboardTypes";
 import TuningView from "./TuningView";
 import styles from "../styles/Tuning.module.css";

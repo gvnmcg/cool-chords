@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { debug, getFret, noteNames, chordDebug } from "../utils/FretboardConstants";
+import { debug, getFret, noteNames, chordDebug } from "../../utils/FretboardConstants";
 import { ChordArr, TuningType } from "./types/FretboardTypes";
 import styles from "../styles/Chords.module.css";
 import ChordsCanvas from "./ChordsCanvas";
