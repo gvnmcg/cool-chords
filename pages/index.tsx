@@ -1,4 +1,3 @@
-import LocalStore from './localStorage';
 import { ChordArr, ChordCollectionType } from '../components/types/FretboardTypes';
 import styles from '../styles/Home.module.css'
 import Collections from './Collections';

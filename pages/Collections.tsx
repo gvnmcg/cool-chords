@@ -32,9 +32,7 @@ const CollectionPost = ({chordCollection, setChordCollection}:CollectionPostProp
             Open
           </div>
         </Link>
-        {chordCollection.midiSequence?.map((chord:ChordArr, ix) => {
-          return ( <ChordsCanvas chordSet={chord.notes} tuning={standardTuning} key={ix}/>)
-        })}
+        {chordCollection.midiSequence?.map((chord:ChordArr, ix) =>  <ChordsCanvas chordSet={chord.notes} tuning={standardTuning} key={ix}/>)}
         {/* <div>{JSON.stringify(seq.midiSequence)}</div> */}
       </div>
     </div>
@@ -44,9 +42,9 @@ const CollectionPost = ({chordCollection, setChordCollection}:CollectionPostProp
 
 
 interface CollectionsProps {
-  chordCollection : ChordCollectionType;
-  setChordCollection: (co:ChordCollectionType) => void;
-  }
+  chordCollection: ChordCollectionType;
+  setChordCollection: (co: ChordCollectionType) => void;
+}
   
 
 
@@ -83,15 +81,8 @@ const Collections = ({chordCollection, setChordCollection}:CollectionsProps) => 
     return newCol
   }
 
-  const saveCurenntCollection = (title:string, index: number) => {
-    let newCol = {
-      id: "p" + index,
-      title: title,
-      midiSequence: chordCollection.midiSequence,
-    }
-    localStorage.setItem("p" + newCol.id, JSON.stringify(newCol))
-    
-    return newCol
+  const saveCurenntCollection = ( index: number) => {
+    localStorage.setItem(chordCollection.id, JSON.stringify(chordCollection))
   }
 
   const removeCurenntCollection = (index: number) => {
@@ -123,27 +114,33 @@ const Collections = ({chordCollection, setChordCollection}:CollectionsProps) => 
   return (
     <div className={styles.container}>
       <div className={styles.newButton}>
-        <input type={"text"} onChange={e=> setNewTitle(e.target.value)}/>
+        <input type={"text"} onChange={(e) => setNewTitle(e.target.value)} />
         <div
           onClick={() => {
-            let newCol = createNewCollection(newTitle, collectionList.length )
+            let newCol = createNewCollection(newTitle, collectionList.length);
             setCollectionList([newCol, ...collectionList]);
-            setChordCollection(newCol)
+            setChordCollection(newCol);
           }}
         >
           Create
         </div>
       </div>
       {collectionList.map((col, ix) => (
-        <div className={styles.collection}
-        key={ix}>
-          <CollectionPost chordCollection={col} setChordCollection={setChordCollection} />
+        <div className={styles.collection} key={ix}>
+          <CollectionPost
+            chordCollection={col}
+            setChordCollection={setChordCollection}
+          />
           <button
-          onClick={()=> removeCurenntCollection(ix)}
-          style={{width: "fit-content"}}
-          >x</button>
+            onClick={() => removeCurenntCollection(ix)}
+            style={{ width: "fit-content" }}
+          >
+            x
+          </button>
         </div>
       ))}
+      <button onClick={() => loadHardJSON()}>loadHardJSON</button>
+      <button onClick={() => localStorage.clear()}>localStorage.clear()</button>
     </div>
   );
 }
