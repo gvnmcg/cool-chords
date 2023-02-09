@@ -8,22 +8,29 @@ export default function App({ Component, pageProps }: AppProps) {
   const [chordCollection, setChordCollection] = useState<ChordCollectionType>(
     initChordCollection
   ); 
-const [chordArrSequence, setChordArrSequence] = useState<ChordArr[]>(
-    initChordArraySequence
-  ); 
 
+// const [chordArrSequence, setChordArrSequence] = useState<ChordArr[]>(
+//     initChordArraySequence
+//   ); 
+
+
+  const setChordArrSequence = (chordArrSequence:ChordArr[]) => {
+    setChordCollection({...chordCollection, midiSequence:chordArrSequence})
+  }
+
+  
   useEffect(()=> {
     console.log("app root")
-    console.log("app root", chordArrSequence)
+    console.log("app root", chordCollection)
   })
+
+
 
   // console.log(Component)
   return (
     <Component
-    chordCollection = {chordCollection}
-    setChordCollection ={setChordCollection}
-      chordArrSequence={chordArrSequence}
-      setChordArrSequence={setChordArrSequence}
+      chordCollection={chordCollection}
+      setChordCollection={setChordCollection}
     />
   );
   // return <Component {...pageProps} />

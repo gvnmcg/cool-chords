@@ -10,7 +10,7 @@ export const tuningDebug: boolean = !true;
 export const fretboardDebug: boolean = !true;
 export const fretboardCanvasDebug: boolean = !true;
 
-import { NoteType, TuningType } from "../components/types/FretboardTypes";
+import { ChordCollectionType, NoteType, TuningType } from "../components/types/FretboardTypes";
 
 export const allFalse = [false, false, false, false, false, false, false];
 export const allTrue = [true, true, true, true, true, true, true];
@@ -147,7 +147,7 @@ export const altChordSequence = [
 ];
 
 
-export const jsonArr = [
+export const jsonArr:ChordCollectionType[] = [
   { id: "p1", title: "bbq", midiSequence: bbq },
   { id: "p2", title: "wav", midiSequence: wave },
   { id: "p3", title: "fir", midiSequence: fire },

@@ -6,11 +6,11 @@ import Collections from './Collections';
 interface FretboardAppProps {
   chordCollection : ChordCollectionType;
   setChordCollection: (co:ChordCollectionType) => void;
-  chordArrSequence: ChordArr[]; 
-  setChordArrSequence: (seq:ChordArr[]) => void;
 }
 
-export default function Home({chordCollection, setChordCollection, chordArrSequence, setChordArrSequence}:FretboardAppProps) {
+export default function Home({chordCollection, setChordCollection}:FretboardAppProps) {
+  
+  
   return (
     <div className={styles.container}>
       <a className={styles.title}> Cool Chords </a>
@@ -22,8 +22,6 @@ export default function Home({chordCollection, setChordCollection, chordArrSeque
       <Collections
         chordCollection={chordCollection}
         setChordCollection={setChordCollection}
-        chordArrSequence={chordArrSequence}
-        setChordArrSequence={setChordArrSequence}
       />
     </div>
   );

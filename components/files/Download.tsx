@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { ChordArr, ChordCollectionType } from "../types/FretboardTypes";
 
 interface DownloadProps {
-  chordSequence: ChordArr[];
   chordCollection : ChordCollectionType;
 
 }
 
 const Download = ({
   chordCollection,
-  chordSequence
 }: DownloadProps) => {
   const [files, setFiles] = useState("");
   const [fileName, setFilename] = useState("sequence");

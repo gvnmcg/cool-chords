@@ -10,28 +10,29 @@ import ChordsCanvas from '../components/ChordsCanvas';
 import { standardTuning } from '../utils/FretboardConstants';
 
 interface CollectionPostProps {
-  seq: ChordSequenceType; 
-  setChordArrSequence: (seq:ChordArr[]) => void;
+  chordCollection: ChordCollectionType;
+  setChordCollection: (co:ChordCollectionType) => void;
 }
 
 
-const CollectionPost = ({seq, setChordArrSequence}:CollectionPostProps) => {
+
+const CollectionPost = ({chordCollection, setChordCollection}:CollectionPostProps) => {
 
   return (
     <div>
       <span className={styles.collectionHead}>
-        <h1>{seq.title}</h1>
+        <h1>{chordCollection.title}</h1>
       </span>
       <div className={styles.collectionView}>
         <Link href="/chords-app">
           <div
             className={styles.editButton}
-            onClick={() => setChordArrSequence(seq.midiSequence)}
+            onClick={() => setChordCollection(chordCollection)}
           >
             Open
           </div>
         </Link>
-        {seq.midiSequence?.map((chord:ChordArr, ix) => {
+        {chordCollection.midiSequence?.map((chord:ChordArr, ix) => {
           return ( <ChordsCanvas chordSet={chord.notes} tuning={standardTuning} key={ix}/>)
         })}
         {/* <div>{JSON.stringify(seq.midiSequence)}</div> */}
@@ -45,14 +46,12 @@ const CollectionPost = ({seq, setChordArrSequence}:CollectionPostProps) => {
 interface CollectionsProps {
   chordCollection : ChordCollectionType;
   setChordCollection: (co:ChordCollectionType) => void;
-    chordArrSequence: ChordArr[]; 
-    setChordArrSequence: (seq:ChordArr[]) => void;
   }
   
 
 
 
-const Collections = ({chordCollection, setChordCollection, chordArrSequence, setChordArrSequence}:CollectionsProps) => {
+const Collections = ({chordCollection, setChordCollection}:CollectionsProps) => {
 
   const [newTitle, setNewTitle] = useState<string>("");
 
@@ -61,13 +60,7 @@ const Collections = ({chordCollection, setChordCollection, chordArrSequence, set
   );
 
   const loadHardJSON = () => {
-    //TEMP: load local json into localStorage
-    // let jsonArr = [
-    //   { id: "p1", title: "bbq", midiSequence: bbq },
-    //   { id: "p2", title: "wav", midiSequence: wave },
-    //   { id: "p3", title: "fir", midiSequence: fire },
-    // ];
-    
+  
     jsonArr.forEach((seq,ix)=>{
       localStorage.setItem("p" + ix, JSON.stringify(seq))
     } )
@@ -94,11 +87,15 @@ const Collections = ({chordCollection, setChordCollection, chordArrSequence, set
     let newCol = {
       id: "p" + index,
       title: title,
-      midiSequence: chordArrSequence,
+      midiSequence: chordCollection.midiSequence,
     }
     localStorage.setItem("p" + newCol.id, JSON.stringify(newCol))
     
     return newCol
+  }
+
+  const removeCurenntCollection = (index: number) => {
+    localStorage.removeItem("p" + index)
   }
 
   // const createCollectoin = () => {
@@ -137,10 +134,14 @@ const Collections = ({chordCollection, setChordCollection, chordArrSequence, set
           Create
         </div>
       </div>
-      {collectionList.map((seq, ix) => (
+      {collectionList.map((col, ix) => (
         <div className={styles.collection}
         key={ix}>
-          <CollectionPost seq={seq} setChordArrSequence={setChordArrSequence} />
+          <CollectionPost chordCollection={col} setChordCollection={setChordCollection} />
+          <button
+          onClick={()=> removeCurenntCollection(ix)}
+          style={{width: "fit-content"}}
+          >x</button>
         </div>
       ))}
     </div>

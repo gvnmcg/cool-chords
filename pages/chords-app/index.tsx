@@ -10,11 +10,18 @@ import Download from '../../components/files/Download';
 interface FretboardAppProps {
   chordCollection : ChordCollectionType;
   setChordCollection: (co:ChordCollectionType) => void;
-  chordArrSequence: ChordArr[]; 
-    setChordArrSequence: (seq:ChordArr[]) => void;
   }
   
-export default function Home({chordCollection, setChordCollection, chordArrSequence, setChordArrSequence}:FretboardAppProps) {
+export default function Home({chordCollection, setChordCollection}:FretboardAppProps) {
+
+
+  const saveCurenntCollection = () => {
+    localStorage.setItem(
+      chordCollection.id,
+      JSON.stringify(chordCollection)
+    );
+  }
+
 
   return (
     <div className={styles.container}>
@@ -24,28 +31,16 @@ export default function Home({chordCollection, setChordCollection, chordArrSeque
       </Link>
       <button
         className={styles.backButton}
-        onClick={() => {
-          
-          setChordCollection({...chordCollection, midiSequence: chordArrSequence})
-          localStorage.setItem(
-            chordCollection.id,
-            JSON.stringify({
-              id: chordCollection.id,
-              title: chordCollection.title,
-              midiSequence: chordArrSequence,
-            })
-            );
-          }}
-      >
+        onClick={() => saveCurenntCollection()} >
         Save
       </button>
       <div > {JSON.stringify(chordCollection)} </div>
       <Download
-          chordSequence={chordArrSequence}
+          chordCollection={chordCollection}
         />
       <FretboardApp
-        chordArrSequence={chordArrSequence}
-        setChordArrSequence={setChordArrSequence}
+        chordCollection={chordCollection}
+        setChordCollection={setChordCollection}
       />
     </div>
   );
