@@ -1,38 +1,32 @@
 import React, { useEffect, useState } from "react";
-import {
-  debug,
-  noteNames,
-  noteNamesFlats,
-  noteNamesSharps,
-  scaleIntervals,
-  chordQualities
-} from "../utils/FretboardConstants";
-import { ScaleChordType, ScaleType } from "./types/FretboardTypes";
 import styles from "../styles/Scale.module.css";
+import { ScaleChord, ScaleIntervals } from "./constants/Types";
+import { chordQualities, noteNamesSharps } from "./constants/Constants";
 
-interface ScaleControlsProps {
-  keyNote:number;
-  setKeyNote:(key:number) => void
-  scale: ScaleType;
-  setScale: (scale: ScaleType) => void;
-  scaleChord: ScaleChordType;
-  setScaleChord: (scaleChord: ScaleChordType) => void;
-  accidentals: number;
-  setAccidentals: (scale: number) => void;
+
+// const scaleDebug: boolean = debugAll || false;
+
+
+interface ScaleUIProps {
+  keyTonic:number;
+  setKeyTonic:(key:number) => void
+  scale: ScaleIntervals;
+  setScale: (scale: ScaleIntervals) => void;
+  scaleChord: ScaleChord;
+  setScaleChord: (scaleChord: ScaleChord) => void;
 }
 
 
-const ScaleControls = ({
-  keyNote,
-  setKeyNote,
+const ScaleUI = ({
+  keyTonic,
+  setKeyTonic,
   scale,
   setScale,
   scaleChord,
   setScaleChord,
-  accidentals,
-  setAccidentals,
-}: ScaleControlsProps) => {
-  const [noteNamesArr, setNoteNamesArr] = useState<string[]>(noteNames);
+}: ScaleUIProps) => {
+
+  const [noteNamesArr, setNoteNamesArr] = useState<string[]>(noteNamesSharps);
 
   const toggleScaleNumber = (scaleNumber: number) => {
     setScaleChord(scaleChord.map((s, i) => (i == scaleNumber ? !s : s)));
@@ -51,17 +45,17 @@ const ScaleControls = ({
   };
 
   useEffect(() => {
-    setScale(scaleIntervals.map((interval) => (interval + keyNote) % 12));
-    if (keyNote == -1) setKeyNote(11)
-  }, [keyNote, accidentals]);
+    setScale(scale.map((interval) => (interval + keyTonic) % 12));
+    if (keyTonic == -1) setKeyTonic(11)
+  }, [keyTonic]);
 
   return (
     <div className={styles.scale}>
       <span>Key: </span>
       <span className={styles.key}>
-        <button onClick={() => setKeyNote((keyNote - 1) % 12)}> - </button>
-        <button onClick={() => setKeyNote((keyNote + 1) % 12)}> + </button>
-        {noteNamesArr[keyNote]}
+        <button onClick={() => setKeyTonic((keyTonic - 1) % 12)}> - </button>
+        <button onClick={() => setKeyTonic((keyTonic + 1) % 12)}> + </button>
+        {noteNamesArr[keyTonic]}
       </span>
        
       <div className={styles.chords}>
@@ -86,10 +80,10 @@ const ScaleControls = ({
 
       </div>
         {/* subset */}
-        {scaleIntervals.map((interval, i) => (
+        {scale.map((interval, i) => (
           <div className={styles.chord} key={i}>
             <span>{i+1}</span>
-            {noteNamesArr[(interval + keyNote) % 12] + chordQualities[i]}
+            {noteNamesArr[(interval + keyTonic) % 12] + chordQualities[i]}
             <button
               onClick={() => {
                 toggleChord(i);
@@ -105,4 +99,4 @@ const ScaleControls = ({
   );
 };
 
-export default ScaleControls;
+export default ScaleUI;

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import {  } from './types/FretboardTypes';
+import {  } from '../../components/editor/constants/Types';
 import Link from 'next/link';
 // import bbq from "../sequences/BetterBeQuiet.json"
 // import wave from "../sequences/wave.json"
 // import fire from "../sequences/firer.json"
 import { jsonArr } from '../../utils/FretboardConstants';
 import styles from '../styles/Collection.module.css'
-import ChordsCanvas from './ChordsCanvas';
+import ChordsCanvas from '../../components/editor/ChordsCanvas';
 import { standardTuning } from '../../utils/FretboardConstants';
 
 

@@ -1,18 +1,18 @@
 import React, { useRef, useEffect, useState } from "react";
-import { debug, getFret } from "../utils/FretboardConstants";
-import { TuningType } from "./types/FretboardTypes";
+import { Chord, Tuning } from "./constants/Types";
 import styles from "../styles/Chords.module.css";
+import { debugAll, getFret } from "./constants/Constants";
 
 const FRET_SPACING = 10;
 const STR_SPACING = 7;
 const MARGIN = 5;
 
-interface ChordsCanvasType {
-  chordSet: number[];
-  tuning: TuningType;
+interface ChordsCanvasProps {
+  chord: Chord;
+  tuning: Tuning;
 }
 
-const ChordsCanvas = ({ chordSet, tuning }: ChordsCanvasType) => {
+const ChordsCanvas = ({ chord, tuning }: ChordsCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const drawBackground = (ctx: CanvasRenderingContext2D) => {
@@ -35,7 +35,7 @@ const ChordsCanvas = ({ chordSet, tuning }: ChordsCanvasType) => {
 
   // const drawChordNotes = (ctx: CanvasRenderingContext2D) => {
   //   ctx.fillStyle = "#BADA55";
-  //   chordSet.forEach((cn, str) => {
+  //   chord.forEach((cn, str) => {
   //     ctx.fillStyle = "#BADA55";
   //     let x = str * STR_SPACING + MARGIN;
   //     let y = getFret(tuning, str, cn) * FRET_SPACING + MARGIN;
@@ -48,10 +48,10 @@ const ChordsCanvas = ({ chordSet, tuning }: ChordsCanvasType) => {
   useEffect(() => {
     const drawChordNotes = (ctx: CanvasRenderingContext2D) => {
       ctx.fillStyle = "#BADA55";
-      chordSet.forEach((cn, str) => {
+      chord.shape.forEach((note:number, str:number) => {
         ctx.fillStyle = "#BADA55";
         let x = str * STR_SPACING + MARGIN;
-        let y = getFret(tuning, str, cn) * FRET_SPACING + MARGIN;
+        let y = getFret(tuning, str, note) * FRET_SPACING + MARGIN;
         ctx.beginPath();
         ctx.arc(x, y, 2, 0, 2 * Math.PI);
         ctx.fill();
@@ -67,8 +67,8 @@ const ChordsCanvas = ({ chordSet, tuning }: ChordsCanvasType) => {
       drawFretMarkers(context);
       drawChordNotes(context);
     }
-    if (debug) console.log("chord canvas chordSet", chordSet);
-  }, [tuning, chordSet]);
+    if (debugAll) console.log("chord canvas chord.shape", chord.shape);
+  }, [tuning, chord]);
 
   return (
     <canvas

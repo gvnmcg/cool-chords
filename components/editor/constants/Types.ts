@@ -10,18 +10,21 @@
 export type Tuning = number[];
 
 // Scale Marker System
-export type Intervals = number[]; // ... e.g. scale: [0, 2, 4, 5, 7, 9, 11],
-export type Accidentals = number;
-export type ScaleChordSubset = boolean[];
+export type ScaleIntervals = number[]; // ... e.g. scale: [0, 2, 4, 5, 7, 9, 11],
+// export type Accidentals = number;
+export type ScaleChord = boolean[];
 
 
 export type ChordShape = number[]
 
+export type Sequence = number[][];
+
 export type Chord = {
   name: string;
   shape: ChordShape;
-  riff: ChordShape[]
-}
+  riff: ChordShape[];
+  sequence: Sequence;
+};
  
 export type User = {
   username: string;
@@ -39,28 +42,20 @@ export type User = {
 export type SongPart = {
   id: number;
   title: string;
-  progression: ChordProgression;
+  progression: Chord[];
 }
 
-export type ChordProgression = {
-  id: number;
-  name: string;
-  chords: Chord[];
-}
-
-
-export type ProgressionSequence = {
-  strumSequence: number[];
-  pluckSequence: ChordShape[];
-}
-
-
+// export type ChordProgression = {
+//   id: number;
+//   name: string;
+//   chords: Chord[];
+// }
 
 // Chord UI type
-export type NoteMarker = {
-  str: number;
-  fret: number;
-};
+// export type NoteMarker = {
+//   str: number;
+//   fret: number;
+// };
 
 // export type ChordNoteType = {
 //   midiValue: number;

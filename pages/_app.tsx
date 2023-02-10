@@ -3,32 +3,19 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { ChordArr, ChordCollectionType } from '../components/fretboard/types/FretboardTypes';
 import { initChordArraySequence, initChordCollection } from '../utils/FretboardConstants';
+import { initSong } from '../components/editor/constants/Constants';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [chordCollection, setChordCollection] = useState<ChordCollectionType>(
     initChordCollection
   ); 
 
-// const [chordArrSequence, setChordArrSequence] = useState<ChordArr[]>(
-//     initChordArraySequence
-//   ); 
+  const [song, setSong] = useState<Song>(initSong); 
 
-
-  const setChordArrSequence = (chordArrSequence:ChordArr[]) => {
-    setChordCollection({...chordCollection, midiSequence:chordArrSequence})
-  }
-
-  
-  useEffect(()=> {
-    console.log("app root")
-    console.log("app root", chordCollection)
-  })
-
-
-
-  // console.log(Component)
   return (
     <Component
+      song={song}
+      setSong={setSong}
       chordCollection={chordCollection}
       setChordCollection={setChordCollection}
     />

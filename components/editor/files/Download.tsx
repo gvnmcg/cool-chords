@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChordArr, ChordCollectionType } from "../types/FretboardTypes";
+import { ChordArr, ChordCollectionType } from "../constants/Types";
 
 interface DownloadProps {
   chordSequence: ChordArr[];

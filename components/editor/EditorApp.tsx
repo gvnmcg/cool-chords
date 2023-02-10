@@ -1,28 +1,17 @@
 import React, { useEffect, useState, useMemo } from "react";
-import TuningControls from "../fretboard/Tuning";
-import ScaleControls from "../fretboard/Scale";
-import SequenceControls from "../fretboard/Sequence";
-import styles from "../../styles/Home.module.css";
-import FretboardCanvas from "../fretboard/FretboardCanvas";
-import {
-  ScaleChordType,
-  AccidentalsType,
-  ScaleType,
-  TuningType,
-  ChordArr,
-} from "../fretboard/types/FretboardTypes";
-import {
-  allTrue,
-  standardTuning,
-  scaleIntervals,
-  getFret,
-} from "../../utils/FretboardConstants";
-
 import useSound from "react-guitar-sound";
 
+import SongUI from "./SongUI";
+import FretboardUI from "./FretboardUI";
+import ScaleUI from "./ScaleUI";
+import { CChord, EADGBe, allTrue, initSongPart, scaleIntervals } from "./constants/Constants";
+import { Chord, ScaleChord, Song, Tuning, ScaleIntervals, SongPart } from "./constants/Types";
+import styles from "../../styles/Home.module.css";
+import TuningUI from "./TuningUI";
+
 interface SongEditorProps {
-  song: Song; 
-  setSong: (seq:Song) => void;
+  song: Song;
+  setSong: (seq: Song) => void;
 }
 
 /**
@@ -30,19 +19,18 @@ interface SongEditorProps {
  */
 const SongEditor = ({song, setSong}:SongEditorProps) => {
  
+  const [songPart, setSongPart] = useState<SongPart>(initSongPart); 
+
   // Fretboard System
-  const [tuning, setTuning] = useState<TuningType>(standardTuning);
-  const [chordArray, setChordArray] = useState<number[]>(
-    [0, 3, 2, 0, 1, 0].map((fret, ix) => standardTuning[ix] + fret)
-  );
+  const [tuning, setTuning] = useState<Tuning>(EADGBe);
+  const [chord, setChord] = useState<Chord>(CChord);
 
   //Scale System
-  const [scale, setScale] = useState<ScaleType>(scaleIntervals); // [0, 2, 4, 5, 7, 9, 11];
-  const [accidentals, setAccidentals] = useState<AccidentalsType>(0);
-  const [scaleChord, setScaleChord] = useState<ScaleChordType>(allTrue);
-  const [keyNote, setKeyNote] = useState<number>(0);
+  const [keyTonic, setKeyTonic] = useState<number>(0);
+  const [scale, setScale] = useState<ScaleIntervals>(scaleIntervals); // [0, 2, 4, 5, 7, 9, 11];
+  const [scaleChord, setScaleChord] = useState<ScaleChord>(allTrue);
 
-  const { play, strum } = useSound({ fretting: chordArray.map((n,i)=>getFret(tuning,i,n)), tuning: tuning })
+  const { play, strum } = useSound({ fretting: chord.shape, tuning: tuning })
 
   useEffect(() => {
     const context = new AudioContext();
@@ -52,41 +40,33 @@ const SongEditor = ({song, setSong}:SongEditorProps) => {
   return (
     <div className={styles.main}>
       <div className={styles.chordSequenceEditor}>
-        {/* <button >Save</button> */}
-        <div className={styles.chordSequence}>
-          <SequenceControls
-            tuning={tuning}
-            chordSequence={chordArrSequence}
-            setChordSequence={setChordArrSequence}
-            chordSet={chordArray}
-            setChordSet={setChordArray}
-          />
-          <div className={styles.fretboard}>
-            <FretboardCanvas
-              play={play}
-              tuning={tuning}
-              keyNote={keyNote}
-              setTuning={setTuning}
-              scale={scale}
-              scaleChord={scaleChord}
-              chordSet={chordArray}
-              setChordSet={setChordArray}
-            />
-            <TuningControls tuning={tuning} setTuning={setTuning} />
-          </div>
-        </div>
-        <div className={styles.scales}>
-          <ScaleControls
-            keyNote={keyNote}
-            setKeyNote={setKeyNote}
-            scale={scale}
-            setScale={setScale}
-            scaleChord={scaleChord}
-            setScaleChord={setScaleChord}
-            accidentals={accidentals}
-            setAccidentals={setAccidentals}
-          />
-        </div>
+        <SongUI
+          tuning={tuning}
+          song={song}
+          setSong={setSong}
+          songPart={songPart}
+          setSongPart={setSongPart}
+          chord={chord}
+          setChord={setChord}
+        />
+        <FretboardUI
+          play={play}
+          tuning={tuning}
+          keyTonic={keyTonic}
+          scale={scale}
+          scaleChord={scaleChord}
+          chord={chord}
+          setChord={setChord}
+        />
+        <TuningUI tuning={tuning} setTuning={setTuning} />
+        <ScaleUI
+          keyTonic={keyTonic}
+          setKeyTonic={setKeyTonic}
+          scale={scale}
+          setScale={setScale}
+          scaleChord={scaleChord}
+          setScaleChord={setScaleChord}
+        />
       </div>
     </div>
   );
