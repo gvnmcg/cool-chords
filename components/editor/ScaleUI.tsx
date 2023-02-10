@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import styles from "../styles/Scale.module.css";
 import { ScaleChord, ScaleIntervals } from "./constants/Types";
-import { chordQualities, noteNamesSharps } from "./constants/Constants";
+import { chordQualities, debugAll, noteNamesSharps } from "./constants/Constants";
+import styles from "../../styles/Scale.module.css";
 
-
-// const scaleDebug: boolean = debugAll || false;
-
+const scaleDebug: boolean = debugAll || false;
 
 interface ScaleUIProps {
   keyTonic:number;

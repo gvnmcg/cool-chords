@@ -1,7 +1,7 @@
 import React from "react";
 import { Tuning } from "./constants/Types";
 import { DADFAD, EADGBe, debugAll, noteNamesSlashed } from "./constants/Constants";
-import styles from "../styles/Tuning.module.css";
+import styles from "../../styles/Tuning.module.css";
 
 const tuningDebug: boolean = debugAll || false;
 

@@ -8,8 +8,8 @@ import {
 } from "./constants/Types";
 
 import { colors } from "./constants/ColorConstants";
-import styles from "../styles/Fretboard.module.css";
 import { debugAll, getFret, noteNamesSharps } from "./constants/Constants";
+import styles from "../../styles/Fretboard.module.css";
 
 const FRET_SPACING = 30;
 const STR_SPACING = 20;

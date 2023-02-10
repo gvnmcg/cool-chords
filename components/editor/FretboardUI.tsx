@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Chord, ScaleChord, ScaleIntervals, Tuning } from "./constants/Types";
 
-import styles from "../styles/Fretboard.module.css";
+import styles from "../../styles/Fretboard.module.css";
 import FretboardCanvas from "./FretboardCanvas";
 import { debugAll } from "./constants/Constants";
 

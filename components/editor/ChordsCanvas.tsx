@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Chord, Tuning } from "./constants/Types";
-import styles from "../styles/Chords.module.css";
+import styles from "../../styles/Chords.module.css";
 import { debugAll, getFret } from "./constants/Constants";
 
 const FRET_SPACING = 10;

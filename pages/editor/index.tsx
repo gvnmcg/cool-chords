@@ -1,27 +1,23 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../../styles/Home.module.css'
-import FretboardApp from '../../components/fretboard/FretboardApp'
-import { ChordArr, ChordCollectionType } from '../../components/fretboard/types/FretboardTypes';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Download from '../../components/fretboard/files/Download';
+import EditorApp from '../../components/editor/EditorApp';
+import { Song } from '../../components/editor/constants/Types';
+import Download from '../../components/editor/files/Download';
+import styles from '../../styles/Home.module.css'
 
-interface FretboardAppProps {
-  chordCollection : ChordCollectionType;
-  setChordCollection: (co:ChordCollectionType) => void;
-  }
+interface SongEditorProps {
+  song: Song;
+  setSong: (seq: Song) => void;
+}
   
-export default function Home({chordCollection, setChordCollection}:FretboardAppProps) {
+export default function Home({song, setSong}:SongEditorProps) {
 
-
-  const saveCurenntCollection = () => {
+  const saveCurrentSongToLocalStorage = () => {
     localStorage.setItem(
-      chordCollection.id,
-      JSON.stringify(chordCollection)
+      ""+song.id,
+      JSON.stringify(song)
     );
   }
-
 
   return (
     <div className={styles.container}>
@@ -31,16 +27,16 @@ export default function Home({chordCollection, setChordCollection}:FretboardAppP
       </Link>
       <button
         className={styles.backButton}
-        onClick={() => saveCurenntCollection()} >
+        onClick={() => saveCurrentSongToLocalStorage()} >
         Save
       </button>
-      <div > {JSON.stringify(chordCollection)} </div>
+      <div > {JSON.stringify(song)} </div>
       <Download
-          chordCollection={chordCollection}
+          song={song}
         />
-      <Editor
-        chordCollection={chordCollection}
-        setChordCollection={setChordCollection}
+      <EditorApp
+        song={song}
+        setSong={setSong}
       />
     </div>
   );

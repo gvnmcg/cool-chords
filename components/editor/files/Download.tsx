@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import { ChordArr, ChordCollectionType } from "../constants/Types";
+import { Chord, Song } from "../constants/Types";
 
 interface DownloadProps {
-  chordSequence: ChordArr[];
-  chordCollection : ChordCollectionType;
-
+  song: Song;
 }
 
 const Download = ({
-  chordCollection,
-  chordSequence
+  song,
 }: DownloadProps) => {
   const [files, setFiles] = useState("");
   const [fileName, setFilename] = useState("sequence");
@@ -28,20 +25,16 @@ const Download = ({
   return (
     <div>
       <span>FileName:</span>
-      <input type="text" onChange={(e)=> setFilename(e.target.value)} />
+      <input type="text" onChange={(e) => setFilename(e.target.value)} />
       <a
-        style={{backgroundColor:'lightgreen', color:'black'}}
+        style={{ backgroundColor: "lightgreen", color: "black" }}
         href={`data:text/json;charset=utf-8,${encodeURIComponent(
-          JSON.stringify(chordCollection)
+          JSON.stringify(song)
         )}`}
         download={fileName + ".json"}
       >
-        {`Download JSON`}
+        Download JSON
       </a>
-      {/* <button
-      >
-        save sequence
-      </button> */}
     </div>
   );
 };

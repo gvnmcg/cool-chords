@@ -18,7 +18,7 @@ export default function Home() {
         Cool Chords
       </h1>
       <Link href={"/sequences"}>Sequences</Link>
-      <Link href={"/collections"}>Songs</Link>
+      <Link href={"/editor"}>Songs</Link>
     </div>
   );
 }

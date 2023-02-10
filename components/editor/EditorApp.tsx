@@ -6,8 +6,8 @@ import FretboardUI from "./FretboardUI";
 import ScaleUI from "./ScaleUI";
 import { CChord, EADGBe, allTrue, initSongPart, scaleIntervals } from "./constants/Constants";
 import { Chord, ScaleChord, Song, Tuning, ScaleIntervals, SongPart } from "./constants/Types";
-import styles from "../../styles/Home.module.css";
 import TuningUI from "./TuningUI";
+import styles from "../../styles/Home.module.css";
 
 interface SongEditorProps {
   song: Song;
