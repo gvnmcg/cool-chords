@@ -1,15 +1,11 @@
 import React from "react";
 import { Tuning } from "./constants/Types";
 import { DADFAD, EADGBe, debugAll, noteNamesSlashed } from "./constants/Constants";
-import styles from "../../styles/Tuning.module.css";
+import styles from "../../styles/editor/Tuning.module.css";
 
 const tuningDebug: boolean = debugAll || false;
 
 
-/**
- * Tuning Contols
- * purpose - create controls to tune guitar representation
- */
  interface TuningViewProps {
   tuning: Tuning;
   tuneString: (t: number, n: number) => void;
@@ -35,10 +31,7 @@ const TuningView = ({
   );
 };
 
-/**
- * Tuning Controls
- * purpose - create controls to tune guitar representation
- */
+
 interface TuningUIProps {
   tuning: Tuning;
   setTuning: (t: Tuning) => void;
@@ -58,21 +51,15 @@ const TuningUI = ({ tuning, setTuning }: TuningUIProps) => {
     if (tuningDebug) console.log("shift all", turnDir);
   };
 
-  // const viewProps = { tuning, setTuning, tuneString, shiftAll };
 
   return (
     <div className={styles.tuneAll}>
-      
-     <TuningView
-        tuning={tuning}
-        tuneString={tuneString}
-      />
+      <TuningView tuning={tuning} tuneString={tuneString} />
       <div>
         <button onClick={() => shiftAll(1)}> +</button>
         <span> all </span>
         <button onClick={() => shiftAll(-1)}> -</button>
       </div>
-
       <button
         onClick={() => {
           //standard tuning
@@ -81,7 +68,6 @@ const TuningUI = ({ tuning, setTuning }: TuningUIProps) => {
       >
         Standard Tuning
       </button>
-
       <button
         onClick={() => {
           //DADFAD tuning
@@ -90,7 +76,6 @@ const TuningUI = ({ tuning, setTuning }: TuningUIProps) => {
       >
         DADFAD Tuning
       </button>
-     
     </div>
   );
 };

@@ -94,19 +94,19 @@ export const initSequence = [
   [1, 2, 3],
 ];
 
+const toMidi = (tuning: number[], fretArr: number[]): number[] =>
+  fretArr.map((fret, ix) => tuning[ix] + fret);
+
 export const CChord: Chord = {
   name: "C",
-  shape: CChordShape,
+  shape: toMidi(EADGBe, CChordShape),
   riff: [
-    [0, 3, 0, 0, 0, 0],
-    [0, 0, 2, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0],
+    toMidi(EADGBe, [0, 3, 0, 0, 0, 0]),
+    toMidi(EADGBe, [0, 0, 2, 0, 0, 0]),
+    toMidi(EADGBe, [0, 0, 0, 0, 1, 0]),
   ],
   sequence:initSequence
 };
-
-const fretToMidi = (fretArr: number[], tuning: number[]): number[] =>
-  fretArr.map((fret, ix) => tuning[ix] + fret);
 
 // export type User = {
 //   username: string;

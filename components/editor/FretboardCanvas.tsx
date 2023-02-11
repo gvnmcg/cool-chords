@@ -9,7 +9,7 @@ import {
 
 import { colors } from "./constants/ColorConstants";
 import { debugAll, getFret, noteNamesSharps } from "./constants/Constants";
-import styles from "../../styles/Fretboard.module.css";
+import styles from "../../styles/editor/Fretboard.module.css";
 
 const FRET_SPACING = 30;
 const STR_SPACING = 20;

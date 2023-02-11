@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ScaleChord, ScaleIntervals } from "./constants/Types";
 import { chordQualities, debugAll, noteNamesSharps } from "./constants/Constants";
-import styles from "../../styles/Scale.module.css";
+import styles from "../../styles/editor/Scale.module.css";
 
 const scaleDebug: boolean = debugAll || false;
 

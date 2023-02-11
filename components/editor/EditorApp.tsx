@@ -7,7 +7,7 @@ import ScaleUI from "./ScaleUI";
 import { CChord, EADGBe, allTrue, initSongPart, scaleIntervals } from "./constants/Constants";
 import { Chord, ScaleChord, Song, Tuning, ScaleIntervals, SongPart } from "./constants/Types";
 import TuningUI from "./TuningUI";
-import styles from "../../styles/Home.module.css";
+import styles from "../../styles/editor/Home.module.css";
 
 interface SongEditorProps {
   song: Song;

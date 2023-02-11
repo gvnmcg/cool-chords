@@ -3,7 +3,7 @@ import Link from 'next/link';
 import EditorApp from '../../components/editor/EditorApp';
 import { Song } from '../../components/editor/constants/Types';
 import Download from '../../components/editor/files/Download';
-import styles from '../../styles/Home.module.css'
+import styles from '../../styles/editor/Home.module.css'
 
 interface SongEditorProps {
   song: Song;
@@ -27,17 +27,13 @@ export default function Home({song, setSong}:SongEditorProps) {
       </Link>
       <button
         className={styles.backButton}
-        onClick={() => saveCurrentSongToLocalStorage()} >
+        onClick={() => saveCurrentSongToLocalStorage()}
+      >
         Save
       </button>
-      <div > {JSON.stringify(song)} </div>
-      <Download
-          song={song}
-        />
-      <EditorApp
-        song={song}
-        setSong={setSong}
-      />
+      <div> {JSON.stringify(song, null, "\n")} </div>
+      <Download song={song} />
+      <EditorApp song={song} setSong={setSong} />
     </div>
   );
 }

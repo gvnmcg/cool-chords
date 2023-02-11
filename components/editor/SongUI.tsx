@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SongPartUI from "./SongPartUI";
 import { Chord, Song, SongPart, Tuning } from "./constants/Types";
 import { CChord, getFret, initSongPart } from "./constants/Constants";
-import styles from "../../styles/Chords.module.css";
+import styles from "../../styles/editor/Chords.module.css";
 
 interface SongUIProps {
   tuning: Tuning;
