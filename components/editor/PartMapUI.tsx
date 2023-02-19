@@ -8,6 +8,8 @@ interface SongPartUIProps {
   tuning: Tuning;
   songPart: SongPart; 
   setSongPart: (seq:SongPart) => void;
+  chordIndex: number;
+  setChordIndex: (ix:number) => void;
   chord: Chord;
   setChord: (s: Chord) => void;
 }
@@ -23,12 +25,11 @@ const SongPartUI = ({
   tuning,
   songPart,
   setSongPart,
+  chordIndex,
+  setChordIndex,
   chord,
   setChord,
 }: SongPartUIProps) => {
-
-  const [chordIndex, setChordIndex] = useState<number>(0);
-  const [partIndex, setPartIndex] = useState<number>(0);
 
   const newChord = () => {
     setSongPart({
@@ -81,8 +82,8 @@ const SongPartUI = ({
   };
 
   useEffect(() => {
-    setChord(songPart.progression[chordIndex]);
-  }, [chordIndex, songPart.progression]);
+    
+  }, [chord]);
 
   return (
     <div>

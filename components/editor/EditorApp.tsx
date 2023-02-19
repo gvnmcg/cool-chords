@@ -1,13 +1,17 @@
-import React, { useEffect, useState, useMemo } from "react";
-import useSound from "react-guitar-sound";
+import React, { useEffect, useRef, useState } from "react";
+import useSound , { withSoundFont } from "react-guitar-sound";
 
-import SongUI from "./SongUI";
-import FretboardUI from "./FretboardUI";
-import ScaleUI from "./ScaleUI";
 import { CChord, EADGBe, allTrue, initSongPart, scaleIntervals } from "./constants/Constants";
 import { Chord, ScaleChord, Song, Tuning, ScaleIntervals, SongPart } from "./constants/Types";
+
+import FretboardUI from "./FretboardUI";
+import ScaleUI from "./ScaleUI";
 import TuningUI from "./TuningUI";
-import styles from "../../styles/editor/Home.module.css";
+import SongMapUI from "./SongMapUI";
+import PartMapUI from "./PartMapUI";
+// import SongUI from "./SongUI";
+
+import styles from "../../styles/editor/Editor.module.css";
 
 interface SongEditorProps {
   song: Song;
@@ -19,54 +23,113 @@ interface SongEditorProps {
  */
 const SongEditor = ({song, setSong}:SongEditorProps) => {
  
+  const [soundOn, setSound] = useState<boolean>(false);
   const [songPart, setSongPart] = useState<SongPart>(initSongPart); 
-
+  const [partIndex, setPartIndex] = useState<number>(0);
+  
   // Fretboard System
   const [tuning, setTuning] = useState<Tuning>(EADGBe);
   const [chord, setChord] = useState<Chord>(CChord);
+  const [chordIndex, setChordIndex] = useState<number>(0);
+  // const chord = song.parts
 
   //Scale System
   const [keyTonic, setKeyTonic] = useState<number>(0);
   const [scale, setScale] = useState<ScaleIntervals>(scaleIntervals); // [0, 2, 4, 5, 7, 9, 11];
   const [scaleChord, setScaleChord] = useState<ScaleChord>(allTrue);
 
-  const { play, strum } = useSound({ fretting: chord.shape, tuning: tuning })
-
-  useEffect(() => {
-    const context = new AudioContext();
-    context.resume().then(() => {});
+  const getFretting = (chordShape:number[], currentTuning:number[]) => {
+    return chordShape.map((note:number, ix:number)=> note - currentTuning[ix])
+  }
+  // const { play, strum } = useSound({ fretting: [0,0,0,0,0,0], tuning: chord.shape })
+  // const guitar_sound = withSoundFont('guitar_fret_noise')
+  const { play } = useSound({
+    // instrument: guitar_sound,
+    fretting: getFretting(chord.shape, tuning),
+    tuning: tuning,
+    muted: !soundOn,
   });
 
+  useEffect(() => {
+    // const context = new AudioContext();
+    // if (soundOn) {
+    //   context.resume().then(() => {});
+    // } else {
+    //   context.close().then(()=>{})
+    // }
+    // console.log("EditorApp use effect: soundOn :", soundOn)
+
+    setSongPart({
+      ...songPart,
+      progression: songPart.progression.map((currChord: Chord, ix: number) =>
+        chordIndex == ix ? chord : currChord
+      ),
+    });
+
+    setSong({
+      ...song,
+      parts: song.parts.map((currPart: SongPart, ix: number) =>
+        partIndex == ix ? songPart : currPart
+      ),
+    });
+
+  }, [chord]);
+
   return (
-    <div className={styles.main}>
-      <div className={styles.chordSequenceEditor}>
-        <SongUI
+    <div className={styles.container}>
+      <div className={styles.editor}>
+        <SongMapUI
           tuning={tuning}
           song={song}
           setSong={setSong}
           songPart={songPart}
           setSongPart={setSongPart}
+          partIndex={partIndex}
+          setPartIndex={setPartIndex}
           chord={chord}
           setChord={setChord}
+          setChordIndex={setChordIndex}
         />
-        <FretboardUI
-          play={play}
+        <PartMapUI
           tuning={tuning}
-          keyTonic={keyTonic}
-          scale={scale}
-          scaleChord={scaleChord}
+          songPart={songPart}
+          setSongPart={setSongPart}
+          chordIndex={chordIndex}
+          setChordIndex={setChordIndex}
           chord={chord}
           setChord={setChord}
         />
-        <TuningUI tuning={tuning} setTuning={setTuning} />
-        <ScaleUI
-          keyTonic={keyTonic}
-          setKeyTonic={setKeyTonic}
-          scale={scale}
-          setScale={setScale}
-          scaleChord={scaleChord}
-          setScaleChord={setScaleChord}
-        />
+        <div className={styles.fretboardEditor}>
+          <TuningUI tuning={tuning} setTuning={setTuning} />
+          <div>
+            <span>Sound:</span>
+            <input
+              type="checkbox"
+              onChange={(e) => {
+                setSound(e.target.checked)
+                if (!soundOn) context.close().then(()=>{})
+              }}
+            />
+          </div>
+          <FretboardUI
+            play={play}
+            tuning={tuning}
+            keyTonic={keyTonic}
+            scale={scale}
+            scaleChord={scaleChord}
+            chord={chord}
+            setChord={setChord}
+            
+          />
+        </div>
+      <ScaleUI
+        keyTonic={keyTonic}
+        setKeyTonic={setKeyTonic}
+        scale={scale}
+        setScale={setScale}
+        scaleChord={scaleChord}
+        setScaleChord={setScaleChord}
+      />
       </div>
     </div>
   );

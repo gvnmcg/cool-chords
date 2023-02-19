@@ -1,6 +1,6 @@
 .chords {
     display: flex; 
-    flex-direction: row;
+    flex-direction: column;
     margin: 1em;
     border: 3px solid;
     justify-content: space-between;

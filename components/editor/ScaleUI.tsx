@@ -60,7 +60,7 @@ const ScaleUI = ({
 
       <div>
          <button
-         className={styles.resetButton}
+        //  className={styles.resetButton}
          onClick={() => {
            setScaleChord(scaleChord.map(() => true));
           }}
@@ -68,7 +68,7 @@ const ScaleUI = ({
           all
         </button>
         <button
-          className={styles.resetButton}
+          // className={styles.resetButton}
           onClick={() => {
             setScaleChord(scaleChord.map(() => false));
           }}

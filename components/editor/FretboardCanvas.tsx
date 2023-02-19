@@ -9,7 +9,7 @@ import {
 
 import { colors } from "./constants/ColorConstants";
 import { debugAll, getFret, noteNamesSharps } from "./constants/Constants";
-import styles from "../../styles/editor/Fretboard.module.css";
+import style from "../../styles/editor/Fretboard.module.css";
 
 const FRET_SPACING = 30;
 const STR_SPACING = 20;
@@ -23,9 +23,6 @@ const HEIGHT = FRET_SPACING * FRET_COUNT + MARGIN * 2;
 const fretboardCanvasDebug: boolean = debugAll || false;
 
 interface FretboardCanvasProps {
-  width: number;
-  height: number;
-  orientation: boolean;
   play: (str: number, when: number) => void;
   tuning: Tuning;
   keyTonic: number;
@@ -37,9 +34,6 @@ interface FretboardCanvasProps {
 }
 
 const FretboardCanvas = ({
-  width,
-  height,
-  orientation,
   play,
   tuning,
   keyTonic,
@@ -58,9 +52,7 @@ const FretboardCanvas = ({
     // draw background
     ctx.fillStyle = "#000000";
     ctx.beginPath();
-    // orientation ?
     ctx.rect(0, 0, WIDTH, HEIGHT);
-    // : ctx.rect(0, 0, HEIGHT, WIDTH);
     ctx.fill();
   };
 
@@ -248,42 +240,35 @@ const FretboardCanvas = ({
   } );
 
   return (
-    <div className={styles.fretboardContainer}>
-       <button onClick={()=>{
-        chord.shape.forEach((n, i) => {
-          play(i, i / 4);
-        });
+    <canvas
+      className={style.fretboardCanvas}
+      ref={canvasRef}
+      width={WIDTH}
+      height={HEIGHT}
+      // width={HEIGHT}
+      // height={WIDTH}
+      onClick={(e) => {
+        if (!canvasRef.current) return;
+        let rect = canvasRef.current.getBoundingClientRect();
+        let noteTarget = getNoteTarget(e, rect);
+        if (!noteTarget) return;
+        play(noteTarget.str, 0);
+        updateChord(noteTarget.str, tuning[noteTarget.str] + noteTarget.fret);
       }}
-      >Strum</button>
-      <canvas
-        ref={canvasRef}
-        width={orientation ? WIDTH : HEIGHT}
-        height={orientation ? HEIGHT : WIDTH}
-        onClick={(e) => {
-          if (!canvasRef.current) return;
-          let rect = canvasRef.current.getBoundingClientRect();
-          let noteTarget = getNoteTarget(e, rect);
-          if (!noteTarget) return;
-          play(noteTarget.str, 0)
-          updateChord(noteTarget.str, tuning[noteTarget.str] + noteTarget.fret);
-        }}
-        onMouseMove={(e) => {
-          if (!canvasRef.current) return;
-          let rect = canvasRef.current.getBoundingClientRect();
-          let noteTarget = getNoteTarget(e, rect);
-          if (!noteTarget) return;
-          setPosition({ str: noteTarget.str, fret: noteTarget.fret });
-        }}
-        onMouseEnter={(e) => {
-          setCursorDraw(true);
-        }}
-        onMouseLeave={(e) => {
-          setCursorDraw(false);
-        }}
-      />
-     
-
-    </div>
+      onMouseMove={(e) => {
+        if (!canvasRef.current) return;
+        let rect = canvasRef.current.getBoundingClientRect();
+        let noteTarget = getNoteTarget(e, rect);
+        if (!noteTarget) return;
+        setPosition({ str: noteTarget.str, fret: noteTarget.fret });
+      }}
+      onMouseEnter={(e) => {
+        setCursorDraw(true);
+      }}
+      onMouseLeave={(e) => {
+        setCursorDraw(false);
+      }}
+    />
   );
 };
 

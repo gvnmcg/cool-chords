@@ -31,7 +31,15 @@ export default function Home({song, setSong}:SongEditorProps) {
       >
         Save
       </button>
-      <div> {JSON.stringify(song, null, "\n")} </div>
+      {/* <div>
+        {song.parts.map((part) => (
+          <div>
+            {part.progression.map((chord) => (
+              <div>{JSON.stringify(chord, null, "\n")}</div>
+            ))}
+          </div>
+        ))}
+      </div>  */}
       <Download song={song} />
       <EditorApp song={song} setSong={setSong} />
     </div>

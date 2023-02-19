@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  justify-content: center;
+
+  flex-direction: column;
+}
+
+.partNav {
+  display: flex;
+  flex-direction: row;
+  border: 3px solid;
+}
+
+.songMap {
+  display: flex;
+  flex-direction: row;
+  border: 3px solid;
+}
+
+.partMap {
+  display: flex;
+  flex-direction: row;
+  border: 3px solid;
+}
+
+.partMapSelected {
+  display: flex;
+  flex-direction: row;
+  border: 3px solid;
+  background-color: darkgoldenrod;
+}

@@ -69,6 +69,7 @@ export const chordQualities = ["", "m", "m", "", "", "m", "dim"];
 //  type Tuning = number[];
 export const EADGBe: Tuning = [40, 45, 50, 55, 59, 64];
 export const DADFAD: Tuning = [38, 45, 50, 54, 57, 62];
+export const CGDAEG: Tuning = [36, 43, 50, 57, 64, 67];
 export const BassEADG: Tuning = [28, 33, 38, 43];
 export const UkeGCEA: Tuning = [98, 72, 76, 81];
 

@@ -42,24 +42,6 @@ const FretboardUI = ({
   const [riffMode, setRiffMode] = useState<boolean>(false);
 
 
-  const getNoteTarget = (
-    e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
-    rect: DOMRect
-  ) => {
-    let x = e.clientX - rect.left;
-    let y = e.clientY - rect.top;
-
-    let str = Math.floor((x - MARGIN / 2) / STR_SPACING);
-    let fret = Math.floor((y - MARGIN / 2) / FRET_SPACING);
-
-    if (fret < 0 || fret > 12) return;
-    if (str < 0 || str > 5) return;
-
-    let open = tuning[str];
-    let newNote = { str: str, fret: fret, midi: open + fret };
-    return newNote;
-  };
-
   const updateChord = (str: number, newNote: number) => {
     // constrain to one per string
     setChord(
@@ -68,10 +50,11 @@ const FretboardUI = ({
       )}
     );
   };
+  
 
   return (
     <div className={styles.fretboardContainer}>
-      <button
+      {/* <button
         onClick={() => {
           chord.shape.forEach((n, i) => {
             play(i, i / 4);
@@ -79,11 +62,9 @@ const FretboardUI = ({
         }}
       >
         Strum
-      </button>
+      </button> */}
 
       <FretboardCanvas
-        width={orientation ? WIDTH : HEIGHT}
-        height={orientation ? HEIGHT : WIDTH}
         play={play}
         updateChord={updateChord}
         keyTonic={keyTonic}
@@ -91,7 +72,6 @@ const FretboardUI = ({
         scaleChord={scaleChord}
         chord={chord}
         riffMode={riffMode}
-        orientation={false}
         tuning={tuning}
       />
     </div>

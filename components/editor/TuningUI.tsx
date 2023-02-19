@@ -1,6 +1,6 @@
 import React from "react";
 import { Tuning } from "./constants/Types";
-import { DADFAD, EADGBe, debugAll, noteNamesSlashed } from "./constants/Constants";
+import { CGDAEG, DADFAD, EADGBe, debugAll, noteNamesSlashed } from "./constants/Constants";
 import styles from "../../styles/editor/Tuning.module.css";
 
 const tuningDebug: boolean = debugAll || false;
@@ -54,12 +54,6 @@ const TuningUI = ({ tuning, setTuning }: TuningUIProps) => {
 
   return (
     <div className={styles.tuneAll}>
-      <TuningView tuning={tuning} tuneString={tuneString} />
-      <div>
-        <button onClick={() => shiftAll(1)}> +</button>
-        <span> all </span>
-        <button onClick={() => shiftAll(-1)}> -</button>
-      </div>
       <button
         onClick={() => {
           //standard tuning
@@ -76,6 +70,20 @@ const TuningUI = ({ tuning, setTuning }: TuningUIProps) => {
       >
         DADFAD Tuning
       </button>
+      <button
+        onClick={() => {
+          //CGDAEG tuning
+          setTuning(CGDAEG);
+        }}
+      >
+        New Standard Tuning
+      </button>
+      <div>
+        <button onClick={() => shiftAll(1)}> +</button>
+        <span> all </span>
+        <button onClick={() => shiftAll(-1)}> -</button>
+      </div>
+      <TuningView tuning={tuning} tuneString={tuneString} />
     </div>
   );
 };
