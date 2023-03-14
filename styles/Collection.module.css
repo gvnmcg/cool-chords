@@ -5,6 +5,12 @@
   flex-direction: column;
 }
 
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .collection {
   display: flex;
   flex-direction: column;
@@ -43,6 +49,16 @@
   border: 3px solid;
   /* height: inherit; */
   /* background-color: darkorange; */
+  padding:1rem;
+  margin:1rem;
+}
+
+.topButton {
+  display: flex;
+  flex-direction: row;
+  border: 3px solid;
+  /* height: inherit; */
+  background-color: darkorange;
   padding:1rem;
   margin:1rem;
 }

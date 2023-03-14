@@ -148,9 +148,9 @@ export const altChordSequence = [
 
 
 export const jsonArr:ChordCollectionType[] = [
-  { id: "p0", title: "bbq", midiSequence: bbq },
-  { id: "p1", title: "wav", midiSequence: wave },
-  { id: "p2", title: "fir", midiSequence: fire },
+  { id: "0", title: "bbq", midiSequence: bbq },
+  { id: "1", title: "wav", midiSequence: wave },
+  { id: "2", title: "fir", midiSequence: fire },
 ];
 
 export const initChordCollection = 

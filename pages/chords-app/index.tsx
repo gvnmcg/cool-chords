@@ -14,14 +14,12 @@ interface FretboardAppProps {
   
 export default function Home({chordCollection, setChordCollection}:FretboardAppProps) {
 
-
-  const saveCurenntCollection = () => {
+  const saveCurrentCollection = () => {
     localStorage.setItem(
       chordCollection.id,
       JSON.stringify(chordCollection)
     );
   }
-
 
   return (
     <div className={styles.container}>
@@ -31,10 +29,9 @@ export default function Home({chordCollection, setChordCollection}:FretboardAppP
       </Link>
       <button
         className={styles.backButton}
-        onClick={() => saveCurenntCollection()} >
+        onClick={() => saveCurrentCollection()} >
         Save
       </button>
-      <div > {JSON.stringify(chordCollection)} </div>
       <Download
           chordCollection={chordCollection}
         />
@@ -42,6 +39,7 @@ export default function Home({chordCollection, setChordCollection}:FretboardAppP
         chordCollection={chordCollection}
         setChordCollection={setChordCollection}
       />
+      <span>New Version Soon!</span>
     </div>
   );
 }

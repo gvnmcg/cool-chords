@@ -85,7 +85,7 @@ const SequenceControls = ({
   };
 
   useEffect(() => {
-    setChordSet(chordSequence[chordIndex].notes);
+    setChordSet(chordSequence[chordIndex]?.notes ?? [0,0,0,0,0,0]);
   }, [chordIndex, chordSequence]);
 
   return (
