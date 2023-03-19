@@ -1,7 +1,7 @@
 // [[[ Weird Constants ]]]
-import bbq from "../sequences/BetterBeQuiet.json"
-import wave from "../sequences/wave.json"
-import fire from "../sequences/firer.json"
+import bbq from "../data/BetterBeQuiet.json"
+import wave from "../data/wave.json"
+import fire from "../data/firer.json"
 
 export const debug: boolean = !true;
 export const sequenceDebug: boolean = !true;
