@@ -6,7 +6,7 @@ import { Chord, ScaleChord, Song, Tuning, ScaleIntervals, SongPart } from "./con
 
 import FretboardUI from "./fretboard/FretboardUI";
 import ScaleUI from "./fretboard/ScaleUI";
-import TuningUI from "./TuningUI";
+import TuningUI from "./fretboard/TuningUI";
 import SongMapUI from "./song-parts/SongMapUI";
 import PartMapUI from "./part-chords/PartMapUI";
 

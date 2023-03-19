@@ -1,13 +1,13 @@
 import React from "react";
 
-import { Tuning } from "./constants/Types";
+import { Tuning } from "../constants/Types";
 import {
   CGDAEG,
   DADFAD,
   EADGBe,
   debugAll,
   noteNamesSlashed,
-} from "./constants/Constants";
+} from "../constants/Constants";
 
 import styles from "styles/editor/Tuning.module.css";
 
