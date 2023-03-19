@@ -1,26 +1,29 @@
 import React from "react";
+
 import { Tuning } from "./constants/Types";
-import { CGDAEG, DADFAD, EADGBe, debugAll, noteNamesSlashed } from "./constants/Constants";
-import styles from "../../styles/editor/Tuning.module.css";
+import {
+  CGDAEG,
+  DADFAD,
+  EADGBe,
+  debugAll,
+  noteNamesSlashed,
+} from "./constants/Constants";
+
+import styles from "styles/editor/Tuning.module.css";
 
 const tuningDebug: boolean = debugAll || false;
 
-
- interface TuningViewProps {
+interface TuningViewProps {
   tuning: Tuning;
   tuneString: (t: number, n: number) => void;
 }
 
-const TuningView = ({
-  tuning,
-  tuneString,
-}: TuningViewProps) => {
+const TuningView = ({ tuning, tuneString }: TuningViewProps) => {
   return (
-    <div >
+    <div>
       <div className={styles.tuning}>
         {tuning?.map((t: number, n: number) => (
-          <div className={styles.peg}
-          key={n}>
+          <div className={styles.peg} key={n}>
             <button onClick={() => tuneString(n, 1)}>+</button>
             <span> {noteNamesSlashed[t % 12]} </span>
             <button onClick={() => tuneString(n, -1)}>-</button>
@@ -31,14 +34,12 @@ const TuningView = ({
   );
 };
 
-
 interface TuningUIProps {
   tuning: Tuning;
   setTuning: (t: Tuning) => void;
 }
 
 const TuningUI = ({ tuning, setTuning }: TuningUIProps) => {
-
   const tuneString = (strNum: number, turnDir: number) => {
     setTuning(
       tuning.map((tuned, index) => (index == strNum ? tuned + turnDir : tuned))
@@ -50,7 +51,6 @@ const TuningUI = ({ tuning, setTuning }: TuningUIProps) => {
     setTuning(tuning.map((t) => t + turnDir));
     if (tuningDebug) console.log("shift all", turnDir);
   };
-
 
   return (
     <div className={styles.tuneAll}>

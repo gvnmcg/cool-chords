@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PartMapUI from "./PartMapUI";
-import { Chord, Song, SongPart, Tuning } from "./constants/Types";
-import { CChord, getFret, initSongPart } from "./constants/Constants";
-import styles from "../../styles/editor/Chords.module.css";
+
+import { CChord, getFret, initSongPart } from "../constants/Constants";
+import { Chord, Song, SongPart, Tuning } from "../constants/Types";
+import PartMapUI from "../part-chords/PartMapUI";
+
+import styles from "styles/editor/Chords.module.css";
 
 interface SongUIProps {
   tuning: Tuning;
@@ -30,14 +32,13 @@ const SongUI = ({
   chord,
   setChord,
 }: SongUIProps) => {
-
   const [chordIndex, setChordIndex] = useState<number>(0);
   const [partIndex, setPartIndex] = useState<number>(0);
 
   const amendPart = () => {
     setSong({
       ...song,
-      parts: [...song.parts, initSongPart]
+      parts: [...song.parts, initSongPart],
     });
     setChord(CChord);
   };
@@ -45,7 +46,7 @@ const SongUI = ({
   const newPart = () => {
     setSong({
       ...song,
-      parts: [...song.parts, initSongPart]
+      parts: [...song.parts, initSongPart],
     });
     setChord(CChord);
   };
@@ -93,12 +94,12 @@ const SongUI = ({
 
       <div className={styles.chords}>
         {song.parts.map((part: SongPart, index: number) => (
-          <PartMapUI 
+          <PartMapUI
             songPart={part}
             setSongPart={setSongPart}
             setChord={setChord}
-            chord={chord} 
-            tuning={tuning} 
+            chord={chord}
+            tuning={tuning}
           />
         ))}
       </div>

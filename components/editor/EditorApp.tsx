@@ -1,17 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import useSound , { withSoundFont } from "react-guitar-sound";
+import React, { useEffect, useState } from "react";
+import useSound from "react-guitar-sound";
 
 import { CChord, EADGBe, allTrue, initSongPart, scaleIntervals } from "./constants/Constants";
 import { Chord, ScaleChord, Song, Tuning, ScaleIntervals, SongPart } from "./constants/Types";
 
-import FretboardUI from "./FretboardUI";
-import ScaleUI from "./ScaleUI";
+import FretboardUI from "./fretboard/FretboardUI";
+import ScaleUI from "./fretboard/ScaleUI";
 import TuningUI from "./TuningUI";
-import SongMapUI from "./SongMapUI";
-import PartMapUI from "./PartMapUI";
-// import SongUI from "./SongUI";
+import SongMapUI from "./song-parts/SongMapUI";
+import PartMapUI from "./part-chords/PartMapUI";
 
-import styles from "../../styles/editor/Editor.module.css";
+import styles from "styles/editor/Editor.module.css";
 
 interface SongEditorProps {
   song: Song;

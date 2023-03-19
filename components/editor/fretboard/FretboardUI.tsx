@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Chord, ScaleChord, ScaleIntervals, Tuning } from "./constants/Types";
+import { Chord, ScaleChord, ScaleIntervals, Tuning } from "../constants/Types";
 
-import styles from "../../styles/editor/Fretboard.module.css";
 import FretboardCanvas from "./FretboardCanvas";
-import { debugAll } from "./constants/Constants";
+import { debugAll } from "../constants/Constants";
 
-
+import styles from "styles/editor/Fretboard.module.css";
 
 const FRET_SPACING = 30;
 const STR_SPACING = 20;
@@ -15,11 +14,10 @@ const FRET_COUNT = 15;
 const WIDTH = STR_SPACING * 6 + MARGIN * 2;
 const HEIGHT = FRET_SPACING * FRET_COUNT + MARGIN * 2;
 
-
 const fretboardDebug: boolean = debugAll || false;
 
 interface FretboardUIProps {
-  play: (str:number, when:number) => void
+  play: (str: number, when: number) => void;
   tuning: Tuning;
   keyTonic: number;
   scale: ScaleIntervals;
@@ -37,20 +35,18 @@ const FretboardUI = ({
   chord,
   setChord,
 }: FretboardUIProps) => {
-
   const [orientation, setOrientation] = useState<boolean>(true);
   const [riffMode, setRiffMode] = useState<boolean>(false);
 
-
   const updateChord = (str: number, newNote: number) => {
     // constrain to one per string
-    setChord(
-      {...chord, shape: chord.shape.map((note, i) =>
+    setChord({
+      ...chord,
+      shape: chord.shape.map((note, i) =>
         str !== i ? note : newNote !== note ? newNote : 0
-      )}
-    );
+      ),
+    });
   };
-  
 
   return (
     <div className={styles.fretboardContainer}>

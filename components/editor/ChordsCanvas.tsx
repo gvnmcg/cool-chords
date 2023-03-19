@@ -1,7 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
+
 import { Chord, Tuning } from "./constants/Types";
-import styles from "../../styles/editor/ChordCanvas.module.css";
 import { debugAll, getFret } from "./constants/Constants";
+
+import styles from "styles/editor/ChordCanvas.module.css";
 
 const FRET_SPACING = 10;
 const STR_SPACING = 7;
@@ -48,7 +50,7 @@ const ChordsCanvas = ({ chord, tuning }: ChordsCanvasProps) => {
   useEffect(() => {
     const drawChordNotes = (ctx: CanvasRenderingContext2D) => {
       ctx.fillStyle = "#BADA55";
-      chord.shape.forEach((note:number, str:number) => {
+      chord.shape.forEach((note: number, str: number) => {
         ctx.fillStyle = "#BADA55";
         let x = str * STR_SPACING + MARGIN;
         let y = getFret(tuning, str, note) * FRET_SPACING + MARGIN;

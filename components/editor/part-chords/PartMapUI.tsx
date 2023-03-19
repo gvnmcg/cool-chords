@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Chord, Song, SongPart, Tuning } from "./constants/Types";
-import ChordsCanvas from "./ChordsCanvas";
-import { CChord, debugAll, getFret, initSongPart, noteNamesSharps } from "./constants/Constants";
-import styles from "../../styles/editor/Chords.module.css";
+
+import {
+  CChord,
+  debugAll,
+  getFret,
+  initSongPart,
+  noteNamesSharps,
+} from "../constants/Constants";
+import { Chord, Song, SongPart, Tuning } from "../constants/Types";
+import ChordsCanvas from "../ChordsCanvas";
+
+import styles from "styles/editor/Chords.module.css";
 
 interface SongPartUIProps {
   tuning: Tuning;
-  songPart: SongPart; 
-  setSongPart: (seq:SongPart) => void;
+  songPart: SongPart;
+  setSongPart: (seq: SongPart) => void;
   chordIndex: number;
-  setChordIndex: (ix:number) => void;
+  setChordIndex: (ix: number) => void;
   chord: Chord;
   setChord: (s: Chord) => void;
 }
@@ -30,11 +38,10 @@ const SongPartUI = ({
   chord,
   setChord,
 }: SongPartUIProps) => {
-
   const newChord = () => {
     setSongPart({
       ...songPart,
-      progression: [...songPart.progression, CChord]
+      progression: [...songPart.progression, CChord],
     });
     setChord(CChord);
     if (debugAll) console.log("amendSequence", songPart.progression);
@@ -75,15 +82,16 @@ const SongPartUI = ({
   };
 
   const navSequence = (dir: number) => {
-    if (chordIndex + dir > songPart.progression.length - 1 || chordIndex + dir < 0)
+    if (
+      chordIndex + dir > songPart.progression.length - 1 ||
+      chordIndex + dir < 0
+    )
       return;
     setChordIndex(chordIndex + dir);
     setChord(songPart.progression[chordIndex]);
   };
 
-  useEffect(() => {
-    
-  }, [chord]);
+  useEffect(() => {}, [chord]);
 
   return (
     <div>
@@ -110,15 +118,14 @@ const SongPartUI = ({
             key={index}
           >
             <div>
-              {chord.shape.map((n, str) =>
-                n == 0 ? "X" : getFret(tuning, str, n)
-              )
-              .reduce((acc, noteStr) => acc.concat(noteStr + " "), "")}
+              {chord.shape
+                .map((n, str) => (n == 0 ? "X" : getFret(tuning, str, n)))
+                .reduce((acc, noteStr) => acc.concat(noteStr + " "), "")}
             </div>
             <ChordsCanvas chord={chord} tuning={tuning} />
             <div>
               {chord.shape
-                .map((note) => note == 0 ? "_" : noteNamesSharps[note % 12])
+                .map((note) => (note == 0 ? "_" : noteNamesSharps[note % 12]))
                 .reduce((acc, noteStr) => acc.concat(noteStr + " "), "")}
             </div>
           </div>

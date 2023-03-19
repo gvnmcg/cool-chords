@@ -1,15 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 
-import {
-  Chord,
-  ScaleChord,
-  ScaleIntervals,
-  Tuning,
-} from "./constants/Types";
+import { colors } from "../constants/ColorConstants";
+import { debugAll, getFret, noteNamesSharps } from "../constants/Constants";
+import { Chord, ScaleChord, ScaleIntervals, Tuning } from "../constants/Types";
 
-import { colors } from "./constants/ColorConstants";
-import { debugAll, getFret, noteNamesSharps } from "./constants/Constants";
-import style from "../../styles/editor/Fretboard.module.css";
+import style from "styles/editor/Fretboard.module.css";
 
 const FRET_SPACING = 30;
 const STR_SPACING = 20;
@@ -18,7 +13,6 @@ const FRET_COUNT = 15;
 
 const WIDTH = STR_SPACING * 6 + MARGIN * 2;
 const HEIGHT = FRET_SPACING * FRET_COUNT + MARGIN * 2;
-
 
 const fretboardCanvasDebug: boolean = debugAll || false;
 
@@ -43,7 +37,6 @@ const FretboardCanvas = ({
   updateChord,
   riffMode,
 }: FretboardCanvasProps) => {
-
   const [position, setPosition] = useState({ str: 0, fret: 0 });
   const [cursorDraw, setCursorDraw] = useState<boolean>(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -204,7 +197,6 @@ const FretboardCanvas = ({
     });
   };
 
-  
   const getNoteTarget = (
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
     rect: DOMRect
@@ -223,7 +215,6 @@ const FretboardCanvas = ({
     return newNote;
   };
 
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas == null) throw new Error("Could not get canvas");
@@ -237,7 +228,7 @@ const FretboardCanvas = ({
     if (cursorDraw) drawNoteCursor(context);
     drawScaleNoteNames(context);
     drawFretMarkers(context);
-  } );
+  });
 
   return (
     <canvas

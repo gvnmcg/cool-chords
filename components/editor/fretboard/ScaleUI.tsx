@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { ScaleChord, ScaleIntervals } from "./constants/Types";
-import { chordQualities, debugAll, noteNamesSharps } from "./constants/Constants";
-import styles from "../../styles/editor/Scale.module.css";
+
+import { ScaleChord, ScaleIntervals } from "../constants/Types";
+import {
+  chordQualities,
+  debugAll,
+  noteNamesSharps,
+} from "../constants/Constants";
+
+import styles from "styles/editor/Scale.module.css";
 
 const scaleDebug: boolean = debugAll || false;
 
 interface ScaleUIProps {
-  keyTonic:number;
-  setKeyTonic:(key:number) => void
+  keyTonic: number;
+  setKeyTonic: (key: number) => void;
   scale: ScaleIntervals;
   setScale: (scale: ScaleIntervals) => void;
   scaleChord: ScaleChord;
   setScaleChord: (scaleChord: ScaleChord) => void;
 }
-
 
 const ScaleUI = ({
   keyTonic,
@@ -23,7 +28,6 @@ const ScaleUI = ({
   scaleChord,
   setScaleChord,
 }: ScaleUIProps) => {
-
   const [noteNamesArr, setNoteNamesArr] = useState<string[]>(noteNamesSharps);
 
   const toggleScaleNumber = (scaleNumber: number) => {
@@ -44,7 +48,7 @@ const ScaleUI = ({
 
   useEffect(() => {
     setScale(scale.map((interval) => (interval + keyTonic) % 12));
-    if (keyTonic == -1) setKeyTonic(11)
+    if (keyTonic == -1) setKeyTonic(11);
   }, [keyTonic]);
 
   return (
@@ -55,43 +59,40 @@ const ScaleUI = ({
         <button onClick={() => setKeyTonic((keyTonic + 1) % 12)}> + </button>
         {noteNamesArr[keyTonic]}
       </span>
-       
+
       <div className={styles.chords}>
-
-      <div>
-         <button
-        //  className={styles.resetButton}
-         onClick={() => {
-           setScaleChord(scaleChord.map(() => true));
-          }}
+        <div>
+          <button
+            //  className={styles.resetButton}
+            onClick={() => {
+              setScaleChord(scaleChord.map(() => true));
+            }}
           >
-          all
-        </button>
-        <button
-          // className={styles.resetButton}
-          onClick={() => {
-            setScaleChord(scaleChord.map(() => false));
-          }}
-        >
-          nil
-        </button>
-
-      </div>
+            all
+          </button>
+          <button
+            // className={styles.resetButton}
+            onClick={() => {
+              setScaleChord(scaleChord.map(() => false));
+            }}
+          >
+            nil
+          </button>
+        </div>
         {/* subset */}
         {scale.map((interval, i) => (
           <div className={styles.chord} key={i}>
-            <span>{i+1}</span>
+            <span>{i + 1}</span>
             {noteNamesArr[(interval + keyTonic) % 12] + chordQualities[i]}
             <button
               onClick={() => {
                 toggleChord(i);
               }}
             >
-            -  
+              -
             </button>
           </div>
         ))}
-
       </div>
     </div>
   );
