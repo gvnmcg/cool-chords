@@ -8,6 +8,8 @@
   line-height: .25;
   letter-spacing: -.003em;
   font-size: 70px;
+  margin: 50px;
+  padding: 50px;
   /* font-effect: outline */
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: #BADA55;

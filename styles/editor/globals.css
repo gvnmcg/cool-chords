@@ -1,3 +1,10 @@
+
+:root {
+  --mainbg-color: #212121;
+  --maincard-color: #424242;
+  --mainwidget-color: #616161;
+}
+
 html,
 body {
   padding: 0;

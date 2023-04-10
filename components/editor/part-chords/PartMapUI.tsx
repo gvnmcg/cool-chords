@@ -9,6 +9,7 @@ import {
 } from "../constants/Constants";
 import { Chord, Song, SongPart, Tuning } from "../constants/Types";
 import ChordsCanvas from "../ChordsCanvas";
+import { FiCopy, FiX } from 'react-icons/fi';
 
 import styles from "styles/editor/Chords.module.css";
 
@@ -69,11 +70,34 @@ const SongPartUI = ({
     if (debugAll) console.log("saveChord", songPart.progression);
   };
 
+  const duplicateChordAt = (index:number) => {
+    setSongPart({
+      ...songPart,
+      progression: songPart.progression
+        .map((chord, ix) => (index == ix ? [chord, chord] : chord))
+        .flat(),
+    });
+    setChord(CChord);
+    if (debugAll) console.log("saveChord", songPart.progression);
+  };
+
   const deleteChord = () => {
     setSongPart({
       ...songPart,
       progression: songPart.progression
         .map((chord, ix) => (chordIndex == ix ? [] : chord))
+        .flat(),
+    });
+    setChord(CChord);
+    if (chordIndex == chord.shape.length) setChordIndex(chordIndex - 1);
+    if (debugAll) console.log("deleteChord", songPart.progression);
+  };
+
+  const deleteChordAt = (index:number) => {
+    setSongPart({
+      ...songPart,
+      progression: songPart.progression
+        .map((chord, ix) => (index == ix ? [] : chord))
         .flat(),
     });
     setChord(CChord);
@@ -112,21 +136,25 @@ const SongPartUI = ({
               setChordIndex(index);
               setChord(songPart.progression[chordIndex]);
             }}
-            className={
-              index == chordIndex ? styles.chordSelected : styles.chord
-            }
+            className={styles.chord}
             key={index}
           >
-            <div>
-              {chord.shape
-                .map((n, str) => (n == 0 ? "X" : getFret(tuning, str, n)))
-                .reduce((acc, noteStr) => acc.concat(noteStr + " "), "")}
-            </div>
-            <ChordsCanvas chord={chord} tuning={tuning} />
-            <div>
-              {chord.shape
-                .map((note) => (note == 0 ? "_" : noteNamesSharps[note % 12]))
-                .reduce((acc, noteStr) => acc.concat(noteStr + " "), "")}
+            <div className={index == chordIndex ? styles.selected : ""}>
+              <div className={styles.chordButtons}> 
+                <button className={styles.chordButton} onClick={() => duplicateChordAt(index)}><FiCopy/></button>
+                <button className={styles.chordButton} onClick={() => deleteChordAt(index)}><FiX/></button>
+              </div>
+              <div>
+                {chord.shape
+                  .map((n, str) => (n == 0 ? "X" : getFret(tuning, str, n)))
+                  .reduce((acc, noteStr) => acc.concat(noteStr + " "), "")}
+              </div>
+              <ChordsCanvas chord={chord} tuning={tuning} />
+              <div>
+                {chord.shape
+                  .map((note) => (note == 0 ? "_" : noteNamesSharps[note % 12]))
+                  .reduce((acc, noteStr) => acc.concat(noteStr + " "), "")}
+              </div>
             </div>
           </div>
         ))}

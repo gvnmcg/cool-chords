@@ -1,0 +1,39 @@
+.title {
+  font-family: "Muli", sans-serif;
+  color: black;
+  font-weight: 7;
+  line-height: 0.25;
+  letter-spacing: -0.003em;
+  font-size: 70px;
+  margin-bottom: 50px;
+  /* font-effect: outline */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #bada55;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+
+  flex-direction: column;
+  margin: 3rem;
+}
+
+.backButton {
+  /* height: inherit; */
+  border-radius: 25px;
+  background-color: darkorange;
+  padding: 1rem;
+  margin: 1rem;
+  width: 6rem;
+  height: 1rem;
+}
+
+.parseField {
+  display: flex;
+  /* justify-content: center; */
+  flex-direction: column;
+  margin: 3rem;
+  height: 500px;
+  width: 900px;
+}

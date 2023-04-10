@@ -1,31 +1,42 @@
 .container {
+  background: #212121;
   display: flex;
   justify-content: center;
-
+  
   flex-direction: column;
 }
 
 .partNav {
   display: flex;
   flex-direction: row;
-  border: 3px solid;
+  border-radius: 10px;
+  /* border: 3px solid; */
 }
 
 .songMap {
   display: flex;
   flex-direction: row;
-  border: 3px solid;
+  /* border: 3px solid; */
 }
 
 .partMap {
+  background: #424242;
   display: flex;
   flex-direction: row;
-  border: 3px solid;
+  /* border: 3px solid; */
+  border-radius: 10px;
+  margin: 10px;
+  transform: scale(0);
 }
 
-.partMapSelected {
+.partMap:hover .chordButtons{
+  transform: scale(1);
+}
+
+.selected {
   display: flex;
   flex-direction: row;
   border: 3px solid;
+  border-radius: 10px;
   background-color: darkgoldenrod;
 }
