@@ -17,8 +17,9 @@ export default function Home() {
       <h1 className={styles.title} style={{ color: "#BADA55" }}>
         Cool Chords
       </h1>
-      <Link href={"/sequences"}>Sequences</Link>
       <Link href={"/editor"}>Songs</Link>
+      <Link href={"/parser"}>Parser</Link>
+      <Link href={"/sequences"}>Sequences</Link>
     </div>
   );
 }
